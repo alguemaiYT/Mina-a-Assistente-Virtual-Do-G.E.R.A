@@ -42,6 +42,8 @@ class ChatBridge:
         prompt: str,
         on_token: Optional[Callable[[str], Awaitable[None]]] = None,
         on_emotion: Optional[Callable[[str], Awaitable[None]]] = None,
+        on_chunk: Optional[Callable[[str, float, Optional[str]], Awaitable[None]]] = None,
+        on_control: Optional[Callable[[str], Awaitable[None]]] = None,
     ) -> str:
         """Send prompt to the C process and stream tokens; returns full text."""
         async with self._lock:
@@ -68,6 +70,9 @@ class ChatBridge:
 
                 for line in parts[:-1]:
                     pline = line.strip()
+                    # sanitize common literal escape sequences so frontend
+                    # never sees things like "\\n" or "\\r"
+                    pline = pline.replace('\\n', ' ').replace('\\r', ' ').strip()
 
                     # handle emotion parameter lines: EMOTION:<name>
                     if pline.upper().startswith("EMOTION:"):
@@ -76,15 +81,38 @@ class ChatBridge:
                             await on_emotion(emotion)
                         continue
 
+                    # handle control lines like PAUSE:<ms>
+                    if pline.upper().startswith("PAUSE:"):
+                        if on_control:
+                            await on_control(pline)
+                        # do not include pause lines in the textual response
+                        continue
+
                     # check sentinel
                     if pline == TOKEN_END:
                         return full_response
 
+                    # handle chunked output with metadata
+                    if pline.upper().startswith("CHUNK|"):
+                        parts = pline.split("|", 3)
+                        if len(parts) == 4:
+                            _, delay_str, chunk_emotion, chunk_text = parts
+                            try:
+                                delay = float(delay_str)
+                            except ValueError:
+                                delay = 2.5
+                            chunk_text = chunk_text.strip()
+                            if chunk_text:
+                                full_response += chunk_text
+                                if on_chunk:
+                                    await on_chunk(chunk_text, delay, chunk_emotion.strip() or None)
+                        continue
+
                     # regular text line
-                    if line:
-                        full_response += line
+                    if pline:
+                        full_response += pline
                         if on_token:
-                            await on_token(line)
+                            await on_token(pline)
 
             return full_response
 

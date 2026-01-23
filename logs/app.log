@@ -1,335 +1,54 @@
-2026-01-22 08:55:40,776[root] - INFO - Logging initialized, log file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-01-22 08:55:41,429[__main__] - INFO - Created qasync event loop - MainThread
-2026-01-22 08:55:41,460[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-01-22 08:55:41,617[src.utils.config_manager] - INFO - Created config directory: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-01-22 08:55:41,617[src.utils.config_manager] - INFO - Config directory: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-01-22 08:55:41,618[src.utils.config_manager] - INFO - Config file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-01-22 08:55:41,619[src.utils.config_manager] - INFO - Created models directory: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/models - MainThread
-2026-01-22 08:55:41,620[src.utils.config_manager] - INFO - Created cache directory: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/cache - MainThread
-2026-01-22 08:55:41,623[src.utils.config_manager] - INFO - Config file missing; creating default configuration. - MainThread
-2026-01-22 08:55:42,931[__main__] - INFO - GUI started successfully - MainThread
-2026-01-22 08:55:51,294[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
-2026-01-22 08:55:51,295[__main__] - ERROR - Program exited with error: Event loop stopped before Future completed. - MainThread
+2026-01-23 15:51:07,434[root] - INFO - Logging initialized, log file: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-01-23 15:51:08,219[__main__] - INFO - Created qasync event loop - MainThread
+2026-01-23 15:51:08,228[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-01-23 15:51:08,339[src.utils.config_manager] - INFO - Config directory: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-01-23 15:51:08,340[src.utils.config_manager] - INFO - Config file: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-01-23 15:51:10,080[__main__] - INFO - GUI started successfully - MainThread
+2026-01-23 16:02:49,381[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-01-23 16:02:49,479[__main__] - ERROR - Program exited with error: Event loop stopped before Future completed. - MainThread
 Traceback (most recent call last):
-  File "/root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 107, in main
-    exit_code = loop.run_until_complete(run_gui())
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/dist-packages/qasync/__init__.py", line 406, in run_until_complete
-    raise RuntimeError("Event loop stopped before Future completed.")
-RuntimeError: Event loop stopped before Future completed.
-2026-01-22 09:04:41,731[root] - INFO - Logging initialized, log file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-01-22 09:04:41,785[__main__] - INFO - Created qasync event loop - MainThread
-2026-01-22 09:04:41,786[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-01-22 09:04:41,795[src.utils.config_manager] - INFO - Config directory: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-01-22 09:04:41,795[src.utils.config_manager] - INFO - Config file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-01-22 09:04:42,099[__main__] - INFO - GUI started successfully - MainThread
-2026-01-22 09:04:48,238[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
-2026-01-22 09:04:48,239[__main__] - ERROR - Program exited with error: Event loop stopped before Future completed. - MainThread
-Traceback (most recent call last):
-  File "/root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 105, in main
-    exit_code = loop.run_until_complete(run_gui())
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/dist-packages/qasync/__init__.py", line 406, in run_until_complete
-    raise RuntimeError("Event loop stopped before Future completed.")
-RuntimeError: Event loop stopped before Future completed.
-2026-01-22 09:04:50,564[root] - INFO - Logging initialized, log file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-01-22 09:04:50,587[__main__] - INFO - Created qasync event loop - MainThread
-2026-01-22 09:04:50,588[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-01-22 09:04:50,597[src.utils.config_manager] - INFO - Config directory: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-01-22 09:04:50,597[src.utils.config_manager] - INFO - Config file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-01-22 09:04:50,801[__main__] - INFO - GUI started successfully - MainThread
-2026-01-22 09:04:54,278[__main__] - INFO - Aborted - MainThread
-2026-01-22 09:04:54,918[__main__] - INFO - Aborted - MainThread
-2026-01-22 09:04:55,422[__main__] - INFO - Aborted - MainThread
-2026-01-22 09:04:55,638[__main__] - INFO - Aborted - MainThread
-2026-01-22 09:04:55,846[__main__] - INFO - Aborted - MainThread
-2026-01-22 09:04:58,982[__main__] - INFO - Text sent: dsad - MainThread
-2026-01-22 09:04:58,983[GuiDisplay] - ERROR - 发送文本时出错: a coroutine was expected, got None - MainThread
-2026-01-22 09:13:51,986[root] - INFO - Logging initialized, log file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-01-22 09:13:52,010[__main__] - INFO - Created qasync event loop - MainThread
-2026-01-22 09:13:52,011[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-01-22 09:13:52,020[src.utils.config_manager] - INFO - Config directory: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-01-22 09:13:52,021[src.utils.config_manager] - INFO - Config file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-01-22 09:13:52,264[__main__] - INFO - GUI started successfully - MainThread
-2026-01-22 09:13:55,070[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
-2026-01-22 09:13:55,071[__main__] - ERROR - Program exited with error: Event loop stopped before Future completed. - MainThread
-Traceback (most recent call last):
-  File "/root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 105, in main
-    exit_code = loop.run_until_complete(run_gui())
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/dist-packages/qasync/__init__.py", line 406, in run_until_complete
-    raise RuntimeError("Event loop stopped before Future completed.")
-RuntimeError: Event loop stopped before Future completed.
-2026-01-22 09:14:17,627[root] - INFO - Logging initialized, log file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-01-22 09:14:17,650[__main__] - INFO - Created qasync event loop - MainThread
-2026-01-22 09:14:17,651[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-01-22 09:14:17,661[src.utils.config_manager] - INFO - Config directory: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-01-22 09:14:17,661[src.utils.config_manager] - INFO - Config file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-01-22 09:14:17,867[__main__] - INFO - GUI started successfully - MainThread
-2026-01-22 09:21:21,098[root] - INFO - Logging initialized, log file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-01-22 09:21:21,120[__main__] - INFO - Created qasync event loop - MainThread
-2026-01-22 09:21:21,121[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-01-22 09:21:21,135[src.utils.config_manager] - INFO - Config directory: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-01-22 09:21:21,135[src.utils.config_manager] - INFO - Config file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-01-22 09:21:21,395[__main__] - INFO - GUI started successfully - MainThread
-2026-01-22 09:21:22,982[__main__] - INFO - Mode changed: 自动对话 - MainThread
-2026-01-22 09:21:24,158[__main__] - INFO - Mode changed: 自动对话 - MainThread
-2026-01-22 09:21:24,894[__main__] - INFO - Mode changed: 自动对话 - MainThread
-2026-01-22 09:21:25,414[__main__] - INFO - Mode changed: 自动对话 - MainThread
-2026-01-22 09:21:25,678[__main__] - INFO - Mode changed: 自动对话 - MainThread
-2026-01-22 09:21:25,966[__main__] - INFO - Mode changed: 自动对话 - MainThread
-2026-01-22 09:21:28,462[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
-2026-01-22 09:21:28,463[__main__] - ERROR - Program exited with error: Event loop stopped before Future completed. - MainThread
-Traceback (most recent call last):
-  File "/root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 105, in main
-    exit_code = loop.run_until_complete(run_gui())
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/dist-packages/qasync/__init__.py", line 406, in run_until_complete
-    raise RuntimeError("Event loop stopped before Future completed.")
-RuntimeError: Event loop stopped before Future completed.
-2026-01-22 09:31:15,053[root] - INFO - Logging initialized, log file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-01-22 09:31:15,156[__main__] - INFO - Created qasync event loop - MainThread
-2026-01-22 09:31:15,157[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-01-22 09:31:15,166[src.utils.config_manager] - INFO - Config directory: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-01-22 09:31:15,166[src.utils.config_manager] - INFO - Config file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-01-22 09:31:15,711[__main__] - INFO - GUI started successfully - MainThread
-2026-01-22 09:31:20,783[__main__] - INFO - Aborted - MainThread
-2026-01-22 09:31:22,686[__main__] - INFO - Auto mode toggled - MainThread
-2026-01-22 09:31:24,462[__main__] - INFO - Auto mode toggled - MainThread
-2026-01-22 09:32:56,974[__main__] - INFO - Auto mode toggled - MainThread
-2026-01-22 09:33:36,392[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
-2026-01-22 09:42:04,716[root] - INFO - Logging initialized, log file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-01-22 09:42:04,741[__main__] - INFO - Created qasync event loop - MainThread
-2026-01-22 09:42:04,742[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-01-22 09:42:04,751[src.utils.config_manager] - INFO - Config directory: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-01-22 09:42:04,752[src.utils.config_manager] - INFO - Config file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-01-22 09:42:05,006[__main__] - INFO - GUI started successfully - MainThread
-2026-01-22 09:43:02,407[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
-2026-01-22 09:43:02,407[__main__] - ERROR - Program exited with error: Event loop stopped before Future completed. - MainThread
-Traceback (most recent call last):
-  File "/root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 104, in main
-    exit_code = loop.run_until_complete(run_gui())
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/dist-packages/qasync/__init__.py", line 406, in run_until_complete
-    raise RuntimeError("Event loop stopped before Future completed.")
-RuntimeError: Event loop stopped before Future completed.
-2026-01-22 09:48:54,330[root] - INFO - Logging initialized, log file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-01-22 09:48:54,355[__main__] - INFO - Created qasync event loop - MainThread
-2026-01-22 09:48:54,356[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-01-22 09:48:54,371[src.utils.config_manager] - INFO - Config directory: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-01-22 09:48:54,372[src.utils.config_manager] - INFO - Config file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-01-22 09:48:54,695[__main__] - INFO - GUI started successfully - MainThread
-2026-01-22 09:50:45,280[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
-2026-01-22 09:50:46,541[root] - INFO - Logging initialized, log file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-01-22 09:50:46,565[__main__] - INFO - Created qasync event loop - MainThread
-2026-01-22 09:50:46,566[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-01-22 09:50:46,581[src.utils.config_manager] - INFO - Config directory: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-01-22 09:50:46,581[src.utils.config_manager] - INFO - Config file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-01-22 09:50:46,895[__main__] - INFO - GUI started successfully - MainThread
-2026-01-22 09:50:54,719[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
-2026-01-22 09:50:54,719[__main__] - ERROR - Program exited with error: Event loop stopped before Future completed. - MainThread
-Traceback (most recent call last):
-  File "/root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 104, in main
-    exit_code = loop.run_until_complete(run_gui())
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/dist-packages/qasync/__init__.py", line 406, in run_until_complete
-    raise RuntimeError("Event loop stopped before Future completed.")
-RuntimeError: Event loop stopped before Future completed.
-2026-01-22 10:00:15,000[root] - INFO - Logging initialized, log file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-01-22 10:00:15,117[__main__] - INFO - Created qasync event loop - MainThread
-2026-01-22 10:00:15,118[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-01-22 10:00:15,127[src.utils.config_manager] - INFO - Config directory: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-01-22 10:00:15,127[src.utils.config_manager] - INFO - Config file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-01-22 10:00:15,460[__main__] - INFO - GUI started successfully - MainThread
-2026-01-22 10:13:44,481[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
-2026-01-22 19:21:52,922[root] - INFO - Logging initialized, log file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-01-22 19:21:53,944[__main__] - INFO - Created qasync event loop - MainThread
-2026-01-22 19:21:53,957[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-01-22 19:21:54,093[src.utils.config_manager] - INFO - Config directory: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-01-22 19:21:54,094[src.utils.config_manager] - INFO - Config file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-01-22 19:21:56,157[__main__] - INFO - GUI started successfully - MainThread
-2026-01-22 19:22:02,420[__main__] - INFO - [Latency: 0.090 sec] - MainThread
-2026-01-22 19:22:15,344[__main__] - INFO - [Latency: 0.005 sec] - MainThread
-2026-01-22 19:26:49,073[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
-2026-01-22 19:26:49,078[__main__] - ERROR - Program exited with error: Event loop stopped before Future completed. - MainThread
-Traceback (most recent call last):
-  File "/root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 141, in main
-  File "/usr/local/lib/python3.11/dist-packages/qasync/__init__.py", line 406, in run_until_complete
-    raise RuntimeError("Event loop stopped before Future completed.")
-RuntimeError: Event loop stopped before Future completed.
-2026-01-22 19:26:51,575[root] - INFO - Logging initialized, log file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-01-22 19:26:51,675[__main__] - INFO - Created qasync event loop - MainThread
-2026-01-22 19:26:51,676[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-01-22 19:26:51,710[src.utils.config_manager] - INFO - Config directory: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-01-22 19:26:51,711[src.utils.config_manager] - INFO - Config file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-01-22 19:26:52,107[__main__] - INFO - GUI started successfully - MainThread
-2026-01-22 19:26:59,604[__main__] - INFO - [Latency: 0.090 sec] - MainThread
-2026-01-22 19:31:26,424[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
-2026-01-22 19:31:26,424[__main__] - ERROR - Program exited with error: Event loop stopped before Future completed. - MainThread
-Traceback (most recent call last):
-  File "/root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 144, in main
-    with loop:
-               
-  File "/usr/local/lib/python3.11/dist-packages/qasync/__init__.py", line 406, in run_until_complete
-    raise RuntimeError("Event loop stopped before Future completed.")
-RuntimeError: Event loop stopped before Future completed.
-2026-01-22 19:31:29,431[root] - INFO - Logging initialized, log file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-01-22 19:31:29,453[__main__] - INFO - Created qasync event loop - MainThread
-2026-01-22 19:31:29,455[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-01-22 19:31:29,463[src.utils.config_manager] - INFO - Config directory: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-01-22 19:31:29,464[src.utils.config_manager] - INFO - Config file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-01-22 19:31:29,772[__main__] - INFO - GUI started successfully - MainThread
-2026-01-22 19:31:34,806[__main__] - INFO - [Latency: 0.089 sec] - MainThread
-2026-01-22 19:31:56,160[__main__] - INFO - [Latency: 0.007 sec] - MainThread
-2026-01-22 19:32:06,742[__main__] - INFO - [Latency: 0.005 sec] - MainThread
-2026-01-22 19:32:15,968[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
-2026-01-22 19:32:15,968[__main__] - ERROR - Program exited with error: Event loop stopped before Future completed. - MainThread
-Traceback (most recent call last):
-  File "/root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 145, in main
-    exit_code = loop.run_until_complete(run_gui(fullscreen=fullscreen))
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/dist-packages/qasync/__init__.py", line 406, in run_until_complete
-    raise RuntimeError("Event loop stopped before Future completed.")
-RuntimeError: Event loop stopped before Future completed.
-2026-01-22 19:32:20,678[root] - INFO - Logging initialized, log file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-01-22 19:32:20,701[__main__] - INFO - Created qasync event loop - MainThread
-2026-01-22 19:32:20,702[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-01-22 19:32:20,714[src.utils.config_manager] - INFO - Config directory: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-01-22 19:32:20,714[src.utils.config_manager] - INFO - Config file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-01-22 19:32:20,946[__main__] - INFO - GUI started successfully - MainThread
-2026-01-22 19:32:25,454[__main__] - INFO - [Latency: 0.091 sec] - MainThread
-2026-01-22 19:32:29,088[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
-2026-01-22 19:32:29,089[__main__] - ERROR - Program exited with error: Event loop stopped before Future completed. - MainThread
-Traceback (most recent call last):
-  File "/root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 145, in main
-    exit_code = loop.run_until_complete(run_gui(fullscreen=fullscreen))
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/dist-packages/qasync/__init__.py", line 406, in run_until_complete
-    raise RuntimeError("Event loop stopped before Future completed.")
-RuntimeError: Event loop stopped before Future completed.
-2026-01-22 19:37:16,340[root] - INFO - Logging initialized, log file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-01-22 19:37:16,363[__main__] - INFO - Created qasync event loop - MainThread
-2026-01-22 19:37:16,365[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-01-22 19:37:16,374[src.utils.config_manager] - INFO - Config directory: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-01-22 19:37:16,374[src.utils.config_manager] - INFO - Config file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-01-22 19:37:16,609[__main__] - INFO - GUI started successfully - MainThread
-2026-01-22 19:37:25,425[__main__] - INFO - [Latency: 0.090 sec] - MainThread
-2026-01-22 19:37:36,321[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
-2026-01-22 19:37:36,323[__main__] - ERROR - Program exited with error: Event loop stopped before Future completed. - MainThread
-Traceback (most recent call last):
-  File "/root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 145, in main
-    exit_code = loop.run_until_complete(run_gui(fullscreen=fullscreen))
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/dist-packages/qasync/__init__.py", line 406, in run_until_complete
-    raise RuntimeError("Event loop stopped before Future completed.")
-RuntimeError: Event loop stopped before Future completed.
-2026-01-22 19:38:13,764[root] - INFO - Logging initialized, log file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-01-22 19:38:13,789[__main__] - INFO - Created qasync event loop - MainThread
-2026-01-22 19:38:13,790[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-01-22 19:38:13,799[src.utils.config_manager] - INFO - Config directory: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-01-22 19:38:13,799[src.utils.config_manager] - INFO - Config file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-01-22 19:38:14,028[__main__] - INFO - GUI started successfully - MainThread
-2026-01-22 19:38:19,201[__main__] - INFO - [Latency: 0.093 sec] - MainThread
-2026-01-22 19:38:25,387[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
-2026-01-22 19:38:25,388[__main__] - ERROR - Program exited with error: Event loop stopped before Future completed. - MainThread
-Traceback (most recent call last):
-  File "/root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 145, in main
-    exit_code = loop.run_until_complete(run_gui(fullscreen=fullscreen))
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/dist-packages/qasync/__init__.py", line 406, in run_until_complete
-    raise RuntimeError("Event loop stopped before Future completed.")
-RuntimeError: Event loop stopped before Future completed.
-2026-01-22 19:47:54,430[root] - INFO - Logging initialized, log file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-01-22 19:47:54,460[__main__] - INFO - Created qasync event loop - MainThread
-2026-01-22 19:47:54,461[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-01-22 19:47:54,471[src.utils.config_manager] - INFO - Config directory: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-01-22 19:47:54,472[src.utils.config_manager] - INFO - Config file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-01-22 19:47:54,698[__main__] - INFO - GUI started successfully - MainThread
-2026-01-22 19:48:01,236[__main__] - INFO - [Latency: 0.095 sec] - MainThread
-2026-01-22 19:48:11,397[__main__] - INFO - [Latency: 0.005 sec] - MainThread
-2026-01-22 19:48:21,094[__main__] - INFO - [Latency: 0.011 sec] - MainThread
-2026-01-22 19:48:28,947[__main__] - INFO - [Latency: 0.008 sec] - MainThread
-2026-01-22 19:48:50,844[__main__] - INFO - [Latency: 0.008 sec] - MainThread
-2026-01-22 19:49:39,432[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
-2026-01-22 19:49:39,433[__main__] - ERROR - Program exited with error: Event loop stopped before Future completed. - MainThread
-Traceback (most recent call last):
-  File "/root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 145, in main
-    exit_code = loop.run_until_complete(run_gui(fullscreen=fullscreen))
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/dist-packages/qasync/__init__.py", line 406, in run_until_complete
-    raise RuntimeError("Event loop stopped before Future completed.")
-RuntimeError: Event loop stopped before Future completed.
-2026-01-22 19:51:54,490[root] - INFO - Logging initialized, log file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-01-22 19:51:54,540[__main__] - INFO - Created qasync event loop - MainThread
-2026-01-22 19:51:54,541[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-01-22 19:51:54,550[src.utils.config_manager] - INFO - Config directory: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-01-22 19:51:54,551[src.utils.config_manager] - INFO - Config file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-01-22 19:51:54,788[__main__] - INFO - GUI started successfully - MainThread
-2026-01-22 19:52:01,748[__main__] - INFO - [Latency: 0.091 sec] - MainThread
-2026-01-22 19:52:07,956[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
-2026-01-22 19:52:07,957[__main__] - ERROR - Program exited with error: Event loop stopped before Future completed. - MainThread
-Traceback (most recent call last):
-  File "/root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 148, in main
-    exit_code = loop.run_until_complete(run_gui(fullscreen=fullscreen))
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/dist-packages/qasync/__init__.py", line 406, in run_until_complete
-    raise RuntimeError("Event loop stopped before Future completed.")
-RuntimeError: Event loop stopped before Future completed.
-2026-01-22 19:52:14,784[root] - INFO - Logging initialized, log file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-01-22 19:52:14,809[__main__] - INFO - Created qasync event loop - MainThread
-2026-01-22 19:52:14,811[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-01-22 19:52:14,819[src.utils.config_manager] - INFO - Config directory: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-01-22 19:52:14,820[src.utils.config_manager] - INFO - Config file: /root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-01-22 19:52:15,043[__main__] - INFO - GUI started successfully - MainThread
-2026-01-22 19:52:20,514[__main__] - INFO - [Latency: 0.091 sec] - MainThread
-2026-01-22 19:55:32,474[__main__] - INFO - [Latency: 0.088 sec] - MainThread
-2026-01-22 19:55:43,476[__main__] - INFO - [Latency: 0.005 sec] - MainThread
-2026-01-22 19:55:56,912[__main__] - INFO - [Latency: 0.010 sec] - MainThread
-2026-01-22 19:59:18,018[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
-2026-01-22 19:59:18,020[__main__] - ERROR - Program exited with error: Event loop stopped before Future completed. - MainThread
-Traceback (most recent call last):
-  File "/root/Documents/Mina_Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 148, in main
-    exit_code = loop.run_until_complete(run_gui(fullscreen=fullscreen))
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/dist-packages/qasync/__init__.py", line 406, in run_until_complete
-    raise RuntimeError("Event loop stopped before Future completed.")
-RuntimeError: Event loop stopped before Future completed.
-2026-01-23 11:06:45,561[root] - INFO - Logging initialized, log file: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-01-23 11:06:47,469[__main__] - INFO - Created qasync event loop - MainThread
-2026-01-23 11:06:47,478[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-01-23 11:06:47,722[src.utils.config_manager] - INFO - Config directory: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-01-23 11:06:47,723[src.utils.config_manager] - INFO - Config file: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-01-23 11:06:47,758[src.utils.config_manager] - INFO - Created models directory: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/models - MainThread
-2026-01-23 11:06:47,759[src.utils.config_manager] - INFO - Created cache directory: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/cache - MainThread
-2026-01-23 11:06:52,211[__main__] - INFO - GUI started successfully - MainThread
-2026-01-23 11:06:59,059[__main__] - INFO - Set GROQ_API_KEY environment variable! - MainThread
-2026-01-23 11:07:04,971[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
-2026-01-23 11:09:03,025[root] - INFO - Logging initialized, log file: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-01-23 11:09:03,097[__main__] - INFO - Created qasync event loop - MainThread
-2026-01-23 11:09:03,099[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-01-23 11:09:03,109[src.utils.config_manager] - INFO - Config directory: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-01-23 11:09:03,109[src.utils.config_manager] - INFO - Config file: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-01-23 11:09:03,379[__main__] - INFO - GUI started successfully - MainThread
-2026-01-23 11:09:09,111[__main__] - INFO - [Latency: 0.093 sec] - MainThread
-2026-01-23 11:09:14,536[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
-2026-01-23 11:09:14,537[__main__] - ERROR - Program exited with error: Event loop stopped before Future completed. - MainThread
-Traceback (most recent call last):
-  File "/home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 148, in main
-    exit_code = loop.run_until_complete(run_gui(fullscreen=fullscreen))
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 193, in main
   File "/home/kali/.local/lib/python3.11/site-packages/qasync/__init__.py", line 406, in run_until_complete
     raise RuntimeError("Event loop stopped before Future completed.")
 RuntimeError: Event loop stopped before Future completed.
-2026-01-23 11:29:53,986[root] - INFO - Logging initialized, log file: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-01-23 11:29:55,097[__main__] - INFO - Created qasync event loop - MainThread
-2026-01-23 11:29:55,106[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-01-23 11:29:55,258[src.utils.config_manager] - INFO - Config directory: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-01-23 11:29:55,259[src.utils.config_manager] - INFO - Config file: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-01-23 11:29:57,944[__main__] - INFO - GUI started successfully - MainThread
-2026-01-23 11:32:00,976[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
-2026-01-23 11:32:00,977[__main__] - ERROR - Program exited with error: Event loop stopped before Future completed. - MainThread
+2026-01-23 16:02:54,132[root] - INFO - Logging initialized, log file: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-01-23 16:02:54,538[__main__] - INFO - Created qasync event loop - MainThread
+2026-01-23 16:02:54,539[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-01-23 16:02:54,573[src.utils.config_manager] - INFO - Config directory: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-01-23 16:02:54,574[src.utils.config_manager] - INFO - Config file: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-01-23 16:02:55,583[__main__] - INFO - GUI started successfully - MainThread
+2026-01-23 16:07:51,025[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-01-23 16:07:51,027[__main__] - ERROR - Program exited with error: Event loop stopped before Future completed. - MainThread
 Traceback (most recent call last):
-  File "/home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 148, in main
+  File "/home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 206, in main
+    exit_code = 1
+                  
+  File "/home/kali/.local/lib/python3.11/site-packages/qasync/__init__.py", line 406, in run_until_complete
+    raise RuntimeError("Event loop stopped before Future completed.")
+RuntimeError: Event loop stopped before Future completed.
+2026-01-23 16:07:57,763[root] - INFO - Logging initialized, log file: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-01-23 16:07:57,879[__main__] - INFO - Created qasync event loop - MainThread
+2026-01-23 16:07:57,880[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-01-23 16:07:57,926[src.utils.config_manager] - INFO - Config directory: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-01-23 16:07:57,927[src.utils.config_manager] - INFO - Config file: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-01-23 16:07:58,541[__main__] - INFO - GUI started successfully - MainThread
+2026-01-23 16:10:19,318[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-01-23 16:10:19,319[__main__] - ERROR - Program exited with error: Event loop stopped before Future completed. - MainThread
+Traceback (most recent call last):
+  File "/home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 199, in main
+  File "/home/kali/.local/lib/python3.11/site-packages/qasync/__init__.py", line 406, in run_until_complete
+    raise RuntimeError("Event loop stopped before Future completed.")
+RuntimeError: Event loop stopped before Future completed.
+2026-01-23 16:10:23,709[root] - INFO - Logging initialized, log file: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-01-23 16:10:23,765[__main__] - INFO - Created qasync event loop - MainThread
+2026-01-23 16:10:23,767[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-01-23 16:10:23,783[src.utils.config_manager] - INFO - Config directory: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-01-23 16:10:23,784[src.utils.config_manager] - INFO - Config file: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-01-23 16:10:24,058[__main__] - INFO - GUI started successfully - MainThread
+2026-01-23 16:11:05,648[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-01-23 16:11:05,649[__main__] - ERROR - Program exited with error: Event loop stopped before Future completed. - MainThread
+Traceback (most recent call last):
+  File "/home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 202, in main
     exit_code = loop.run_until_complete(run_gui(fullscreen=fullscreen))
                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/home/kali/.local/lib/python3.11/site-packages/qasync/__init__.py", line 406, in run_until_complete

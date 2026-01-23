@@ -12,6 +12,7 @@ import argparse
 import sys
 import os
 import signal
+from typing import Optional
 
 # Configure Qt platform before importing Qt
 is_wayland = (
@@ -64,20 +65,63 @@ async def run_gui(fullscreen: bool = False):
             """Send text to the C chat engine and stream tokens back to the GUI."""
             await gui_display.update_status("Thinking...", True)
             await gui_display.update_text("")
+            await gui_display.update_emotion("neutral")
 
-            current_text = ""
+            SMALL_REPLY_THRESHOLD = 80
+            chunk_queue: asyncio.Queue = asyncio.Queue()
+            extra_pause_ms = 0
+            final_text = ""
+            stream_success = False
+            chunks_emitted = False
+            last_chunk_emotion: Optional[str] = None
 
-            async def on_token(chunk: str):
-                nonlocal current_text
-                current_text += chunk
-                await gui_display.update_text(current_text)
+            async def chunk_emitter():
+                nonlocal extra_pause_ms
+                try:
+                    while True:
+                        chunk = await chunk_queue.get()
+                        if chunk is None:
+                            return
+                        delay = max(0.0, min(chunk.get("delay", 2.5), 2.5))
+                        emotion = chunk.get("emotion")
+                        if emotion:
+                            await gui_display.update_emotion(emotion)
+                        await gui_display.update_text(chunk.get("text", ""))
+                        await asyncio.sleep(delay)
+                        if extra_pause_ms > 0:
+                            await asyncio.sleep(extra_pause_ms / 1000.0)
+                            extra_pause_ms = 0
+                except asyncio.CancelledError:
+                    pass
+
+            emitter_task = asyncio.create_task(chunk_emitter())
+
+            async def on_chunk(chunk_text: str, delay: float, emotion: Optional[str]):
+                nonlocal last_chunk_emotion
+                nonlocal chunks_emitted
+                if chunk_text:
+                    chunks_emitted = True
+                    last_chunk_emotion = emotion
+                    await chunk_queue.put({"text": chunk_text, "delay": delay, "emotion": emotion})
+
+            async def on_control(ctrl: str):
+                nonlocal extra_pause_ms
+                if ctrl.upper().startswith("PAUSE:"):
+                    try:
+                        ms = int(ctrl.split(":", 1)[1])
+                    except Exception:
+                        ms = 300
+                    extra_pause_ms += ms
 
             async def on_emotion(emotion: str):
                 # update GUI emotion (file names expect lower-case keys)
                 await gui_display.update_emotion(emotion)
 
             try:
-                await chat_bridge.send_and_stream(text, on_token=on_token, on_emotion=on_emotion)
+                final_text = await chat_bridge.send_and_stream(
+                    text, on_chunk=on_chunk, on_emotion=on_emotion, on_control=on_control
+                )
+                stream_success = True
                 stderr_chunk = await chat_bridge.read_stderr()
                 if stderr_chunk:
                     logger.info(stderr_chunk.strip())
@@ -85,6 +129,16 @@ async def run_gui(fullscreen: bool = False):
             except Exception as exc:
                 logger.error(f"Chat error: {exc}", exc_info=True)
                 await gui_display.update_status("Chat error", False)
+            finally:
+                await chunk_queue.put(None)
+                try:
+                    await emitter_task
+                except asyncio.CancelledError:
+                    pass
+                if not chunks_emitted and stream_success and final_text and len(final_text) <= SMALL_REPLY_THRESHOLD:
+                    if last_chunk_emotion:
+                        await gui_display.update_emotion(last_chunk_emotion)
+                    await gui_display.update_text(final_text)
 
         # Set callbacks so GUI input flows into the C backend
         await gui_display.set_callbacks(
