@@ -1,0 +1,83 @@
+{
+  "SYSTEM_OPTIONS": {
+    "CLIENT_ID": null,
+    "DEVICE_ID": null,
+    "NETWORK": {
+      "OTA_VERSION_URL": "https://api.tenclass.net/xiaozhi/ota/",
+      "WEBSOCKET_URL": null,
+      "WEBSOCKET_ACCESS_TOKEN": null,
+      "MQTT_INFO": null,
+      "ACTIVATION_VERSION": "v2",
+      "AUTHORIZATION_URL": "https://xiaozhi.me/"
+    },
+    "LISTENING_AUTO_STOP_SECONDS": 60
+  },
+  "WEBHOOKS": {
+    "on_listening_start": null,
+    "on_listening_stop": null
+  },
+  "WAKE_WORD_OPTIONS": {
+    "USE_WAKE_WORD": true,
+    "MODEL_PATH": "models",
+    "NUM_THREADS": 4,
+    "PROVIDER": "cpu",
+    "MAX_ACTIVE_PATHS": 2,
+    "KEYWORDS_SCORE": 1.8,
+    "KEYWORDS_THRESHOLD": 0.2,
+    "NUM_TRAILING_BLANKS": 1
+  },
+  "CAMERA": {
+    "camera_index": 0,
+    "frame_width": 640,
+    "frame_height": 480,
+    "fps": 30,
+    "Local_VL_url": "https://open.bigmodel.cn/api/paas/v4/",
+    "VLapi_key": "",
+    "models": "glm-4v-plus"
+  },
+  "SHORTCUTS": {
+    "ENABLED": true,
+    "MANUAL_PRESS": {
+      "modifier": "ctrl",
+      "key": "j",
+      "description": "Hold to talk"
+    },
+    "AUTO_TOGGLE": {
+      "modifier": "ctrl",
+      "key": "k",
+      "description": "Auto dialogue"
+    },
+    "ABORT": {
+      "modifier": "ctrl",
+      "key": "q",
+      "description": "Interrupt dialogue"
+    },
+    "MODE_TOGGLE": {
+      "modifier": "ctrl",
+      "key": "m",
+      "description": "Toggle mode"
+    },
+    "WINDOW_TOGGLE": {
+      "modifier": "ctrl",
+      "key": "w",
+      "description": "Show/Hide window"
+    }
+  },
+  "AEC_OPTIONS": {
+    "ENABLED": false,
+    "BUFFER_MAX_LENGTH": 200,
+    "FRAME_DELAY": 3,
+    "FILTER_LENGTH_RATIO": 0.4,
+    "ENABLE_PREPROCESS": true
+  },
+  "AUDIO_DEVICES": {
+    "input_device_id": null,
+    "input_device_name": null,
+    "output_device_id": null,
+    "output_device_name": null,
+    "input_sample_rate": null,
+    "output_sample_rate": null,
+    "input_channels": null,
+    "output_channels": null
+  }
+}
