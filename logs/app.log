@@ -320,3 +320,18 @@ Traceback (most recent call last):
   File "/home/kali/.local/lib/python3.11/site-packages/qasync/__init__.py", line 406, in run_until_complete
     raise RuntimeError("Event loop stopped before Future completed.")
 RuntimeError: Event loop stopped before Future completed.
+2026-01-23 11:29:53,986[root] - INFO - Logging initialized, log file: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-01-23 11:29:55,097[__main__] - INFO - Created qasync event loop - MainThread
+2026-01-23 11:29:55,106[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-01-23 11:29:55,258[src.utils.config_manager] - INFO - Config directory: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-01-23 11:29:55,259[src.utils.config_manager] - INFO - Config file: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-01-23 11:29:57,944[__main__] - INFO - GUI started successfully - MainThread
+2026-01-23 11:32:00,976[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-01-23 11:32:00,977[__main__] - ERROR - Program exited with error: Event loop stopped before Future completed. - MainThread
+Traceback (most recent call last):
+  File "/home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 148, in main
+    exit_code = loop.run_until_complete(run_gui(fullscreen=fullscreen))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kali/.local/lib/python3.11/site-packages/qasync/__init__.py", line 406, in run_until_complete
+    raise RuntimeError("Event loop stopped before Future completed.")
+RuntimeError: Event loop stopped before Future completed.
