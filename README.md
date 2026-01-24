@@ -341,3 +341,16 @@ We welcome issue reports and code contributions. Please ensure you follow these 
 ## License
 
 [MIT License](LICENSE)
+
+## Talk Button STT helper
+
+The GUI now toggles the shared native helper when you press the talk button. Build it with:
+
+```bash
+# install PortAudio + libcurl dev packages for your platform
+gcc -shared -fPIC stt.c -o libs/stt/libstt.so -lportaudio -lcurl
+```
+
+Use `GROQ_API_KEY` to provide credentials for the Groq transcription endpoint, and set
+`STT_LIBRARY_PATH` if you place the shared library outside `libs/stt/`. Failure to load the helper
+is logged, but the rest of the GUI keeps running without the talk feature.

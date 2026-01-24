@@ -444,11 +444,14 @@ class GuiDisplay(BaseDisplay, QObject, metaclass=CombinedMeta):
         else:
             emotion_dir = assets_dir / "emojis"
             # 尝试查找表情文件，失败则回退到 neutral
-            path = (
-                str(self._find_emotion_file(emotion_dir, emotion_name))
-                or str(self._find_emotion_file(emotion_dir, "neutral"))
-                or "😊"
-            )
+            primary = self._find_emotion_file(emotion_dir, emotion_name)
+            fallback = self._find_emotion_file(emotion_dir, "neutral")
+            if primary:
+                path = str(primary)
+            elif fallback:
+                path = str(fallback)
+            else:
+                path = "😊"
 
         self._emotion_cache[emotion_name] = path
         return path

@@ -1,0 +1,88 @@
+"""Python binding for the C-based STT helper that drives PortAudio + Groq."""
+
+import ctypes
+import logging
+import os
+import platform
+from pathlib import Path
+from typing import Optional
+
+
+class STTClientError(RuntimeError):
+    """Raised when the native STT helper cannot perform an action."""
+
+
+class STTClient:
+    """Wrapper around the native shared library exported by stt.c."""
+
+    def __init__(self, lib_path: Optional[str] = None):
+        self._logger = logging.getLogger(__name__)
+        self._lib_path = Path(lib_path) if lib_path else self._guess_library_path()
+        if not self._lib_path.exists():
+            self._logger.error("STT library not found: %s", self._lib_path)
+            raise STTClientError(f"STT library not found: {self._lib_path}")
+
+        self._lib = ctypes.CDLL(str(self._lib_path))
+        self._configure_prototypes()
+
+        if self._lib.stt_initialize() != 0:
+            self._logger.error("Native STT initialization failed")
+            raise STTClientError("Failed to initialize native STT components")
+
+    @staticmethod
+    def _guess_library_path() -> Path:
+        env_value = os.environ.get("STT_LIBRARY_PATH")
+        if env_value:
+            return Path(env_value)
+
+        platform_map = {
+            "Linux": "libstt.so",
+            "Darwin": "libstt.dylib",
+            "Windows": "stt.dll",
+        }
+        suffix = platform_map.get(platform.system(), "libstt.so")
+        return Path(__file__).resolve().parents[2] / "libs" / "stt" / suffix
+
+    def _configure_prototypes(self) -> None:
+        self._lib.stt_initialize.restype = ctypes.c_int
+        self._lib.stt_start_recording.restype = ctypes.c_int
+        self._lib.stt_stop_recording_and_transcribe.restype = ctypes.c_void_p
+        self._lib.stt_free_transcription.argtypes = [ctypes.c_void_p]
+        self._lib.stt_is_recording.restype = ctypes.c_int
+        self._lib.stt_shutdown.restype = None
+
+    def start_recording(self) -> None:
+        """Begin a new STT capture session."""
+        self._logger.info("Starting STT recording")
+        if self._lib.stt_start_recording() != 0:
+            self._logger.error("Native STT start_recording returned failure")
+            raise STTClientError("Unable to start the STT recording buffer")
+
+    def stop_recording(self) -> str:
+        """Stop the capture and return the transcription (empty if nothing captured)."""
+        self._logger.info("Stopping STT recording")
+        ptr = self._lib.stt_stop_recording_and_transcribe()
+        if not ptr:
+            self._logger.warning("Native STT returned no transcription")
+            return ""
+
+        raw = ctypes.cast(ptr, ctypes.c_char_p).value
+        transcription = raw.decode("utf-8", errors="ignore") if raw else ""
+        self._logger.info("Transcription received (%d chars)", len(transcription))
+        self._lib.stt_free_transcription(ptr)
+        return transcription
+
+    def is_recording(self) -> bool:
+        """Answers whether a recording run is in progress."""
+        return bool(self._lib.stt_is_recording())
+
+    def shutdown(self) -> None:
+        """Release native resources (PortAudio + curl)."""
+        self._logger.info("Shutting down native STT")
+        self._lib.stt_shutdown()
+
+    def __del__(self) -> None:
+        try:
+            self.shutdown()
+        except Exception:
+            pass

@@ -54,3 +54,132 @@ Traceback (most recent call last):
   File "/home/kali/.local/lib/python3.11/site-packages/qasync/__init__.py", line 406, in run_until_complete
     raise RuntimeError("Event loop stopped before Future completed.")
 RuntimeError: Event loop stopped before Future completed.
+2026-01-23 16:15:40,914[root] - INFO - Logging initialized, log file: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-01-23 16:15:41,018[__main__] - INFO - Created qasync event loop - MainThread
+2026-01-23 16:15:41,019[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-01-23 16:15:41,038[src.utils.config_manager] - INFO - Config directory: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-01-23 16:15:41,038[src.utils.config_manager] - INFO - Config file: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-01-23 16:15:41,355[__main__] - INFO - GUI started successfully - MainThread
+2026-01-23 16:16:01,608[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-01-23 16:16:01,609[__main__] - ERROR - Program exited with error: Event loop stopped before Future completed. - MainThread
+Traceback (most recent call last):
+  File "/home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 202, in main
+    exit_code = loop.run_until_complete(run_gui(fullscreen=fullscreen))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kali/.local/lib/python3.11/site-packages/qasync/__init__.py", line 406, in run_until_complete
+    raise RuntimeError("Event loop stopped before Future completed.")
+RuntimeError: Event loop stopped before Future completed.
+2026-01-23 16:31:00,060[root] - INFO - Logging initialized, log file: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-01-23 16:31:01,037[__main__] - INFO - Created qasync event loop - MainThread
+2026-01-23 16:31:01,046[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-01-23 16:31:01,190[src.utils.config_manager] - INFO - Config directory: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-01-23 16:31:01,191[src.utils.config_manager] - INFO - Config file: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-01-23 16:31:03,478[__main__] - INFO - GUI started successfully - MainThread
+2026-01-23 16:31:40,920[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-01-23 16:31:40,921[__main__] - ERROR - Program exited with error: Event loop stopped before Future completed. - MainThread
+Traceback (most recent call last):
+  File "/home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 202, in main
+    exit_code = loop.run_until_complete(run_gui(fullscreen=fullscreen))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kali/.local/lib/python3.11/site-packages/qasync/__init__.py", line 406, in run_until_complete
+    raise RuntimeError("Event loop stopped before Future completed.")
+RuntimeError: Event loop stopped before Future completed.
+2026-01-23 16:31:44,576[root] - INFO - Logging initialized, log file: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-01-23 16:31:44,603[__main__] - INFO - Created qasync event loop - MainThread
+2026-01-23 16:31:44,604[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-01-23 16:31:44,612[src.utils.config_manager] - INFO - Config directory: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-01-23 16:31:44,613[src.utils.config_manager] - INFO - Config file: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-01-23 16:31:44,884[__main__] - INFO - GUI started successfully - MainThread
+2026-01-23 16:33:22,312[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-01-23 16:33:22,313[__main__] - ERROR - Program exited with error: Event loop stopped before Future completed. - MainThread
+Traceback (most recent call last):
+  File "/home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 202, in main
+    exit_code = loop.run_until_complete(run_gui(fullscreen=fullscreen))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kali/.local/lib/python3.11/site-packages/qasync/__init__.py", line 406, in run_until_complete
+    raise RuntimeError("Event loop stopped before Future completed.")
+RuntimeError: Event loop stopped before Future completed.
+2026-01-23 18:54:22,752[root] - INFO - Logging initialized, log file: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-01-23 18:54:23,901[__main__] - INFO - Created qasync event loop - MainThread
+2026-01-23 18:54:23,910[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-01-23 18:54:28,551[src.utils.config_manager] - INFO - Config directory: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-01-23 18:54:28,552[src.utils.config_manager] - INFO - Config file: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-01-23 18:54:31,136[__main__] - INFO - GUI started successfully - MainThread
+2026-01-23 18:55:37,730[__main__] - INFO - Aborted - MainThread
+2026-01-23 18:55:43,906[__main__] - INFO - Aborted - MainThread
+2026-01-23 18:55:49,936[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-01-23 18:55:49,989[__main__] - ERROR - Program exited with error: Event loop stopped before Future completed. - MainThread
+Traceback (most recent call last):
+  File "/home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 275, in main
+    exit_code = loop.run_until_complete(run_gui(fullscreen=fullscreen))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kali/.local/lib/python3.11/site-packages/qasync/__init__.py", line 406, in run_until_complete
+    raise RuntimeError("Event loop stopped before Future completed.")
+RuntimeError: Event loop stopped before Future completed.
+2026-01-23 18:55:50,242[qasync._QEventLoop] - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-1' coro=<run_gui() running at /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py:236> wait_for=<Future pending cb=[_chain_future.<locals>._call_check_cancel() at /usr/lib/python3.11/asyncio/futures.py:387, Task.task_wakeup()]>> - MainThread
+2026-01-23 19:12:36,067[root] - INFO - Logging initialized, log file: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-01-23 19:12:38,138[__main__] - INFO - Created qasync event loop - MainThread
+2026-01-23 19:12:38,164[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-01-23 19:12:43,119[src.utils.config_manager] - INFO - Config directory: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-01-23 19:12:43,119[src.utils.config_manager] - INFO - Config file: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-01-23 19:12:45,932[__main__] - INFO - GUI started successfully - MainThread
+2026-01-23 19:13:00,542[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-01-23 19:13:00,553[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-01-23 19:13:00,906[qasync._QEventLoop] - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-1' coro=<run_gui() running at /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py:247> wait_for=<Future pending cb=[_chain_future.<locals>._call_check_cancel() at /usr/lib/python3.11/asyncio/futures.py:387, Task.task_wakeup()]>> - MainThread
+2026-01-23 19:13:32,009[root] - INFO - Logging initialized, log file: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-01-23 19:13:32,289[__main__] - INFO - Created qasync event loop - MainThread
+2026-01-23 19:13:32,290[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-01-23 19:13:33,165[src.utils.config_manager] - INFO - Config directory: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-01-23 19:13:33,166[src.utils.config_manager] - INFO - Config file: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-01-23 19:13:33,552[__main__] - INFO - GUI started successfully - MainThread
+2026-01-23 19:24:34,171[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-01-23 19:24:34,606[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-01-23 19:24:34,607[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-01-23 19:24:34,904[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-01-23 19:24:36,222[qasync._QEventLoop] - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-1' coro=<run_gui() running at /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py:247> wait_for=<Future pending cb=[_chain_future.<locals>._call_check_cancel() at /usr/lib/python3.11/asyncio/futures.py:387, Task.task_wakeup()]>> - MainThread
+2026-01-23 19:24:42,454[root] - INFO - Logging initialized, log file: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-01-23 19:24:43,107[__main__] - INFO - Created qasync event loop - MainThread
+2026-01-23 19:24:43,108[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-01-23 19:24:45,904[src.utils.config_manager] - INFO - Config directory: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-01-23 19:24:45,905[src.utils.config_manager] - INFO - Config file: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-01-23 19:24:47,599[__main__] - INFO - GUI started successfully - MainThread
+2026-01-23 19:24:53,427[__main__] - INFO - STT: starting recording - MainThread
+2026-01-23 19:24:53,429[src.utils.stt_client] - INFO - Starting STT recording - Dummy-1
+2026-01-23 19:24:55,443[__main__] - INFO - STT: stopping recording and transcribing - MainThread
+2026-01-23 19:24:55,443[src.utils.stt_client] - INFO - Stopping STT recording - Dummy-2
+2026-01-23 19:24:56,032[src.utils.stt_client] - WARNING - Native STT returned no transcription - Dummy-2
+2026-01-23 19:24:56,034[__main__] - WARNING - STT: transcription empty - MainThread
+2026-01-23 19:27:03,722[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-01-23 19:27:03,761[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-01-23 19:39:06,927[root] - INFO - Logging initialized, log file: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-01-23 19:39:07,798[__main__] - INFO - Created qasync event loop - MainThread
+2026-01-23 19:39:07,807[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-01-23 19:39:11,247[src.utils.config_manager] - INFO - Config directory: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-01-23 19:39:11,248[src.utils.config_manager] - INFO - Config file: /home/kali/Documents/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-01-23 19:39:13,716[__main__] - INFO - GUI started successfully - MainThread
+2026-01-23 19:39:21,084[__main__] - INFO - STT: starting recording - MainThread
+2026-01-23 19:39:21,085[src.utils.stt_client] - INFO - Starting STT recording - Dummy-1
+2026-01-23 19:39:23,307[__main__] - INFO - STT: stopping recording and transcribing - MainThread
+2026-01-23 19:39:23,308[src.utils.stt_client] - INFO - Stopping STT recording - Dummy-2
+2026-01-23 19:39:24,663[src.utils.stt_client] - INFO - Transcription received (21 chars) - Dummy-2
+2026-01-23 19:39:24,665[__main__] - INFO - STT: raw response length=20 - MainThread
+2026-01-23 19:39:24,666[__main__] - INFO - STT: parsed transcription length=20 - MainThread
+2026-01-23 19:39:34,716[__main__] - INFO - STT: starting recording - MainThread
+2026-01-23 19:39:34,717[src.utils.stt_client] - INFO - Starting STT recording - Dummy-3
+2026-01-23 19:39:38,459[__main__] - INFO - STT: stopping recording and transcribing - MainThread
+2026-01-23 19:39:38,460[src.utils.stt_client] - INFO - Stopping STT recording - Dummy-4
+2026-01-23 19:39:39,097[src.utils.stt_client] - INFO - Transcription received (54 chars) - Dummy-4
+2026-01-23 19:39:39,099[__main__] - INFO - STT: raw response length=53 - MainThread
+2026-01-23 19:39:39,099[__main__] - INFO - STT: parsed transcription length=53 - MainThread
+2026-01-23 19:39:45,317[__main__] - INFO - STT: starting recording - MainThread
+2026-01-23 19:39:45,318[src.utils.stt_client] - INFO - Starting STT recording - Dummy-5
+2026-01-23 19:39:47,931[__main__] - INFO - STT: stopping recording and transcribing - MainThread
+2026-01-23 19:39:47,931[src.utils.stt_client] - INFO - Stopping STT recording - Dummy-6
+2026-01-23 19:39:48,700[src.utils.stt_client] - INFO - Transcription received (34 chars) - Dummy-6
+2026-01-23 19:39:48,701[__main__] - INFO - STT: raw response length=33 - MainThread
+2026-01-23 19:39:48,702[__main__] - INFO - STT: parsed transcription length=33 - MainThread
+2026-01-23 19:40:37,475[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-01-23 19:40:37,477[__main__] - INFO - GUI closed before loop completion - MainThread

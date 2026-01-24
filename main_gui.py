@@ -9,6 +9,7 @@ Ideal for testing and developing the GUI components in isolation.
 
 import asyncio
 import argparse
+import json
 import sys
 import os
 import signal
@@ -35,8 +36,83 @@ except ImportError as e:
 from src.display.gui_display import GuiDisplay
 from src.utils.chat_bridge import ChatBridge
 from src.utils.logging_config import get_logger, setup_logging
+from src.utils.stt_client import STTClient, STTClientError
 
 logger = get_logger(__name__)
+
+
+class STTController:
+    """Manages the STT lifecycle and ties it to the GUI talk button."""
+
+    def __init__(self, gui_display, send_text_callback, stt_client):
+        self._gui_display = gui_display
+        self._send_text_callback = send_text_callback
+        self._stt_client = stt_client
+        self._recording = False
+        self._busy = False
+
+    async def toggle(self):
+        if self._busy:
+            return
+        self._busy = True
+        try:
+            if not self._recording:
+                await self._start()
+            else:
+                await self._stop()
+        finally:
+            self._busy = False
+
+    async def _start(self):
+        await self._gui_display.update_status("Listening...", True)
+        await self._gui_display.update_button_status("Stop")
+        await self._gui_display.update_emotion("listening")
+        try:
+            logger.info("STT: starting recording")
+            await asyncio.to_thread(self._stt_client.start_recording)
+        except STTClientError:
+            logger.error("STT: start_recording failed", exc_info=True)
+            await self._gui_display.update_status("STT unavailable", False)
+            await self._gui_display.update_button_status("Talk")
+            await self._gui_display.update_emotion("neutral")
+            return
+        self._recording = True
+
+    async def _stop(self):
+        transcription = ""
+        stt_failed = False
+        try:
+            await self._gui_display.update_status("Transcribing...", True)
+            logger.info("STT: stopping recording and transcribing")
+            raw_response = (await asyncio.to_thread(self._stt_client.stop_recording)).strip()
+            if raw_response:
+                logger.info("STT: raw response length=%d", len(raw_response))
+                try:
+                    payload = json.loads(raw_response)
+                    if isinstance(payload, dict):
+                        transcription = str(payload.get("text", "")).strip()
+                    else:
+                        transcription = raw_response
+                except json.JSONDecodeError:
+                    transcription = raw_response
+        except STTClientError:
+            stt_failed = True
+            logger.error("STT: stop_recording failed", exc_info=True)
+            await self._gui_display.update_status("STT failed", False)
+        finally:
+            self._recording = False
+            await self._gui_display.update_button_status("Talk")
+            await self._gui_display.update_emotion("neutral")
+
+        if transcription:
+            logger.info("STT: parsed transcription length=%d", len(transcription))
+            await self._send_text_callback(transcription)
+        elif not stt_failed:
+            logger.warning("STT: transcription empty")
+            await self._gui_display.update_status("Ready", True)
+
+    async def shutdown(self):
+        await asyncio.to_thread(self._stt_client.shutdown)
 
 
 def _parse_cli_args():
@@ -140,9 +216,22 @@ async def run_gui(fullscreen: bool = False):
                         await gui_display.update_emotion(last_chunk_emotion)
                     await gui_display.update_text(final_text)
 
+        stt_controller = None
+        try:
+            stt_client = STTClient()
+            stt_controller = STTController(gui_display, handle_send_text, stt_client)
+        except STTClientError:
+            logger.error("Failed to initialize native STT support", exc_info=True)
+
+        def schedule_toggle() -> None:
+            if stt_controller:
+                asyncio.create_task(stt_controller.toggle())
+            else:
+                logger.warning("Talk feature disabled because the STT library could not be loaded")
+
         # Set callbacks so GUI input flows into the C backend
         await gui_display.set_callbacks(
-            auto_callback=lambda: logger.info("Auto mode toggled"),
+            auto_callback=schedule_toggle,
             abort_callback=lambda: logger.info("Aborted"),
             send_text_callback=handle_send_text,
         )
@@ -161,6 +250,8 @@ async def run_gui(fullscreen: bool = False):
             while gui_display._running:
                 await asyncio.sleep(0.1)
         finally:
+            if stt_controller:
+                await stt_controller.shutdown()
             await chat_bridge.stop()
             
     except Exception as e:
@@ -204,6 +295,13 @@ def main():
     except KeyboardInterrupt:
         logger.info("Program interrupted by user")
         exit_code = 0
+    except RuntimeError as e:
+        if "Event loop stopped before Future completed" in str(e):
+            logger.info("GUI closed before loop completion")
+            exit_code = 0
+        else:
+            logger.error(f"Program exited with error: {e}", exc_info=True)
+            exit_code = 1
     except Exception as e:
         logger.error(f"Program exited with error: {e}", exc_info=True)
         exit_code = 1

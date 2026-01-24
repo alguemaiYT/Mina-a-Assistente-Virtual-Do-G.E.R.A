@@ -29,7 +29,7 @@ class GuiDisplayModel(QObject):
         self._status_text = "Status: Disconnected"
         self._emotion_path = ""  # 表情资源路径（GIF/图片）或 emoji 字符
         self._tts_text = ""
-        self._button_text = "Start Conversation"  # 自动模式按钮文本
+        self._button_text = "Talk"  # 自动模式按钮文本
         self._is_connected = False
 
     # 状态文本属性
