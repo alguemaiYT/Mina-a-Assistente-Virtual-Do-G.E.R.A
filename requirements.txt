@@ -26,6 +26,10 @@ brotli==1.1.0
 # System utilities
 psutil==7.0.0
 
+# Wake word (Picovoice Porcupine)
+pvporcupine
+pvrecorder
+
 # Windows-specific (optional, only for Windows)
 comtypes==1.4.6; sys_platform == "win32"
 pycaw==20240210; sys_platform == "win32"

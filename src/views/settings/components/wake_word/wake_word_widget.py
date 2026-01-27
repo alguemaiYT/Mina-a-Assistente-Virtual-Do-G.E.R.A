@@ -100,6 +100,10 @@ class WakeWordWidget(QWidget):
                 "use_wake_word_check": self.findChild(QCheckBox, "use_wake_word_check"),
                 "model_path_edit": self.findChild(QLineEdit, "model_path_edit"),
                 "model_path_btn": self.findChild(QPushButton, "model_path_btn"),
+                "porcupine_model_path_edit": self.findChild(QLineEdit, "porcupine_model_path_edit"),
+                "porcupine_model_path_btn": self.findChild(QPushButton, "porcupine_model_path_btn"),
+                "porcupine_keyword_path_edit": self.findChild(QLineEdit, "porcupine_keyword_path_edit"),
+                "porcupine_keyword_path_btn": self.findChild(QPushButton, "porcupine_keyword_path_btn"),
                 "wake_words_edit": self.findChild(QTextEdit, "wake_words_edit"),
                 "listening_webhook_edit": self.findChild(QLineEdit, "listening_webhook_edit"),
                 "listening_stop_webhook_edit": self.findChild(QLineEdit, "listening_stop_webhook_edit"),
@@ -125,6 +129,16 @@ class WakeWordWidget(QWidget):
                 self._on_model_path_browse
             )
 
+        if self.ui_controls.get("porcupine_model_path_btn"):
+            self.ui_controls["porcupine_model_path_btn"].clicked.connect(
+                self._on_porcupine_model_path_browse
+            )
+
+        if self.ui_controls.get("porcupine_keyword_path_btn"):
+            self.ui_controls["porcupine_keyword_path_btn"].clicked.connect(
+                self._on_porcupine_keyword_path_browse
+            )
+
         if self.ui_controls["wake_words_edit"]:
             self.ui_controls["wake_words_edit"].textChanged.connect(
                 self.settings_changed.emit
@@ -145,6 +159,15 @@ class WakeWordWidget(QWidget):
                 self.settings_changed.emit
             )
 
+        if self.ui_controls.get("porcupine_model_path_edit"):
+            self.ui_controls["porcupine_model_path_edit"].textChanged.connect(
+                self.settings_changed.emit
+            )
+        if self.ui_controls.get("porcupine_keyword_path_edit"):
+            self.ui_controls["porcupine_keyword_path_edit"].textChanged.connect(
+                self.settings_changed.emit
+            )
+
     def _load_config_values(self):
         """
         从配置文件加载值到UI控件.
@@ -161,6 +184,18 @@ class WakeWordWidget(QWidget):
                 "WAKE_WORD_OPTIONS.MODEL_PATH", ""
             )
             self._set_text_value("model_path_edit", model_path)
+
+            porcupine_model_path = self.config_manager.get_config(
+                "WAKE_WORD_OPTIONS.PORCUPINE_MODEL_PATH", ""
+            )
+            self._set_text_value("porcupine_model_path_edit", porcupine_model_path)
+
+            porcupine_keyword_path = self.config_manager.get_config(
+                "WAKE_WORD_OPTIONS.PORCUPINE_KEYWORD_PATH", ""
+            )
+            self._set_text_value(
+                "porcupine_keyword_path_edit", porcupine_keyword_path
+            )
 
             # 从 keywords.txt 文件读取唤醒词
             wake_words_text = self._load_keywords_from_file()
@@ -234,6 +269,54 @@ class WakeWordWidget(QWidget):
         except Exception as e:
             self.logger.error(f"浏览模型路径失败: {e}", exc_info=True)
             QMessageBox.warning(self, "错误", f"浏览模型路径时发生错误: {str(e)}")
+
+    def _on_porcupine_model_path_browse(self):
+        """Browse Porcupine .pv model file."""
+        try:
+            current_path = self._get_text_value("porcupine_model_path_edit")
+            if not current_path:
+                models_dir = resource_finder.find_models_dir()
+                if models_dir:
+                    current_path = str(models_dir)
+
+            selected_path, _ = QFileDialog.getOpenFileName(
+                self,
+                "Select Porcupine Model (.pv)",
+                current_path or str(resource_finder.get_project_root()),
+                "Porcupine Model (*.pv);;All Files (*)",
+            )
+
+            if selected_path:
+                relative_path = self._convert_to_relative_path(selected_path)
+                self._set_text_value("porcupine_model_path_edit", relative_path)
+
+        except Exception as e:
+            self.logger.error(f"浏览 Porcupine 模型失败: {e}", exc_info=True)
+            QMessageBox.warning(self, "错误", f"浏览模型路径时发生错误: {str(e)}")
+
+    def _on_porcupine_keyword_path_browse(self):
+        """Browse Porcupine .ppn keyword file."""
+        try:
+            current_path = self._get_text_value("porcupine_keyword_path_edit")
+            if not current_path:
+                models_dir = resource_finder.find_models_dir()
+                if models_dir:
+                    current_path = str(models_dir)
+
+            selected_path, _ = QFileDialog.getOpenFileName(
+                self,
+                "Select Porcupine Wake Word (.ppn)",
+                current_path or str(resource_finder.get_project_root()),
+                "Porcupine Keyword (*.ppn);;All Files (*)",
+            )
+
+            if selected_path:
+                relative_path = self._convert_to_relative_path(selected_path)
+                self._set_text_value("porcupine_keyword_path_edit", relative_path)
+
+        except Exception as e:
+            self.logger.error(f"浏览 Porcupine 关键词失败: {e}", exc_info=True)
+            QMessageBox.warning(self, "错误", f"浏览关键词路径时发生错误: {str(e)}")
 
     def _convert_to_relative_path(self, model_path: str) -> str:
         """
@@ -452,6 +535,20 @@ class WakeWordWidget(QWidget):
                 relative_path = self._convert_to_relative_path(model_path)
                 config_data["WAKE_WORD_OPTIONS.MODEL_PATH"] = relative_path
 
+            porcupine_model_path = self._get_text_value("porcupine_model_path_edit")
+            if porcupine_model_path:
+                config_data["WAKE_WORD_OPTIONS.PORCUPINE_MODEL_PATH"] = (
+                    self._convert_to_relative_path(porcupine_model_path)
+                )
+
+            porcupine_keyword_path = self._get_text_value(
+                "porcupine_keyword_path_edit"
+            )
+            if porcupine_keyword_path:
+                config_data["WAKE_WORD_OPTIONS.PORCUPINE_KEYWORD_PATH"] = (
+                    self._convert_to_relative_path(porcupine_keyword_path)
+                )
+
             # WEBHOOKS
             try:
                 if self.ui_controls.get("listening_webhook_edit"):
@@ -499,6 +596,14 @@ class WakeWordWidget(QWidget):
                 )
 
             self._set_text_value("model_path_edit", wake_word_config["MODEL_PATH"])
+            self._set_text_value(
+                "porcupine_model_path_edit",
+                wake_word_config.get("PORCUPINE_MODEL_PATH", ""),
+            )
+            self._set_text_value(
+                "porcupine_keyword_path_edit",
+                wake_word_config.get("PORCUPINE_KEYWORD_PATH", ""),
+            )
 
             if self.ui_controls["wake_words_edit"]:
                 # 使用默认的关键词重置

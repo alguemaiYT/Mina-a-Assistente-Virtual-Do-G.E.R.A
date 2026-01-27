@@ -63,6 +63,48 @@
             </item>
            </layout>
           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_porcupine_model_path">
+             <property name="text">
+              <string>Porcupine Model (.pv):</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <layout class="QHBoxLayout" name="porcupine_model_path_layout">
+             <item>
+              <widget class="QLineEdit" name="porcupine_model_path_edit"/>
+             </item>
+             <item>
+              <widget class="QPushButton" name="porcupine_model_path_btn">
+               <property name="text">
+                <string>Browse...</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_porcupine_keyword_path">
+             <property name="text">
+              <string>Wake Word File (.ppn):</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <layout class="QHBoxLayout" name="porcupine_keyword_path_layout">
+             <item>
+              <widget class="QLineEdit" name="porcupine_keyword_path_edit"/>
+             </item>
+             <item>
+              <widget class="QPushButton" name="porcupine_keyword_path_btn">
+               <property name="text">
+                <string>Browse...</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
          </layout>
         </widget>
        </item>

@@ -38,6 +38,9 @@ class ConfigManager:
         "WAKE_WORD_OPTIONS": {
             "USE_WAKE_WORD": True,
             "MODEL_PATH": "models",
+            "PORCUPINE_MODEL_PATH": "",
+            "PORCUPINE_KEYWORD_PATH": "",
+            "AUDIO_DEVICE_INDEX": None,
             "NUM_THREADS": 4,
             "PROVIDER": "cpu",
             "MAX_ACTIVE_PATHS": 2,

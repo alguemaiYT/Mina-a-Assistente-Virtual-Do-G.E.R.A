@@ -183,3 +183,204 @@ task: <Task pending name='Task-1' coro=<run_gui() running at /home/kali/Document
 2026-01-23 19:39:48,702[__main__] - INFO - STT: parsed transcription length=33 - MainThread
 2026-01-23 19:40:37,475[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
 2026-01-23 19:40:37,477[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-01-27 13:26:02,183[root] - INFO - Logging initialized, log file: /home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-01-27 13:26:03,506[__main__] - INFO - Created qasync event loop - MainThread
+2026-01-27 13:26:03,507[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-01-27 13:26:04,633[src.utils.config_manager] - INFO - Config directory: /home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-01-27 13:26:04,634[src.utils.config_manager] - INFO - Config file: /home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-01-27 13:26:04,635[src.utils.config_manager] - INFO - Created models directory: /home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/models - MainThread
+2026-01-27 13:26:04,636[src.utils.config_manager] - INFO - Created cache directory: /home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/cache - MainThread
+2026-01-27 13:26:12,666[src.utils.wake_word_listener] - ERROR - Wake word listener error - Thread-1 (_run)
+Traceback (most recent call last):
+  File "/home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/src/utils/wake_word_listener.py", line 63, in _run
+    raise RuntimeError("Missing Picovoice access key in $picovoicekey")
+RuntimeError: Missing Picovoice access key in $picovoicekey
+2026-01-27 13:26:12,715[__main__] - ERROR - Wake word error: Missing Picovoice access key in $picovoicekey - Thread-1 (_run)
+2026-01-27 13:26:12,666[__main__] - INFO - GUI started successfully - MainThread
+2026-01-27 13:26:12,835[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-01-27 13:26:12,903[__main__] - ERROR - GUI error: no running event loop - MainThread
+Traceback (most recent call last):
+  File "/home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 300, in run_gui
+    await stt_controller.shutdown()
+  File "/home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 126, in shutdown
+    await asyncio.to_thread(self._stt_client.shutdown)
+  File "/usr/lib/python3.11/asyncio/threads.py", line 22, in to_thread
+    loop = events.get_running_loop()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: no running event loop
+2026-01-27 13:26:24,720[src.utils.stt_client] - INFO - Shutting down native STT - MainThread
+2026-01-27 13:43:51,090[root] - INFO - Logging initialized, log file: /home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-01-27 13:43:51,415[__main__] - INFO - Created qasync event loop - MainThread
+2026-01-27 13:43:51,416[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-01-27 13:43:52,091[src.utils.config_manager] - INFO - Config directory: /home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-01-27 13:43:52,091[src.utils.config_manager] - INFO - Config file: /home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-01-27 13:43:52,631[__main__] - INFO - GUI started successfully - MainThread
+2026-01-27 13:43:52,633[src.utils.wake_word_listener] - ERROR - Wake word listener error - Thread-1 (_run)
+Traceback (most recent call last):
+  File "/home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/src/utils/wake_word_listener.py", line 83, in _run
+    raise RuntimeError("Porcupine keyword (.ppn) file not found")
+RuntimeError: Porcupine keyword (.ppn) file not found
+2026-01-27 13:43:52,634[__main__] - ERROR - Wake word error: Porcupine keyword (.ppn) file not found - Thread-1 (_run)
+2026-01-27 13:44:16,418[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-01-27 13:44:16,438[src.utils.stt_client] - INFO - Shutting down native STT - Dummy-2
+2026-01-27 13:44:16,441[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-01-27 13:44:16,511[qasync._QEventLoop] - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-1' coro=<run_gui() running at /home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py:300> wait_for=<Future pending cb=[_chain_future.<locals>._call_check_cancel() at /usr/lib/python3.11/asyncio/futures.py:387, Task.task_wakeup()]>> - MainThread
+2026-01-27 13:44:16,512[src.utils.stt_client] - INFO - Shutting down native STT - MainThread
+2026-01-27 13:44:45,563[root] - INFO - Logging initialized, log file: /home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-01-27 13:44:45,596[__main__] - INFO - Created qasync event loop - MainThread
+2026-01-27 13:44:45,597[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-01-27 13:44:45,946[src.utils.config_manager] - INFO - Config directory: /home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-01-27 13:44:45,947[src.utils.config_manager] - INFO - Config file: /home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-01-27 13:44:46,165[__main__] - INFO - GUI started successfully - MainThread
+2026-01-27 13:44:46,498[src.utils.wake_word_listener] - INFO - Wake word listener started - Thread-1 (_run)
+2026-01-27 13:44:52,103[src.utils.wake_word_listener] - INFO - Wake word detected - Thread-1 (_run)
+2026-01-27 13:44:52,104[__main__] - INFO - STT: starting recording - MainThread
+2026-01-27 13:44:52,108[src.utils.stt_client] - INFO - Starting STT recording - Dummy-2
+2026-01-27 13:44:56,539[__main__] - INFO - STT: stopping recording and transcribing - MainThread
+2026-01-27 13:44:56,540[src.utils.stt_client] - INFO - Stopping STT recording - Dummy-3
+2026-01-27 13:44:57,572[src.utils.stt_client] - INFO - Transcription received (11 chars) - Dummy-3
+2026-01-27 13:44:57,575[__main__] - INFO - STT: raw response length=10 - MainThread
+2026-01-27 13:44:57,575[__main__] - INFO - STT: parsed transcription length=10 - MainThread
+2026-01-27 13:45:16,959[__main__] - INFO - STT: starting recording - MainThread
+2026-01-27 13:45:16,960[src.utils.stt_client] - INFO - Starting STT recording - Dummy-4
+2026-01-27 13:45:19,211[__main__] - INFO - STT: stopping recording and transcribing - MainThread
+2026-01-27 13:45:19,212[src.utils.stt_client] - INFO - Stopping STT recording - Dummy-5
+2026-01-27 13:45:20,077[src.utils.stt_client] - INFO - Transcription received (11 chars) - Dummy-5
+2026-01-27 13:45:20,078[__main__] - INFO - STT: raw response length=10 - MainThread
+2026-01-27 13:45:20,079[__main__] - INFO - STT: parsed transcription length=10 - MainThread
+2026-01-27 13:45:36,445[__main__] - INFO - STT: starting recording - MainThread
+2026-01-27 13:45:36,446[src.utils.stt_client] - INFO - Starting STT recording - Dummy-6
+2026-01-27 13:45:38,907[__main__] - INFO - STT: stopping recording and transcribing - MainThread
+2026-01-27 13:45:38,908[src.utils.stt_client] - INFO - Stopping STT recording - Dummy-7
+2026-01-27 13:45:44,158[src.utils.stt_client] - INFO - Transcription received (11 chars) - Dummy-7
+2026-01-27 13:45:44,159[__main__] - INFO - STT: raw response length=10 - MainThread
+2026-01-27 13:45:44,160[__main__] - INFO - STT: parsed transcription length=10 - MainThread
+2026-01-27 13:46:33,774[__main__] - INFO - STT: starting recording - MainThread
+2026-01-27 13:46:33,775[src.utils.stt_client] - INFO - Starting STT recording - Dummy-8
+2026-01-27 13:46:36,043[__main__] - INFO - STT: stopping recording and transcribing - MainThread
+2026-01-27 13:46:36,044[src.utils.stt_client] - INFO - Stopping STT recording - Dummy-9
+2026-01-27 13:46:36,936[src.utils.stt_client] - INFO - Transcription received (11 chars) - Dummy-9
+2026-01-27 13:46:36,938[__main__] - INFO - STT: raw response length=10 - MainThread
+2026-01-27 13:46:36,938[__main__] - INFO - STT: parsed transcription length=10 - MainThread
+2026-01-27 13:46:55,391[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-01-27 13:46:55,395[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-01-27 13:53:01,740[root] - INFO - Logging initialized, log file: /home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-01-27 13:53:02,638[__main__] - INFO - Created qasync event loop - MainThread
+2026-01-27 13:53:02,654[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-01-27 13:53:03,470[src.utils.config_manager] - INFO - Config directory: /home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-01-27 13:53:03,471[src.utils.config_manager] - INFO - Config file: /home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-01-27 13:53:08,765[__main__] - INFO - GUI started successfully - MainThread
+2026-01-27 13:53:09,699[src.utils.wake_word_listener] - INFO - Wake word listener started - Thread-1 (_run)
+2026-01-27 13:53:23,908[__main__] - INFO - STT: starting recording - MainThread
+2026-01-27 13:53:23,939[src.utils.stt_client] - INFO - Starting STT recording - Dummy-2
+2026-01-27 13:53:26,459[__main__] - INFO - STT: stopping recording and transcribing - MainThread
+2026-01-27 13:53:26,460[src.utils.stt_client] - INFO - Stopping STT recording - Dummy-3
+2026-01-27 13:53:27,459[src.utils.stt_client] - INFO - Transcription received (15 chars) - Dummy-3
+2026-01-27 13:53:27,461[__main__] - INFO - STT: raw response length=14 - MainThread
+2026-01-27 13:53:27,462[__main__] - INFO - STT: parsed transcription length=14 - MainThread
+2026-01-27 13:53:38,182[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-01-27 13:53:38,185[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-01-27 13:53:40,970[root] - INFO - Logging initialized, log file: /home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-01-27 13:53:41,021[__main__] - INFO - Created qasync event loop - MainThread
+2026-01-27 13:53:41,022[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-01-27 13:53:41,382[src.utils.config_manager] - INFO - Config directory: /home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-01-27 13:53:41,382[src.utils.config_manager] - INFO - Config file: /home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-01-27 13:53:41,777[__main__] - INFO - GUI started successfully - MainThread
+2026-01-27 13:53:41,973[src.utils.wake_word_listener] - INFO - Wake word listener started - Thread-1 (_run)
+2026-01-27 13:54:22,017[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-01-27 13:54:22,073[src.utils.stt_client] - INFO - Shutting down native STT - Dummy-2
+2026-01-27 13:54:22,081[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-01-27 13:54:22,176[qasync._QEventLoop] - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-1' coro=<run_gui() running at /home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py:300> wait_for=<Future pending cb=[_chain_future.<locals>._call_check_cancel() at /usr/lib/python3.11/asyncio/futures.py:387, Task.task_wakeup()]>> - MainThread
+2026-01-27 13:54:22,177[src.utils.stt_client] - INFO - Shutting down native STT - MainThread
+2026-01-27 13:55:52,671[root] - INFO - Logging initialized, log file: /home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-01-27 13:55:53,537[__main__] - INFO - Created qasync event loop - MainThread
+2026-01-27 13:55:53,585[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-01-27 13:55:54,679[src.utils.config_manager] - INFO - Config directory: /home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-01-27 13:55:54,680[src.utils.config_manager] - INFO - Config file: /home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-01-27 13:56:03,330[__main__] - INFO - GUI started successfully - MainThread
+2026-01-27 13:56:04,126[src.utils.wake_word_listener] - INFO - Wake word listener started - Thread-1 (_run)
+2026-01-27 13:56:07,552[src.utils.wake_word_listener] - INFO - Wake word detected - Thread-1 (_run)
+2026-01-27 13:56:07,554[__main__] - INFO - STT: starting recording - MainThread
+2026-01-27 13:56:07,612[src.utils.stt_client] - INFO - Starting STT recording - Dummy-2
+2026-01-27 13:56:10,837[__main__] - INFO - STT: stopping recording and transcribing - MainThread
+2026-01-27 13:56:10,838[src.utils.stt_client] - INFO - Stopping STT recording - Dummy-3
+2026-01-27 13:56:11,889[src.utils.stt_client] - INFO - Transcription received (21 chars) - Dummy-3
+2026-01-27 13:56:11,891[__main__] - INFO - STT: raw response length=20 - MainThread
+2026-01-27 13:56:11,892[__main__] - INFO - STT: parsed transcription length=20 - MainThread
+2026-01-27 13:56:19,455[src.utils.wake_word_listener] - INFO - Wake word detected - Thread-1 (_run)
+2026-01-27 13:56:19,459[__main__] - INFO - STT: starting recording - MainThread
+2026-01-27 13:56:19,459[src.utils.stt_client] - INFO - Starting STT recording - Dummy-4
+2026-01-27 13:56:22,843[__main__] - INFO - STT: stopping recording and transcribing - MainThread
+2026-01-27 13:56:22,844[src.utils.stt_client] - INFO - Stopping STT recording - Dummy-5
+2026-01-27 13:56:23,660[src.utils.stt_client] - INFO - Transcription received (35 chars) - Dummy-5
+2026-01-27 13:56:23,661[__main__] - INFO - STT: raw response length=34 - MainThread
+2026-01-27 13:56:23,662[__main__] - INFO - STT: parsed transcription length=34 - MainThread
+2026-01-27 13:57:54,495[src.utils.wake_word_listener] - INFO - Wake word detected - Thread-1 (_run)
+2026-01-27 13:57:54,499[__main__] - INFO - STT: starting recording - MainThread
+2026-01-27 13:57:54,499[src.utils.stt_client] - INFO - Starting STT recording - Dummy-6
+2026-01-27 13:57:55,968[src.utils.wake_word_listener] - INFO - Wake word detected - Thread-1 (_run)
+2026-01-27 13:57:59,715[__main__] - INFO - STT: stopping recording and transcribing - MainThread
+2026-01-27 13:57:59,716[src.utils.stt_client] - INFO - Stopping STT recording - Dummy-7
+2026-01-27 13:58:00,614[src.utils.stt_client] - INFO - Transcription received (27 chars) - Dummy-7
+2026-01-27 13:58:00,616[__main__] - INFO - STT: raw response length=26 - MainThread
+2026-01-27 13:58:00,617[__main__] - INFO - STT: parsed transcription length=26 - MainThread
+2026-01-27 13:58:32,895[src.utils.wake_word_listener] - INFO - Wake word detected - Thread-1 (_run)
+2026-01-27 13:58:32,899[__main__] - INFO - STT: starting recording - MainThread
+2026-01-27 13:58:32,900[src.utils.stt_client] - INFO - Starting STT recording - Dummy-8
+2026-01-27 13:58:34,933[__main__] - INFO - STT: stopping recording and transcribing - MainThread
+2026-01-27 13:58:34,934[src.utils.stt_client] - INFO - Stopping STT recording - Dummy-9
+2026-01-27 13:58:35,833[src.utils.stt_client] - INFO - Transcription received (17 chars) - Dummy-9
+2026-01-27 13:58:35,834[__main__] - INFO - STT: raw response length=16 - MainThread
+2026-01-27 13:58:35,834[__main__] - INFO - STT: parsed transcription length=16 - MainThread
+2026-01-27 13:58:50,038[__main__] - INFO - STT: starting recording - MainThread
+2026-01-27 13:58:50,039[src.utils.stt_client] - INFO - Starting STT recording - Dummy-10
+2026-01-27 13:58:52,579[__main__] - INFO - STT: stopping recording and transcribing - MainThread
+2026-01-27 13:58:52,580[src.utils.stt_client] - INFO - Stopping STT recording - Dummy-11
+2026-01-27 13:58:53,383[src.utils.stt_client] - INFO - Transcription received (15 chars) - Dummy-11
+2026-01-27 13:58:53,385[__main__] - INFO - STT: raw response length=14 - MainThread
+2026-01-27 13:58:53,385[__main__] - INFO - STT: parsed transcription length=14 - MainThread
+2026-01-27 13:59:38,944[src.utils.wake_word_listener] - INFO - Wake word detected - Thread-1 (_run)
+2026-01-27 13:59:38,949[__main__] - INFO - STT: starting recording - MainThread
+2026-01-27 13:59:38,950[src.utils.stt_client] - INFO - Starting STT recording - Dummy-2
+2026-01-27 13:59:44,243[__main__] - INFO - STT: stopping recording and transcribing - MainThread
+2026-01-27 13:59:44,244[src.utils.stt_client] - INFO - Stopping STT recording - Dummy-3
+2026-01-27 13:59:45,365[src.utils.stt_client] - INFO - Transcription received (47 chars) - Dummy-3
+2026-01-27 13:59:45,366[__main__] - INFO - STT: raw response length=46 - MainThread
+2026-01-27 13:59:45,367[__main__] - INFO - STT: parsed transcription length=46 - MainThread
+2026-01-27 14:00:53,248[src.utils.wake_word_listener] - INFO - Wake word detected - Thread-1 (_run)
+2026-01-27 14:00:53,252[__main__] - INFO - STT: starting recording - MainThread
+2026-01-27 14:00:53,252[src.utils.stt_client] - INFO - Starting STT recording - Dummy-4
+2026-01-27 14:00:55,619[__main__] - INFO - STT: stopping recording and transcribing - MainThread
+2026-01-27 14:00:55,620[src.utils.stt_client] - INFO - Stopping STT recording - Dummy-5
+2026-01-27 14:00:56,223[src.utils.stt_client] - INFO - Transcription received (13 chars) - Dummy-5
+2026-01-27 14:00:56,224[__main__] - INFO - STT: raw response length=12 - MainThread
+2026-01-27 14:00:56,225[__main__] - INFO - STT: parsed transcription length=12 - MainThread
+2026-01-27 14:01:30,432[src.utils.wake_word_listener] - INFO - Wake word detected - Thread-1 (_run)
+2026-01-27 14:01:30,437[__main__] - INFO - STT: starting recording - MainThread
+2026-01-27 14:01:30,438[src.utils.stt_client] - INFO - Starting STT recording - Dummy-6
+2026-01-27 14:01:36,932[__main__] - INFO - STT: stopping recording and transcribing - MainThread
+2026-01-27 14:01:36,934[src.utils.stt_client] - INFO - Stopping STT recording - Dummy-7
+2026-01-27 14:01:38,060[src.utils.stt_client] - INFO - Transcription received (17 chars) - Dummy-7
+2026-01-27 14:01:38,061[__main__] - INFO - STT: raw response length=16 - MainThread
+2026-01-27 14:01:38,062[__main__] - INFO - STT: parsed transcription length=16 - MainThread
+2026-01-27 14:01:57,828[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-01-27 14:01:57,846[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-01-27 14:02:21,237[root] - INFO - Logging initialized, log file: /home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-01-27 14:02:21,459[__main__] - INFO - Created qasync event loop - MainThread
+2026-01-27 14:02:21,460[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-01-27 14:02:21,830[src.utils.config_manager] - INFO - Config directory: /home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-01-27 14:02:21,830[src.utils.config_manager] - INFO - Config file: /home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-01-27 14:02:22,175[__main__] - INFO - GUI started successfully - MainThread
+2026-01-27 14:02:22,398[src.utils.wake_word_listener] - INFO - Wake word listener started - Thread-1 (_run)
+2026-01-27 14:02:26,081[src.utils.wake_word_listener] - INFO - Wake word detected - Thread-1 (_run)
+2026-01-27 14:02:26,085[__main__] - INFO - STT: starting recording - MainThread
+2026-01-27 14:02:26,089[src.utils.stt_client] - INFO - Starting STT recording - Dummy-2
+2026-01-27 14:02:27,827[__main__] - INFO - STT: stopping recording and transcribing - MainThread
+2026-01-27 14:02:27,828[src.utils.stt_client] - INFO - Stopping STT recording - Dummy-3
+2026-01-27 14:02:28,532[src.utils.stt_client] - INFO - Transcription received (17 chars) - Dummy-3
+2026-01-27 14:02:28,534[__main__] - INFO - STT: raw response length=16 - MainThread
+2026-01-27 14:02:28,534[__main__] - INFO - STT: parsed transcription length=16 - MainThread
+2026-01-27 14:02:36,019[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-01-27 14:02:36,022[__main__] - INFO - GUI closed before loop completion - MainThread
