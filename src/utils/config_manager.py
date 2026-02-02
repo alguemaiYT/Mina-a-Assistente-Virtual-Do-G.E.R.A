@@ -86,6 +86,18 @@ class ConfigManager:
             "input_channels": None,
             "output_channels": None,
         },
+        "VAD_OPTIONS": {
+            "ENABLED": True,
+            "MODEL_PATH": "models/silero_vad.onnx",
+            "SAMPLE_RATE": 16000,
+            "FRAME_SIZE": 512,
+            "CHANNELS": 1,
+            "THRESHOLD": 0.5,
+            "TIMEOUT_SECONDS": 3.0,
+            "USE_CPP_BINARY": False,
+            "CPP_BINARY_PATH": "vad_cpp/build/vad_cpp",
+            "CPP_CONFIG_PATH": "config/config.json",
+        },
     }
 
     def __new__(cls):

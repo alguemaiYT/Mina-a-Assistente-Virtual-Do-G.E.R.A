@@ -82,5 +82,14 @@
     "output_sample_rate": null,
     "input_channels": null,
     "output_channels": null
+  },
+  "VAD_OPTIONS": {
+    "ENABLED": true,
+    "MODEL_PATH": "models/silero_vad.onnx",
+    "SAMPLE_RATE": 16000,
+    "FRAME_SIZE": 512,
+    "CHANNELS": 1,
+    "THRESHOLD": 0.40,
+    "TIMEOUT_SECONDS": 1.0
   }
 }

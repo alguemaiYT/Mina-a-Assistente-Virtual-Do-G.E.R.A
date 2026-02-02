@@ -37,8 +37,6 @@ from src.display.gui_display import GuiDisplay
 from src.utils.chat_bridge import ChatBridge
 from src.utils.logging_config import get_logger, setup_logging
 from src.utils.stt_client import STTClient, STTClientError
-from src.utils.config_manager import ConfigManager
-from src.utils.wake_word_listener import WakeWordListener
 
 logger = get_logger(__name__)
 
@@ -254,39 +252,6 @@ async def run_gui(fullscreen: bool = False):
         await gui_display.update_status("GUI Ready (C backend)", True)
         await gui_display.update_emotion("neutral")
 
-        wake_listener = None
-        try:
-            config_manager = ConfigManager.get_instance()
-            use_wake_word = config_manager.get_config("WAKE_WORD_OPTIONS.USE_WAKE_WORD", False)
-            if use_wake_word:
-                await gui_display.update_status("Wake word listening...", True)
-
-                loop = asyncio.get_running_loop()
-
-                def _on_wake_detected() -> None:
-                    if not stt_controller:
-                        logger.warning("Wake detected but STT is unavailable")
-                        return
-                    loop.call_soon_threadsafe(
-                        lambda: asyncio.create_task(stt_controller.start_from_wake())
-                    )
-
-                def _on_wake_error(exc: Exception) -> None:
-                    logger.error("Wake word error: %s", exc)
-                    loop.call_soon_threadsafe(
-                        lambda: asyncio.create_task(
-                            gui_display.update_status("Wake word error", False)
-                        )
-                    )
-
-                wake_listener = WakeWordListener(
-                    on_detected=_on_wake_detected,
-                    on_error=_on_wake_error,
-                )
-                wake_listener.start()
-        except Exception:
-            logger.error("Failed to start wake word listener", exc_info=True)
-        
         logger.info("GUI started successfully")
         
         # Keep the event loop running until GUI is closed
@@ -294,8 +259,6 @@ async def run_gui(fullscreen: bool = False):
             while gui_display._running:
                 await asyncio.sleep(0.1)
         finally:
-            if wake_listener:
-                wake_listener.stop()
             if stt_controller:
                 await stt_controller.shutdown()
             await chat_bridge.stop()

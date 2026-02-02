@@ -357,7 +357,7 @@ static char *transcribe_from_file(const char *filepath)
 
     part = curl_mime_addpart(mime);
     curl_mime_name(part, "model");
-    curl_mime_data(part, "whisper-large-v3-turbo", CURL_ZERO_TERMINATED);
+    curl_mime_data(part, "whisper-large-v3", CURL_ZERO_TERMINATED);
 
     // Optional: set language if provided (ISO-639-1), improves accuracy/latency
     const char *lang = getenv("STT_LANGUAGE");
