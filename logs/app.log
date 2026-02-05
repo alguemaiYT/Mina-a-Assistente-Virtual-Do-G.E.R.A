@@ -1,36 +1,155 @@
-2026-01-31 03:31:00,817[root] - INFO - Logging initialized, log file: /home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-01-31 03:31:03,214[__main__] - INFO - Created qasync event loop - MainThread
-2026-01-31 03:31:03,229[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-01-31 03:31:10,031[src.utils.config_manager] - INFO - Config directory: /home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-01-31 03:31:10,032[src.utils.config_manager] - INFO - Config file: /home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-01-31 03:31:17,206[__main__] - INFO - GUI started successfully - MainThread
-2026-01-31 03:31:26,953[__main__] - INFO - STT: starting recording - MainThread
-2026-01-31 03:31:27,009[src.utils.stt_client] - INFO - Starting STT recording - Dummy-1
-2026-01-31 03:31:31,266[__main__] - INFO - STT: stopping recording and transcribing - MainThread
-2026-01-31 03:31:31,267[src.utils.stt_client] - INFO - Stopping STT recording - Dummy-2
-2026-01-31 03:31:34,320[src.utils.stt_client] - INFO - Transcription received (55 chars) - Dummy-2
-2026-01-31 03:31:34,322[__main__] - INFO - STT: raw response length=54 - MainThread
-2026-01-31 03:31:34,328[__main__] - INFO - STT: parsed transcription length=54 - MainThread
-2026-01-31 03:32:19,274[__main__] - INFO - STT: starting recording - MainThread
-2026-01-31 03:32:19,293[src.utils.stt_client] - INFO - Starting STT recording - Dummy-3
-2026-01-31 03:32:22,082[__main__] - INFO - STT: stopping recording and transcribing - MainThread
-2026-01-31 03:32:22,083[src.utils.stt_client] - INFO - Stopping STT recording - Dummy-4
-2026-01-31 03:32:22,811[src.utils.stt_client] - INFO - Transcription received (28 chars) - Dummy-4
-2026-01-31 03:32:22,812[__main__] - INFO - STT: raw response length=27 - MainThread
-2026-01-31 03:32:22,813[__main__] - INFO - STT: parsed transcription length=27 - MainThread
-2026-01-31 03:32:28,764[__main__] - INFO - STT: starting recording - MainThread
-2026-01-31 03:32:28,765[src.utils.stt_client] - INFO - Starting STT recording - Dummy-5
-2026-01-31 03:32:32,106[__main__] - INFO - STT: stopping recording and transcribing - MainThread
-2026-01-31 03:32:32,107[src.utils.stt_client] - INFO - Stopping STT recording - Dummy-6
-2026-01-31 03:32:32,895[src.utils.stt_client] - INFO - Transcription received (36 chars) - Dummy-6
-2026-01-31 03:32:32,897[__main__] - INFO - STT: raw response length=35 - MainThread
-2026-01-31 03:32:32,897[__main__] - INFO - STT: parsed transcription length=35 - MainThread
-2026-01-31 03:32:38,876[__main__] - INFO - STT: starting recording - MainThread
-2026-01-31 03:32:38,877[src.utils.stt_client] - INFO - Starting STT recording - Dummy-7
-2026-01-31 03:32:41,194[__main__] - INFO - STT: stopping recording and transcribing - MainThread
-2026-01-31 03:32:41,195[src.utils.stt_client] - INFO - Stopping STT recording - Dummy-8
-2026-01-31 03:32:41,890[src.utils.stt_client] - INFO - Transcription received (19 chars) - Dummy-8
-2026-01-31 03:32:41,892[__main__] - INFO - STT: raw response length=18 - MainThread
-2026-01-31 03:32:41,893[__main__] - INFO - STT: parsed transcription length=18 - MainThread
-2026-01-31 03:34:16,186[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
-2026-01-31 03:34:16,355[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-02-04 11:48:16,985[root] - INFO - Logging initialized, log file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-02-04 11:48:17,948[__main__] - INFO - Created qasync event loop - MainThread
+2026-02-04 11:48:17,956[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-02-04 11:48:18,991[src.utils.config_manager] - INFO - Config directory: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-02-04 11:48:18,992[src.utils.config_manager] - INFO - Config file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-02-04 11:48:20,373[__main__] - INFO - GUI started successfully - MainThread
+2026-02-04 11:48:35,787[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-02-04 11:48:35,787[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-02-04 12:11:14,780[root] - INFO - Logging initialized, log file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-02-04 12:11:14,980[__main__] - INFO - Created qasync event loop - MainThread
+2026-02-04 12:11:14,984[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-02-04 12:11:15,528[src.utils.config_manager] - INFO - Config directory: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-02-04 12:11:15,528[src.utils.config_manager] - INFO - Config file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-02-04 12:11:15,843[__main__] - INFO - GUI started successfully - MainThread
+2026-02-04 12:11:34,527[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-02-04 12:11:34,532[src.utils.stt_client] - INFO - Shutting down native STT - Dummy-1
+2026-02-04 12:11:34,535[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-02-04 12:14:57,818[root] - INFO - Logging initialized, log file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-02-04 12:14:57,842[__main__] - INFO - Created qasync event loop - MainThread
+2026-02-04 12:14:57,843[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-02-04 12:14:58,126[src.utils.config_manager] - INFO - Config directory: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-02-04 12:14:58,127[src.utils.config_manager] - INFO - Config file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-02-04 12:14:58,333[__main__] - INFO - GUI started successfully - MainThread
+2026-02-04 12:15:05,355[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-02-04 12:15:05,356[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-02-04 12:15:22,233[root] - INFO - Logging initialized, log file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-02-04 12:15:22,257[__main__] - INFO - Created qasync event loop - MainThread
+2026-02-04 12:15:22,258[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-02-04 12:15:22,531[src.utils.config_manager] - INFO - Config directory: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-02-04 12:15:22,531[src.utils.config_manager] - INFO - Config file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-02-04 12:15:22,729[__main__] - INFO - GUI started successfully - MainThread
+2026-02-04 12:15:28,019[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-02-04 12:15:28,023[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-02-04 12:15:43,578[root] - INFO - Logging initialized, log file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-02-04 12:15:43,602[__main__] - INFO - Created qasync event loop - MainThread
+2026-02-04 12:15:43,603[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-02-04 12:15:43,877[src.utils.config_manager] - INFO - Config directory: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-02-04 12:15:43,878[src.utils.config_manager] - INFO - Config file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-02-04 12:15:43,879[src.utils.config_manager] - ERROR - Config load error: Expecting value: line 24 column 27 (char 806) - MainThread
+2026-02-04 12:15:44,074[__main__] - INFO - GUI started successfully - MainThread
+2026-02-04 12:15:47,035[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-02-04 12:15:47,036[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-02-04 12:16:06,529[root] - INFO - Logging initialized, log file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-02-04 12:16:06,554[__main__] - INFO - Created qasync event loop - MainThread
+2026-02-04 12:16:06,555[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-02-04 12:16:06,826[src.utils.config_manager] - INFO - Config directory: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-02-04 12:16:06,826[src.utils.config_manager] - INFO - Config file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-02-04 12:16:06,827[src.utils.config_manager] - ERROR - Config load error: Expecting ',' delimiter: line 25 column 18 (char 823) - MainThread
+2026-02-04 12:16:07,025[__main__] - INFO - GUI started successfully - MainThread
+2026-02-04 12:16:09,012[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-02-04 12:16:09,012[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-02-04 12:18:43,258[root] - INFO - Logging initialized, log file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-02-04 12:18:43,283[__main__] - INFO - Created qasync event loop - MainThread
+2026-02-04 12:18:43,283[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-02-04 12:18:43,552[src.utils.config_manager] - INFO - Config directory: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-02-04 12:18:43,552[src.utils.config_manager] - INFO - Config file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-02-04 12:18:43,762[__main__] - INFO - GUI started successfully - MainThread
+2026-02-04 12:18:50,308[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-02-04 12:18:50,313[src.utils.stt_client] - INFO - Shutting down native STT - Dummy-1
+2026-02-04 12:18:50,315[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-02-04 12:18:50,393[qasync._QEventLoop] - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Task-1' coro=<run_gui() running at /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py:263> wait_for=<Future pending cb=[_chain_future.<locals>._call_check_cancel() at /usr/lib/python3.13/asyncio/futures.py:384, Task.task_wakeup()]>> - MainThread
+2026-02-04 12:18:50,394[src.utils.stt_client] - INFO - Shutting down native STT - MainThread
+2026-02-04 12:20:58,678[root] - INFO - Logging initialized, log file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-02-04 12:20:58,702[__main__] - INFO - Created qasync event loop - MainThread
+2026-02-04 12:20:58,703[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-02-04 12:20:58,975[src.utils.config_manager] - INFO - Config directory: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-02-04 12:20:58,975[src.utils.config_manager] - INFO - Config file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-02-04 12:20:59,189[__main__] - INFO - GUI started successfully - MainThread
+2026-02-04 12:21:10,108[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-02-04 12:21:10,113[src.utils.stt_client] - INFO - Shutting down native STT - Dummy-1
+2026-02-04 12:21:10,116[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-02-04 12:21:18,117[root] - INFO - Logging initialized, log file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-02-04 12:21:18,141[__main__] - INFO - Created qasync event loop - MainThread
+2026-02-04 12:21:18,142[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-02-04 12:21:18,419[src.utils.config_manager] - INFO - Config directory: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-02-04 12:21:18,420[src.utils.config_manager] - INFO - Config file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-02-04 12:21:18,637[__main__] - INFO - GUI started successfully - MainThread
+2026-02-04 12:21:21,813[__main__] - INFO - STT: starting recording - MainThread
+2026-02-04 12:21:21,814[src.utils.stt_client] - INFO - Starting STT recording - Dummy-1
+2026-02-04 12:21:23,884[__main__] - INFO - STT: stopping recording and transcribing - MainThread
+2026-02-04 12:21:23,888[src.utils.stt_client] - INFO - Stopping STT recording - Dummy-2
+2026-02-04 12:21:24,558[src.utils.stt_client] - INFO - Transcription received (20 chars) - Dummy-2
+2026-02-04 12:21:24,560[__main__] - INFO - STT: raw response length=19 - MainThread
+2026-02-04 12:21:24,561[__main__] - INFO - STT: parsed transcription length=19 - MainThread
+2026-02-04 12:21:32,828[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-02-04 12:21:32,838[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-02-04 13:04:52,085[root] - INFO - Logging initialized, log file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-02-04 13:04:52,312[__main__] - INFO - Created qasync event loop - MainThread
+2026-02-04 13:04:52,312[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-02-04 13:04:52,909[src.utils.config_manager] - INFO - Config directory: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-02-04 13:04:52,909[src.utils.config_manager] - INFO - Config file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-02-04 13:04:53,312[__main__] - INFO - GUI started successfully - MainThread
+2026-02-04 13:04:59,861[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-02-04 13:04:59,862[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-02-04 13:05:19,028[root] - INFO - Logging initialized, log file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-02-04 13:05:19,054[__main__] - INFO - Created qasync event loop - MainThread
+2026-02-04 13:05:19,055[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-02-04 13:05:19,335[src.utils.config_manager] - INFO - Config directory: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-02-04 13:05:19,335[src.utils.config_manager] - INFO - Config file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-02-04 13:05:19,543[__main__] - INFO - GUI started successfully - MainThread
+2026-02-04 13:05:24,741[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-02-04 13:05:24,742[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-02-04 13:05:42,968[root] - INFO - Logging initialized, log file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-02-04 13:05:42,993[__main__] - INFO - Created qasync event loop - MainThread
+2026-02-04 13:05:42,994[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-02-04 13:05:43,105[src.utils.config_manager] - INFO - Config directory: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-02-04 13:05:43,106[src.utils.config_manager] - INFO - Config file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-02-04 13:05:43,309[__main__] - INFO - GUI started successfully - MainThread
+2026-02-04 13:05:49,520[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-02-04 13:05:49,521[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-02-04 13:37:51,902[root] - INFO - Logging initialized, log file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-02-04 13:37:53,006[__main__] - INFO - Created qasync event loop - MainThread
+2026-02-04 13:37:53,014[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-02-04 13:37:54,124[src.utils.config_manager] - INFO - Config directory: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-02-04 13:37:54,124[src.utils.config_manager] - INFO - Config file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-02-04 13:37:57,499[__main__] - INFO - GUI started successfully - MainThread
+2026-02-04 13:38:04,887[__main__] - INFO - STT: starting recording - MainThread
+2026-02-04 13:38:04,889[src.utils.stt_client] - INFO - Starting STT recording - Dummy-1
+2026-02-04 13:38:08,134[__main__] - INFO - STT: stopping recording and transcribing - MainThread
+2026-02-04 13:38:08,136[src.utils.stt_client] - INFO - Stopping STT recording - Dummy-2
+2026-02-04 13:38:09,090[src.utils.stt_client] - INFO - Transcription received (37 chars) - Dummy-2
+2026-02-04 13:38:09,091[__main__] - INFO - STT: raw response length=36 - MainThread
+2026-02-04 13:38:09,092[__main__] - INFO - STT: parsed transcription length=36 - MainThread
+2026-02-04 13:38:11,374[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-02-04 13:38:11,377[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-02-04 13:51:53,281[root] - INFO - Logging initialized, log file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-02-04 13:51:54,018[__main__] - INFO - Created qasync event loop - MainThread
+2026-02-04 13:51:54,026[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-02-04 13:51:54,647[src.utils.config_manager] - INFO - Config directory: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-02-04 13:51:54,647[src.utils.config_manager] - INFO - Config file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-02-04 13:51:55,827[__main__] - INFO - GUI started successfully - MainThread
+2026-02-04 13:52:09,592[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-02-04 13:52:09,593[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-02-04 14:34:43,947[root] - INFO - Logging initialized, log file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-02-04 14:34:45,007[__main__] - INFO - Created qasync event loop - MainThread
+2026-02-04 14:34:45,040[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-02-04 14:34:46,283[src.utils.config_manager] - INFO - Config directory: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-02-04 14:34:46,283[src.utils.config_manager] - INFO - Config file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-02-04 14:34:49,772[__main__] - INFO - GUI started successfully - MainThread
+2026-02-04 14:34:58,586[__main__] - INFO - STT: starting recording - MainThread
+2026-02-04 14:34:58,593[src.utils.stt_client] - INFO - Starting STT recording - Dummy-1
+2026-02-04 14:35:00,602[__main__] - INFO - STT: stopping recording and transcribing - MainThread
+2026-02-04 14:35:00,603[src.utils.stt_client] - INFO - Stopping STT recording - Dummy-2
+2026-02-04 14:35:04,909[src.utils.stt_client] - WARNING - Native STT returned no transcription - Dummy-2
+2026-02-04 14:35:04,910[__main__] - WARNING - STT: transcription empty - MainThread
+2026-02-04 14:35:12,586[__main__] - INFO - STT: starting recording - MainThread
+2026-02-04 14:35:12,586[src.utils.stt_client] - INFO - Starting STT recording - Dummy-3
+2026-02-04 14:35:14,770[__main__] - INFO - STT: stopping recording and transcribing - MainThread
+2026-02-04 14:35:14,770[src.utils.stt_client] - INFO - Stopping STT recording - Dummy-4
+2026-02-04 14:35:15,561[src.utils.stt_client] - INFO - Transcription received (19 chars) - Dummy-4
+2026-02-04 14:35:15,562[__main__] - INFO - STT: raw response length=18 - MainThread
+2026-02-04 14:35:15,563[__main__] - INFO - STT: parsed transcription length=18 - MainThread
+2026-02-04 14:35:22,042[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-02-04 14:35:22,046[__main__] - INFO - GUI closed before loop completion - MainThread
