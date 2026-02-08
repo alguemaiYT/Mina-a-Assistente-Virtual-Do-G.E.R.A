@@ -17,6 +17,7 @@ from PyQt5.QtWidgets import QApplication, QVBoxLayout, QWidget
 
 from src.display.base_display import BaseDisplay
 from src.display.gui_display_model import GuiDisplayModel
+from src.display.layout_config_model import LayoutConfigModel
 from src.utils.resource_finder import find_assets_dir
 
 
@@ -35,7 +36,7 @@ class GuiDisplay(BaseDisplay, QObject, metaclass=CombinedMeta):
     DEFAULT_FONT_SIZE = 12
     QUIT_TIMEOUT_MS = 3000
 
-    def __init__(self):
+    def __init__(self, studio_mode: bool = False):
         super().__init__()
         QObject.__init__(self)
 
@@ -46,6 +47,11 @@ class GuiDisplay(BaseDisplay, QObject, metaclass=CombinedMeta):
 
         # 数据模型
         self.display_model = GuiDisplayModel()
+
+        # Layout configuration model (exposes all layout properties to QML)
+        self.layout_config = LayoutConfigModel()
+        if studio_mode:
+            self.layout_config.studioMode = True
 
         # 表情管理
         self._emotion_cache = {}
@@ -293,6 +299,7 @@ class GuiDisplay(BaseDisplay, QObject, metaclass=CombinedMeta):
         # 注册数据模型到 QML 上下文
         qml_context = self.qml_widget.rootContext()
         qml_context.setContextProperty("displayModel", self.display_model)
+        qml_context.setContextProperty("lc", self.layout_config)
 
         # 加载 QML 文件
         qml_file = Path(__file__).parent / "gui_display.qml"

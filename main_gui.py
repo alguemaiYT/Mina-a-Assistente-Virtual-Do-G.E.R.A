@@ -127,12 +127,14 @@ class STTController:
 def _parse_cli_args():
     parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument("-f", "--fullscreen", action="store_true")
+    parser.add_argument("-s", "--studio", action="store_true",
+                        help="Open the layout editor mode")
     args, remaining = parser.parse_known_args(sys.argv[1:])
     sys.argv = [sys.argv[0]] + remaining
-    return args.fullscreen
+    return args.fullscreen, args.studio
 
 
-async def run_gui(fullscreen: bool = False):
+async def run_gui(fullscreen: bool = False, studio_mode: bool = False):
     """
     Run the GUI display in standalone mode.
     """
@@ -142,7 +144,7 @@ async def run_gui(fullscreen: bool = False):
         chat_bridge = ChatBridge()
 
         # Create and start the GUI display
-        gui_display = GuiDisplay()
+        gui_display = GuiDisplay(studio_mode=studio_mode)
         if fullscreen:
             gui_display.set_force_fullscreen(True)
 
@@ -287,7 +289,7 @@ def main():
         except Exception:
             pass
         
-        fullscreen = _parse_cli_args()
+        fullscreen, studio_mode = _parse_cli_args()
         # Create Qt application
         qt_app = QApplication.instance() or QApplication(sys.argv)
         qt_app.setQuitOnLastWindowClosed(False)
@@ -299,7 +301,7 @@ def main():
         
         # Run the GUI
         with loop:
-            exit_code = loop.run_until_complete(run_gui(fullscreen=fullscreen))
+            exit_code = loop.run_until_complete(run_gui(fullscreen=fullscreen, studio_mode=studio_mode))
             
     except KeyboardInterrupt:
         logger.info("Program interrupted by user")
