@@ -34,11 +34,18 @@ This minimal version is intended for:
 ### Prerequisites
 
 ```bash
+# Install system dependencies (Ubuntu/Debian)
+sudo apt-get install portaudio19-dev libcurl4-openssl-dev gcc
+
+# Install Python dependencies
 pip install -r requirements.txt
+
+# Build C extensions (optional, for STT/chat features)
+./scripts/build.sh
 ```
 
 Minimum dependencies:
-- Python 3.8+
+- Python 3.9+
 - PyQt5
 - qasync
 
@@ -46,9 +53,20 @@ Minimum dependencies:
 
 ```bash
 python main_gui.py
+
+# Run in fullscreen mode
+python main_gui.py -f
 ```
 
 The GUI will start in standalone mode without any backend services.
+
+### Environment Variables
+
+Copy `.env.example` to `.env` and configure:
+```bash
+cp .env.example .env
+# Edit .env and add your GROQ_API_KEY for STT functionality
+```
 
 ## Project Structure
 
@@ -84,6 +102,31 @@ This GUI-only version is suitable for:
 2. **QML Development**: Develop and debug QML components
 3. **Visual Testing**: Verify visual elements and layouts
 4. **Component Testing**: Test individual GUI components in isolation
+
+### Contributing
+
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines on:
+- Setting up your development environment
+- Coding standards and style guide
+- Testing requirements
+- Pull request process
+
+### Building from Source
+
+Build the C extensions for full functionality:
+
+```bash
+# Automated build script
+./scripts/build.sh
+
+# Or manually
+gcc -shared -fPIC stt.c -o libs/stt/libstt.so -lportaudio -lcurl
+gcc -shared -fPIC apicomm.c -o libs/apicomm/libapicomm.so -lcurl
+```
+
+### Repository Analysis
+
+See [ANALYSIS_AND_SUGGESTIONS.md](ANALYSIS_AND_SUGGESTIONS.md) for a comprehensive analysis of the repository structure, identified issues, and improvement suggestions.
 
 ## Configuration
 

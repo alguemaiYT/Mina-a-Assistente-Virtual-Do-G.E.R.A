@@ -19,8 +19,8 @@
   "WAKE_WORD_OPTIONS": {
     "USE_WAKE_WORD": true,
     "MODEL_PATH": "models",
-    "PORCUPINE_MODEL_PATH": "/home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/models/porcupine_params_pt.pv",
-    "PORCUPINE_KEYWORD_PATH": "/home/kali/Documentos/Mina-a-Assistente-Virtual-Do-G.E.R.A/keywords/abacaxi_linux.ppn",
+    "PORCUPINE_MODEL_PATH": "models/porcupine_params_pt.pv",
+    "PORCUPINE_KEYWORD_PATH": "keywords/abacaxi_linux.ppn",
     "AUDIO_DEVICE_INDEX": 8,
     "NUM_THREADS": 4,
     "PROVIDER": "cpu",
