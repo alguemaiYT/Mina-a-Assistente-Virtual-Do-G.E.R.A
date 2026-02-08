@@ -8,7 +8,7 @@ Rectangle {
     color: lc ? lc.get("root", "color") : "#f5f5f5"
 
     // Helper: read a layout value with a fallback
-    function L(section, key, fallback) {
+    function layoutValue(section, key, fallback) {
         if (!lc) return fallback
         var v = lc.get(section, key)
         return (v !== undefined && v !== null) ? v : fallback
@@ -35,8 +35,8 @@ Rectangle {
         Rectangle {
             id: titleBar
             Layout.fillWidth: true
-            Layout.preferredHeight: L("titleBar", "height", 36)
-            color: L("titleBar", "color", "#f7f8fa")
+            Layout.preferredHeight: layoutValue("titleBar", "height", 36)
+            color: layoutValue("titleBar", "color", "#f7f8fa")
             border.width: 0
 
             // 整条标题栏拖动（使用屏幕坐标，避免累计误差导致抖动）
@@ -72,16 +72,16 @@ Rectangle {
 
                     Rectangle {
                         id: statusDot
-                        width: L("statusDot", "width", 8)
-                        height: L("statusDot", "height", 8)
-                        radius: L("statusDot", "radius", 4)
+                        width: layoutValue("statusDot", "width", 8)
+                        height: layoutValue("statusDot", "height", 8)
+                        radius: layoutValue("statusDot", "radius", 4)
                         color: {
                             var st = displayModel ? displayModel.statusText : ""
-                            if (st.indexOf("Ready") !== -1 || st.indexOf("GUI Ready") !== -1) return L("statusDot", "colorReady", "#00b42a")
-                            if (st.indexOf("Listening") !== -1 || st.indexOf("hearing") !== -1) return L("statusDot", "colorListening", "#ff7d00")
-                            if (st.indexOf("Thinking") !== -1 || st.indexOf("Transcribing") !== -1) return L("statusDot", "colorThinking", "#165dff")
-                            if (st.indexOf("error") !== -1 || st.indexOf("fail") !== -1 || st.indexOf("unavailable") !== -1) return L("statusDot", "colorError", "#f53f3f")
-                            return L("statusDot", "colorDefault", "#c9cdd4")
+                            if (st.indexOf("Ready") !== -1 || st.indexOf("GUI Ready") !== -1) return layoutValue("statusDot", "colorReady", "#00b42a")
+                            if (st.indexOf("Listening") !== -1 || st.indexOf("hearing") !== -1) return layoutValue("statusDot", "colorListening", "#ff7d00")
+                            if (st.indexOf("Thinking") !== -1 || st.indexOf("Transcribing") !== -1) return layoutValue("statusDot", "colorThinking", "#165dff")
+                            if (st.indexOf("error") !== -1 || st.indexOf("fail") !== -1 || st.indexOf("unavailable") !== -1) return layoutValue("statusDot", "colorError", "#f53f3f")
+                            return layoutValue("statusDot", "colorDefault", "#c9cdd4")
                         }
                         Behavior on color { ColorAnimation { duration: 300; easing.type: Easing.OutCubic } }
                     }
@@ -89,10 +89,10 @@ Rectangle {
                     Text {
                         text: displayModel ? displayModel.statusText : ""
                         font.family: "PingFang SC, Microsoft YaHei UI"
-                        font.pixelSize: L("statusText", "fontSize", 11)
-                        color: L("statusText", "color", "#86909c")
+                        font.pixelSize: layoutValue("statusText", "fontSize", 11)
+                        color: layoutValue("statusText", "color", "#86909c")
                         elide: Text.ElideRight
-                        Layout.maximumWidth: L("statusText", "maxWidth", 200)
+                        Layout.maximumWidth: layoutValue("statusText", "maxWidth", 200)
                     }
                 }
 
@@ -102,11 +102,11 @@ Rectangle {
                 // 最小化
                 Rectangle {
                     id: btnMin
-                    width: L("btnMin", "width", 24); height: L("btnMin", "height", 24); radius: L("btnMin", "radius", 6)
-                    color: btnMinMouse.pressed ? L("btnMin", "colorPressed", "#e5e6eb") : (btnMinMouse.containsMouse ? L("btnMin", "colorHover", "#f2f3f5") : L("btnMin", "colorNormal", "transparent"))
+                    width: layoutValue("btnMin", "width", 24); height: layoutValue("btnMin", "height", 24); radius: layoutValue("btnMin", "radius", 6)
+                    color: btnMinMouse.pressed ? layoutValue("btnMin", "colorPressed", "#e5e6eb") : (btnMinMouse.containsMouse ? layoutValue("btnMin", "colorHover", "#f2f3f5") : layoutValue("btnMin", "colorNormal", "transparent"))
                     z: 2  // 确保按钮在最上层
                     Behavior on color { ColorAnimation { duration: 150; easing.type: Easing.OutCubic } }
-                    Text { anchors.centerIn: parent; text: "–"; font.pixelSize: L("btnMin", "iconSize", 14); color: L("btnMin", "iconColor", "#4e5969") }
+                    Text { anchors.centerIn: parent; text: "–"; font.pixelSize: layoutValue("btnMin", "iconSize", 14); color: layoutValue("btnMin", "iconColor", "#4e5969") }
                     MouseArea {
                         id: btnMinMouse
                         anchors.fill: parent
@@ -118,11 +118,11 @@ Rectangle {
                 // 关闭
                 Rectangle {
                     id: btnClose
-                    width: L("btnClose", "width", 24); height: L("btnClose", "height", 24); radius: L("btnClose", "radius", 6)
-                    color: btnCloseMouse.pressed ? L("btnClose", "colorPressed", "#f53f3f") : (btnCloseMouse.containsMouse ? L("btnClose", "colorHover", "#ff7875") : L("btnClose", "colorNormal", "transparent"))
+                    width: layoutValue("btnClose", "width", 24); height: layoutValue("btnClose", "height", 24); radius: layoutValue("btnClose", "radius", 6)
+                    color: btnCloseMouse.pressed ? layoutValue("btnClose", "colorPressed", "#f53f3f") : (btnCloseMouse.containsMouse ? layoutValue("btnClose", "colorHover", "#ff7875") : layoutValue("btnClose", "colorNormal", "transparent"))
                     z: 2  // 确保按钮在最上层
                     Behavior on color { ColorAnimation { duration: 150; easing.type: Easing.OutCubic } }
-                    Text { anchors.centerIn: parent; text: "×"; font.pixelSize: L("btnClose", "iconSize", 14); color: btnCloseMouse.containsMouse ? L("btnClose", "iconColorHover", "white") : L("btnClose", "iconColor", "#86909c") }
+                    Text { anchors.centerIn: parent; text: "×"; font.pixelSize: layoutValue("btnClose", "iconSize", 14); color: btnCloseMouse.containsMouse ? layoutValue("btnClose", "iconColorHover", "white") : layoutValue("btnClose", "iconColor", "#86909c") }
                     MouseArea {
                         id: btnCloseMouse
                         anchors.fill: parent
@@ -136,14 +136,14 @@ Rectangle {
         // 内容区域（表情、TTS, 输入）
         ColumnLayout {
             anchors.fill: parent
-            anchors.margins: L("contentArea", "margins", 12)
-            spacing: L("contentArea", "spacing", 12)
+            anchors.margins: layoutValue("contentArea", "margins", 12)
+            spacing: layoutValue("contentArea", "spacing", 12)
 
             // 表情显示区域
             Item {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                Layout.minimumHeight: L("emotionArea", "minimumHeight", 80)
+                Layout.minimumHeight: layoutValue("emotionArea", "minimumHeight", 80)
 
                 // Smooth fade transition on emotion change
                 Rectangle {
@@ -157,8 +157,8 @@ Rectangle {
                     Rectangle {
                         id: emotionGlow
                         anchors.centerIn: parent
-                        width: parent.width * L("emotionGlow", "scaleFactor", 1.2)
-                        height: parent.height * L("emotionGlow", "scaleFactor", 1.2)
+                        width: parent.width * layoutValue("emotionGlow", "scaleFactor", 1.2)
+                        height: parent.height * layoutValue("emotionGlow", "scaleFactor", 1.2)
                         radius: width / 2
                         color: "transparent"
                         border.width: 0
@@ -172,8 +172,8 @@ Rectangle {
                         RadialGradient {
                             anchors.fill: parent
                             gradient: Gradient {
-                                GradientStop { position: 0.0; color: L("emotionGlow", "colorInner", "#20165dff") }
-                                GradientStop { position: 1.0; color: L("emotionGlow", "colorOuter", "transparent") }
+                                GradientStop { position: 0.0; color: layoutValue("emotionGlow", "colorInner", "#20165dff") }
+                                GradientStop { position: 1.0; color: layoutValue("emotionGlow", "colorOuter", "transparent") }
                             }
                         }
 
@@ -190,7 +190,7 @@ Rectangle {
                         id: emotionLoader
                         anchors.centerIn: parent
                         // Reference the Item ancestor (emotion display area) for sizing
-                        property real maxSize: Math.max(Math.min(emotionContainer.parent.width, emotionContainer.parent.height) * L("emotionArea", "sizeFactor", 0.7), L("emotionArea", "minSize", 60))
+                        property real maxSize: Math.max(Math.min(emotionContainer.parent.width, emotionContainer.parent.height) * layoutValue("emotionArea", "sizeFactor", 0.7), layoutValue("emotionArea", "minSize", 60))
                         width: maxSize
                         height: maxSize
 
@@ -258,7 +258,7 @@ Rectangle {
                                 text: displayModel ? displayModel.emotionPath : "😊"
                                 width: parent.width
                                 height: parent.height
-                                font.pixelSize: Math.max(Math.min(parent.width, parent.height) * 0.8, L("emotionArea", "minSize", 60))
+                                font.pixelSize: Math.max(Math.min(parent.width, parent.height) * 0.8, layoutValue("emotionArea", "minSize", 60))
                                 horizontalAlignment: Text.AlignHCenter
                                 verticalAlignment: Text.AlignVCenter
                                 anchors.fill: parent
@@ -271,17 +271,17 @@ Rectangle {
             // TTS 文本显示区域
             Rectangle {
                 Layout.fillWidth: true
-                Layout.preferredHeight: L("ttsArea", "height", 60)
-                color: L("ttsArea", "color", "transparent")
+                Layout.preferredHeight: layoutValue("ttsArea", "height", 60)
+                color: layoutValue("ttsArea", "color", "transparent")
 
                 Text {
                     id: ttsTextDisplay
                     anchors.fill: parent
-                    anchors.margins: L("ttsArea", "textMargins", 10)
+                    anchors.margins: layoutValue("ttsArea", "textMargins", 10)
                     text: displayModel ? displayModel.ttsText : ""
                     font.family: "PingFang SC, Microsoft YaHei UI"
-                    font.pixelSize: L("ttsArea", "fontSize", 13)
-                    color: L("ttsArea", "textColor", "#555555")
+                    font.pixelSize: layoutValue("ttsArea", "fontSize", 13)
+                    color: layoutValue("ttsArea", "textColor", "#555555")
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     wrapMode: Text.WordWrap
@@ -306,29 +306,29 @@ Rectangle {
         // 按钮区域（统一配色与尺寸）
         Rectangle {
             Layout.fillWidth: true
-            Layout.preferredHeight: L("buttonBar", "height", 72)
-            color: L("buttonBar", "color", "#f7f8fa")
+            Layout.preferredHeight: layoutValue("buttonBar", "height", 72)
+            color: layoutValue("buttonBar", "color", "#f7f8fa")
 
             RowLayout {
                 anchors.fill: parent
-                anchors.leftMargin: L("buttonBar", "margins", 12)
-                anchors.rightMargin: L("buttonBar", "margins", 12)
-                anchors.bottomMargin: L("buttonBar", "bottomMargin", 10)
-                spacing: L("buttonBar", "spacing", 6)
+                anchors.leftMargin: layoutValue("buttonBar", "margins", 12)
+                anchors.rightMargin: layoutValue("buttonBar", "margins", 12)
+                anchors.bottomMargin: layoutValue("buttonBar", "bottomMargin", 10)
+                spacing: layoutValue("buttonBar", "spacing", 6)
 
                 // 自动模式按钮 - 主色
                 Button {
                     id: autoBtn
-                    Layout.preferredWidth: L("autoButton", "preferredWidth", 100)
+                    Layout.preferredWidth: layoutValue("autoButton", "preferredWidth", 100)
                     Layout.fillWidth: true
-                    Layout.maximumWidth: L("autoButton", "maxWidth", 140)
-                    Layout.preferredHeight: L("autoButton", "height", 38)
+                    Layout.maximumWidth: layoutValue("autoButton", "maxWidth", 140)
+                    Layout.preferredHeight: layoutValue("autoButton", "height", 38)
                     text: displayModel ? displayModel.buttonText : "Start Conversation"
                     visible: true
 
                     background: Rectangle {
-                        color: autoBtn.pressed ? L("autoButton", "colorPressed", "#0e42d2") : (autoBtn.hovered ? L("autoButton", "colorHover", "#4080ff") : L("autoButton", "colorNormal", "#165dff"))
-                        radius: L("autoButton", "radius", 8)
+                        color: autoBtn.pressed ? layoutValue("autoButton", "colorPressed", "#0e42d2") : (autoBtn.hovered ? layoutValue("autoButton", "colorHover", "#4080ff") : layoutValue("autoButton", "colorNormal", "#165dff"))
+                        radius: layoutValue("autoButton", "radius", 8)
                         Behavior on color { ColorAnimation { duration: 120; easing.type: Easing.OutCubic } }
 
                         scale: autoBtn.pressed ? 0.96 : 1.0
@@ -338,8 +338,8 @@ Rectangle {
                     contentItem: Text {
                         text: autoBtn.text
                         font.family: "PingFang SC, Microsoft YaHei UI"
-                        font.pixelSize: L("autoButton", "fontSize", 12)
-                        color: L("autoButton", "textColor", "white")
+                        font.pixelSize: layoutValue("autoButton", "fontSize", 12)
+                        color: layoutValue("autoButton", "textColor", "white")
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                         elide: Text.ElideRight
@@ -350,15 +350,15 @@ Rectangle {
                 // 打断对话 - 次要色
                 Button {
                     id: abortBtn
-                    Layout.preferredWidth: L("abortButton", "preferredWidth", 80)
+                    Layout.preferredWidth: layoutValue("abortButton", "preferredWidth", 80)
                     Layout.fillWidth: true
-                    Layout.maximumWidth: L("abortButton", "maxWidth", 120)
-                    Layout.preferredHeight: L("abortButton", "height", 38)
+                    Layout.maximumWidth: layoutValue("abortButton", "maxWidth", 120)
+                    Layout.preferredHeight: layoutValue("abortButton", "height", 38)
                     text: "Interrupt"
 
                     background: Rectangle {
-                        color: abortBtn.pressed ? L("abortButton", "colorPressed", "#e5e6eb") : (abortBtn.hovered ? L("abortButton", "colorHover", "#f2f3f5") : L("abortButton", "colorNormal", "#eceff3"))
-                        radius: L("abortButton", "radius", 8)
+                        color: abortBtn.pressed ? layoutValue("abortButton", "colorPressed", "#e5e6eb") : (abortBtn.hovered ? layoutValue("abortButton", "colorHover", "#f2f3f5") : layoutValue("abortButton", "colorNormal", "#eceff3"))
+                        radius: layoutValue("abortButton", "radius", 8)
                         Behavior on color { ColorAnimation { duration: 120; easing.type: Easing.OutCubic } }
 
                         scale: abortBtn.pressed ? 0.96 : 1.0
@@ -367,8 +367,8 @@ Rectangle {
                     contentItem: Text {
                         text: abortBtn.text
                         font.family: "PingFang SC, Microsoft YaHei UI"
-                        font.pixelSize: L("abortButton", "fontSize", 12)
-                        color: L("abortButton", "textColor", "#1d2129")
+                        font.pixelSize: layoutValue("abortButton", "fontSize", 12)
+                        color: layoutValue("abortButton", "textColor", "#1d2129")
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                         elide: Text.ElideRight
@@ -380,28 +380,28 @@ Rectangle {
                 RowLayout {
                     Layout.fillWidth: true
                     Layout.minimumWidth: 120
-                    Layout.preferredHeight: L("textInput", "height", 38)
-                    spacing: L("buttonBar", "spacing", 6)
+                    Layout.preferredHeight: layoutValue("textInput", "height", 38)
+                    spacing: layoutValue("buttonBar", "spacing", 6)
 
                     Rectangle {
                         Layout.fillWidth: true
-                        Layout.preferredHeight: L("textInput", "height", 38)
-                        color: L("textInput", "bgColor", "white")
-                        radius: L("textInput", "radius", 8)
-                        border.color: textInput.activeFocus ? L("textInput", "borderColorFocused", "#165dff") : L("textInput", "borderColorNormal", "#e5e6eb")
-                        border.width: textInput.activeFocus ? L("textInput", "borderWidthFocused", 2) : L("textInput", "borderWidthNormal", 1)
+                        Layout.preferredHeight: layoutValue("textInput", "height", 38)
+                        color: layoutValue("textInput", "bgColor", "white")
+                        radius: layoutValue("textInput", "radius", 8)
+                        border.color: textInput.activeFocus ? layoutValue("textInput", "borderColorFocused", "#165dff") : layoutValue("textInput", "borderColorNormal", "#e5e6eb")
+                        border.width: textInput.activeFocus ? layoutValue("textInput", "borderWidthFocused", 2) : layoutValue("textInput", "borderWidthNormal", 1)
                         Behavior on border.color { ColorAnimation { duration: 200; easing.type: Easing.OutCubic } }
                         Behavior on border.width { NumberAnimation { duration: 150; easing.type: Easing.OutCubic } }
 
                         TextInput {
                             id: textInput
                             anchors.fill: parent
-                            anchors.leftMargin: L("textInput", "leftMargin", 10)
-                            anchors.rightMargin: L("textInput", "rightMargin", 10)
+                            anchors.leftMargin: layoutValue("textInput", "leftMargin", 10)
+                            anchors.rightMargin: layoutValue("textInput", "rightMargin", 10)
                             verticalAlignment: TextInput.AlignVCenter
                             font.family: "PingFang SC, Microsoft YaHei UI"
-                            font.pixelSize: L("textInput", "fontSize", 12)
-                            color: L("textInput", "textColor", "#333333")
+                            font.pixelSize: layoutValue("textInput", "fontSize", 12)
+                            color: layoutValue("textInput", "textColor", "#333333")
                             selectByMouse: true
                             clip: true
 
@@ -410,7 +410,7 @@ Rectangle {
                                 anchors.fill: parent
                                 text: "Type a message..."
                                 font: textInput.font
-                                color: L("textInput", "placeholderColor", "#c9cdd4")
+                                color: layoutValue("textInput", "placeholderColor", "#c9cdd4")
                                 verticalAlignment: Text.AlignVCenter
                                 visible: !textInput.text
                                 opacity: textInput.activeFocus ? 0.6 : 1.0
@@ -423,14 +423,14 @@ Rectangle {
 
                     Button {
                         id: sendBtn
-                        Layout.preferredWidth: L("sendButton", "preferredWidth", 60)
-                        Layout.maximumWidth: L("sendButton", "maxWidth", 84)
-                        Layout.preferredHeight: L("sendButton", "height", 38)
+                        Layout.preferredWidth: layoutValue("sendButton", "preferredWidth", 60)
+                        Layout.maximumWidth: layoutValue("sendButton", "maxWidth", 84)
+                        Layout.preferredHeight: layoutValue("sendButton", "height", 38)
                         text: "Send"
                         enabled: textInput.text.trim().length > 0
                         background: Rectangle {
-                            color: !sendBtn.enabled ? L("sendButton", "colorDisabled", "#a0bfff") : (sendBtn.pressed ? L("sendButton", "colorPressed", "#0e42d2") : (sendBtn.hovered ? L("sendButton", "colorHover", "#4080ff") : L("sendButton", "colorNormal", "#165dff")))
-                            radius: L("sendButton", "radius", 8)
+                            color: !sendBtn.enabled ? layoutValue("sendButton", "colorDisabled", "#a0bfff") : (sendBtn.pressed ? layoutValue("sendButton", "colorPressed", "#0e42d2") : (sendBtn.hovered ? layoutValue("sendButton", "colorHover", "#4080ff") : layoutValue("sendButton", "colorNormal", "#165dff")))
+                            radius: layoutValue("sendButton", "radius", 8)
                             Behavior on color { ColorAnimation { duration: 120; easing.type: Easing.OutCubic } }
 
                             scale: sendBtn.pressed ? 0.96 : 1.0
@@ -439,8 +439,8 @@ Rectangle {
                         contentItem: Text {
                             text: sendBtn.text
                             font.family: "PingFang SC, Microsoft YaHei UI"
-                            font.pixelSize: L("sendButton", "fontSize", 12)
-                            color: L("sendButton", "textColor", "white")
+                            font.pixelSize: layoutValue("sendButton", "fontSize", 12)
+                            color: layoutValue("sendButton", "textColor", "white")
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
                             opacity: sendBtn.enabled ? 1.0 : 0.7
@@ -473,7 +473,7 @@ Rectangle {
             anchors.top: parent.top
             anchors.left: parent.left
             anchors.right: parent.right
-            height: L("titleBar", "height", 36)
+            height: layoutValue("titleBar", "height", 36)
             color: "transparent"
             border.color: "#ff4444"
             border.width: 1
