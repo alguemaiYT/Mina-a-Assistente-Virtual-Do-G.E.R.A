@@ -180,7 +180,8 @@ Rectangle {
                     Loader {
                         id: emotionLoader
                         anchors.centerIn: parent
-                        property real maxSize: Math.max(Math.min(parent.parent.width, parent.parent.height) * 0.7, 60)
+                        // Reference the Item ancestor (emotion display area) for sizing
+                        property real maxSize: Math.max(Math.min(emotionContainer.parent.width, emotionContainer.parent.height) * 0.7, 60)
                         width: maxSize
                         height: maxSize
 
@@ -275,14 +276,20 @@ Rectangle {
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     wrapMode: Text.WordWrap
+                }
 
-                    // Smooth text appearance
-                    Behavior on text {
-                        SequentialAnimation {
-                            NumberAnimation { target: ttsTextDisplay; property: "opacity"; to: 0.4; duration: 80 }
-                            NumberAnimation { target: ttsTextDisplay; property: "opacity"; to: 1.0; duration: 200; easing.type: Easing.OutCubic }
-                        }
+                // Smooth fade animation when TTS text changes
+                Connections {
+                    target: displayModel
+                    function onTtsTextChanged() {
+                        ttsTextFade.restart()
                     }
+                }
+
+                SequentialAnimation {
+                    id: ttsTextFade
+                    NumberAnimation { target: ttsTextDisplay; property: "opacity"; to: 0.4; duration: 80 }
+                    NumberAnimation { target: ttsTextDisplay; property: "opacity"; to: 1.0; duration: 200; easing.type: Easing.OutCubic }
                 }
             }
         }
