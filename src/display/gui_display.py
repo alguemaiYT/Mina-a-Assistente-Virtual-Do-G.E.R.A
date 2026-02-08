@@ -50,8 +50,10 @@ class GuiDisplay(BaseDisplay, QObject, metaclass=CombinedMeta):
 
         # Layout configuration model (exposes all layout properties to QML)
         self.layout_config = LayoutConfigModel()
+        self.layout_config.studioAvailable = bool(studio_mode)
         if studio_mode:
             self.layout_config.studioMode = True
+            self.display_model.update_text("Olá tudo bem, meu nome é Mina")
 
         # 表情管理
         self._emotion_cache = {}
@@ -154,6 +156,12 @@ class GuiDisplay(BaseDisplay, QObject, metaclass=CombinedMeta):
         更新按钮状态.
         """
         self.display_model.update_button_text(text)
+
+    async def update_button_bar_visibility(self, visible: bool):
+        """
+        更新底部按钮栏可见性.
+        """
+        self.display_model.update_button_bar_visibility(visible)
 
     async def toggle_window_visibility(self):
         """

@@ -150,6 +150,7 @@ async def run_gui(fullscreen: bool = False, studio_mode: bool = False):
 
         async def handle_send_text(text: str):
             """Send text to the C chat engine and stream tokens back to the GUI."""
+            await gui_display.update_button_bar_visibility(False)
             await gui_display.update_status("Thinking...", True)
             await gui_display.update_text("")
             await gui_display.update_emotion("neutral")
@@ -226,6 +227,8 @@ async def run_gui(fullscreen: bool = False, studio_mode: bool = False):
                     if last_chunk_emotion:
                         await gui_display.update_emotion(last_chunk_emotion)
                     await gui_display.update_text(final_text)
+                await asyncio.sleep(1.0)
+                await gui_display.update_button_bar_visibility(True)
 
         stt_controller = None
         try:

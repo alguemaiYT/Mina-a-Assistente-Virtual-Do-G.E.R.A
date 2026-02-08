@@ -16,6 +16,7 @@ class GuiDisplayModel(QObject):
     emotionPathChanged = pyqtSignal()
     ttsTextChanged = pyqtSignal()
     buttonTextChanged = pyqtSignal()
+    buttonBarVisibleChanged = pyqtSignal()
 
     # 用户操作信号
     autoButtonClicked = pyqtSignal()
@@ -31,6 +32,7 @@ class GuiDisplayModel(QObject):
         self._tts_text = ""
         self._button_text = "Talk"  # 自动模式按钮文本
         self._is_connected = False
+        self._button_bar_visible = True
 
     # 状态文本属性
     @pyqtProperty(str, notify=statusTextChanged)
@@ -76,6 +78,18 @@ class GuiDisplayModel(QObject):
             self._button_text = value
             self.buttonTextChanged.emit()
 
+    # 按钮栏可见性
+    @pyqtProperty(bool, notify=buttonBarVisibleChanged)
+    def buttonBarVisible(self):
+        return self._button_bar_visible
+
+    @buttonBarVisible.setter
+    def buttonBarVisible(self, value):
+        value = bool(value)
+        if self._button_bar_visible != value:
+            self._button_bar_visible = value
+            self.buttonBarVisibleChanged.emit()
+
     # 便捷方法
     def update_status(self, status: str, connected: bool):
         """
@@ -104,3 +118,9 @@ class GuiDisplayModel(QObject):
         更新自动模式按钮文本.
         """
         self.buttonText = text
+
+    def update_button_bar_visibility(self, visible: bool):
+        """
+        更新底部按钮栏可见性.
+        """
+        self.buttonBarVisible = visible

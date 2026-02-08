@@ -5,11 +5,13 @@ import QtGraphicalEffects 1.15
 
 Rectangle {
     id: root
-    color: lc ? lc.get("root", "color") : "#f5f5f5"
+    color: layoutValue("root", "color", "#f5f5f5")
 
-    // Helper: read a layout value with a fallback
+    // Helper: read a layout value with a fallback.
+    // Touch lc.configVersion to create a binding dependency.
     function layoutValue(section, key, fallback) {
         if (!lc) return fallback
+        var _ver = lc.configVersion
         var v = lc.get(section, key)
         return (v !== undefined && v !== null) ? v : fallback
     }
@@ -19,13 +21,32 @@ Rectangle {
         return Math.max(minVal, Math.min(maxVal, val))
     }
 
-    // Track configVersion to force re-reads when layout changes
-    property int _cfgVer: lc ? lc.configVersion : 0
-    Connections {
-        target: lc
-        function onConfigChanged() {
-            root._cfgVer = lc ? lc.configVersion : 0
-        }
+    // Helper: build a rect in root coordinates for an item
+    function rectForItem(item) {
+        if (!item) return Qt.rect(0, 0, 0, 0)
+        var p = item.mapToItem(root, 0, 0)
+        return Qt.rect(p.x, p.y, item.width, item.height)
+    }
+
+    // Helper: rect for a section key
+    function rectForSection(section) {
+        if (!section) return Qt.rect(0, 0, 0, 0)
+        if (section === "root") return Qt.rect(0, 0, root.width, root.height)
+        if (section === "titleBar") return rectForItem(titleBar)
+        if (section === "statusDot") return rectForItem(statusDot)
+        if (section === "statusText") return rectForItem(statusTextItem)
+        if (section === "btnMin") return rectForItem(btnMin)
+        if (section === "btnClose") return rectForItem(btnClose)
+        if (section === "contentArea") return rectForItem(contentArea)
+        if (section === "emotionArea") return rectForItem(emotionAreaItem)
+        if (section === "emotionGlow") return rectForItem(emotionGlow)
+        if (section === "ttsArea") return rectForItem(ttsAreaRect)
+        if (section === "buttonBar") return rectForItem(buttonBarRect)
+        if (section === "autoButton") return rectForItem(autoBtn)
+        if (section === "abortButton") return rectForItem(abortBtn)
+        if (section === "textInput") return rectForItem(textInputBox)
+        if (section === "sendButton") return rectForItem(sendBtn)
+        return Qt.rect(0, 0, 0, 0)
     }
 
     // 信号定义 - 与 Python 回调对接
@@ -38,6 +59,10 @@ Rectangle {
     signal titleDragStart(real mouseX, real mouseY)
     signal titleDragMoveTo(real mouseX, real mouseY)
     signal titleDragEnd()
+
+    // Studio mode: currently selected section for editing
+    property string studioSelectedSection: ""
+    property bool studioActive: lc ? lc.studioMode : false
 
     // 主布局 — absolute positioning with configurable x/y/width/height
     Item {
@@ -53,6 +78,10 @@ Rectangle {
             height: layoutValue("titleBar", "height_canvas", layoutValue("titleBar", "height", 36))
             color: layoutValue("titleBar", "color", "#f7f8fa")
             border.width: 0
+            transform: Translate {
+                x: layoutValue("titleBar", "offsetX", 0)
+                y: layoutValue("titleBar", "offsetY", 0)
+            }
 
             // 整条标题栏拖动（使用屏幕坐标，避免累计误差导致抖动）
             // 放在最底层，让按钮的 MouseArea 可以优先响应
@@ -90,6 +119,10 @@ Rectangle {
                         width: layoutValue("statusDot", "width", 8)
                         height: layoutValue("statusDot", "height", 8)
                         radius: layoutValue("statusDot", "radius", 4)
+                        transform: Translate {
+                            x: layoutValue("statusDot", "offsetX", 0)
+                            y: layoutValue("statusDot", "offsetY", 0)
+                        }
                         color: {
                             var st = displayModel ? displayModel.statusText : ""
                             if (st.indexOf("Ready") !== -1 || st.indexOf("GUI Ready") !== -1) return layoutValue("statusDot", "colorReady", "#00b42a")
@@ -102,17 +135,44 @@ Rectangle {
                     }
 
                     Text {
+                        id: statusTextItem
                         text: displayModel ? displayModel.statusText : ""
                         font.family: "PingFang SC, Microsoft YaHei UI"
                         font.pixelSize: layoutValue("statusText", "fontSize", 11)
                         color: layoutValue("statusText", "color", "#86909c")
                         elide: Text.ElideRight
                         Layout.maximumWidth: layoutValue("statusText", "maxWidth", 200)
+                        transform: Translate {
+                            x: layoutValue("statusText", "offsetX", 0)
+                            y: layoutValue("statusText", "offsetY", 0)
+                        }
                     }
                 }
 
                 // 左侧拖动区域
                 Item { id: dragArea; Layout.fillWidth: true; Layout.fillHeight: true }
+
+                // 打开布局编辑器
+                Rectangle {
+                    id: btnStudio
+                    width: 36; height: layoutValue("btnMin", "height", 24); radius: layoutValue("btnMin", "radius", 6)
+                    color: btnStudioMouse.pressed ? layoutValue("btnMin", "colorPressed", "#e5e6eb") : (btnStudioMouse.containsMouse ? layoutValue("btnMin", "colorHover", "#f2f3f5") : layoutValue("btnMin", "colorNormal", "transparent"))
+                    z: 2
+                    visible: (lc ? lc.studioAvailable : false) && !studioActive
+                    Behavior on color { ColorAnimation { duration: 150; easing.type: Easing.OutCubic } }
+                    Text { anchors.centerIn: parent; text: "ST"; font.pixelSize: 10; color: layoutValue("btnMin", "iconColor", "#4e5969") }
+                    MouseArea {
+                        id: btnStudioMouse
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: {
+                            if (lc) {
+                                lc.studioMode = true
+                                studioSelectedSection = ""
+                            }
+                        }
+                    }
+                }
 
                 // 最小化
                 Rectangle {
@@ -121,6 +181,10 @@ Rectangle {
                     color: btnMinMouse.pressed ? layoutValue("btnMin", "colorPressed", "#e5e6eb") : (btnMinMouse.containsMouse ? layoutValue("btnMin", "colorHover", "#f2f3f5") : layoutValue("btnMin", "colorNormal", "transparent"))
                     z: 2  // 确保按钮在最上层
                     Behavior on color { ColorAnimation { duration: 150; easing.type: Easing.OutCubic } }
+                    transform: Translate {
+                        x: layoutValue("btnMin", "offsetX", 0)
+                        y: layoutValue("btnMin", "offsetY", 0)
+                    }
                     Text { anchors.centerIn: parent; text: "–"; font.pixelSize: layoutValue("btnMin", "iconSize", 14); color: layoutValue("btnMin", "iconColor", "#4e5969") }
                     MouseArea {
                         id: btnMinMouse
@@ -137,6 +201,10 @@ Rectangle {
                     color: btnCloseMouse.pressed ? layoutValue("btnClose", "colorPressed", "#f53f3f") : (btnCloseMouse.containsMouse ? layoutValue("btnClose", "colorHover", "#ff7875") : layoutValue("btnClose", "colorNormal", "transparent"))
                     z: 2  // 确保按钮在最上层
                     Behavior on color { ColorAnimation { duration: 150; easing.type: Easing.OutCubic } }
+                    transform: Translate {
+                        x: layoutValue("btnClose", "offsetX", 0)
+                        y: layoutValue("btnClose", "offsetY", 0)
+                    }
                     Text { anchors.centerIn: parent; text: "×"; font.pixelSize: layoutValue("btnClose", "iconSize", 14); color: btnCloseMouse.containsMouse ? layoutValue("btnClose", "iconColorHover", "white") : layoutValue("btnClose", "iconColor", "#86909c") }
                     MouseArea {
                         id: btnCloseMouse
@@ -156,6 +224,10 @@ Rectangle {
             width: layoutValue("contentArea", "width", parent.width)
             height: layoutValue("contentArea", "height", parent.height - titleBar.height - buttonBarRect.height)
             clip: true
+            transform: Translate {
+                x: layoutValue("contentArea", "offsetX", 0)
+                y: layoutValue("contentArea", "offsetY", 0)
+            }
 
             ColumnLayout {
                 anchors.fill: parent
@@ -164,9 +236,14 @@ Rectangle {
 
             // 表情显示区域
             Item {
+                id: emotionAreaItem
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 Layout.minimumHeight: layoutValue("emotionArea", "minimumHeight", 80)
+                transform: Translate {
+                    x: layoutValue("emotionArea", "offsetX", 0)
+                    y: layoutValue("emotionArea", "offsetY", 0)
+                }
 
                 // Smooth fade transition on emotion change
                 Rectangle {
@@ -186,6 +263,10 @@ Rectangle {
                         color: "transparent"
                         border.width: 0
                         visible: glowAnimation.running
+                        transform: Translate {
+                            x: layoutValue("emotionGlow", "offsetX", 0)
+                            y: layoutValue("emotionGlow", "offsetY", 0)
+                        }
 
                         property bool isActive: {
                             var st = displayModel ? displayModel.statusText : ""
@@ -293,9 +374,14 @@ Rectangle {
 
             // TTS 文本显示区域
             Rectangle {
+                id: ttsAreaRect
                 Layout.fillWidth: true
                 Layout.preferredHeight: layoutValue("ttsArea", "height", 60)
                 color: layoutValue("ttsArea", "color", "transparent")
+                transform: Translate {
+                    x: layoutValue("ttsArea", "offsetX", 0)
+                    y: layoutValue("ttsArea", "offsetY", 0)
+                }
 
                 Text {
                     id: ttsTextDisplay
@@ -333,8 +419,14 @@ Rectangle {
             x: layoutValue("buttonBar", "x", 0)
             y: layoutValue("buttonBar", "y", parent.height - height)
             width: layoutValue("buttonBar", "width", parent.width)
+            property bool barVisible: displayModel ? displayModel.buttonBarVisible : true
             height: layoutValue("buttonBar", "height_canvas", layoutValue("buttonBar", "height", 72))
             color: layoutValue("buttonBar", "color", "#f7f8fa")
+            transform: Translate {
+                x: layoutValue("buttonBar", "offsetX", 0)
+                y: layoutValue("buttonBar", "offsetY", 0)
+            }
+            visible: barVisible
 
             RowLayout {
                 anchors.fill: parent
@@ -352,6 +444,10 @@ Rectangle {
                     Layout.preferredHeight: layoutValue("autoButton", "height", 38)
                     text: displayModel ? displayModel.buttonText : "Start Conversation"
                     visible: true
+                    transform: Translate {
+                        x: layoutValue("autoButton", "offsetX", 0)
+                        y: layoutValue("autoButton", "offsetY", 0)
+                    }
 
                     background: Rectangle {
                         color: autoBtn.pressed ? layoutValue("autoButton", "colorPressed", "#0e42d2") : (autoBtn.hovered ? layoutValue("autoButton", "colorHover", "#4080ff") : layoutValue("autoButton", "colorNormal", "#165dff"))
@@ -382,6 +478,10 @@ Rectangle {
                     Layout.maximumWidth: layoutValue("abortButton", "maxWidth", 120)
                     Layout.preferredHeight: layoutValue("abortButton", "height", 38)
                     text: "Interrupt"
+                    transform: Translate {
+                        x: layoutValue("abortButton", "offsetX", 0)
+                        y: layoutValue("abortButton", "offsetY", 0)
+                    }
 
                     background: Rectangle {
                         color: abortBtn.pressed ? layoutValue("abortButton", "colorPressed", "#e5e6eb") : (abortBtn.hovered ? layoutValue("abortButton", "colorHover", "#f2f3f5") : layoutValue("abortButton", "colorNormal", "#eceff3"))
@@ -411,6 +511,7 @@ Rectangle {
                     spacing: layoutValue("buttonBar", "spacing", 6)
 
                     Rectangle {
+                        id: textInputBox
                         Layout.fillWidth: true
                         Layout.preferredHeight: layoutValue("textInput", "height", 38)
                         color: layoutValue("textInput", "bgColor", "white")
@@ -419,6 +520,10 @@ Rectangle {
                         border.width: textInput.activeFocus ? layoutValue("textInput", "borderWidthFocused", 2) : layoutValue("textInput", "borderWidthNormal", 1)
                         Behavior on border.color { ColorAnimation { duration: 200; easing.type: Easing.OutCubic } }
                         Behavior on border.width { NumberAnimation { duration: 150; easing.type: Easing.OutCubic } }
+                        transform: Translate {
+                            x: layoutValue("textInput", "offsetX", 0)
+                            y: layoutValue("textInput", "offsetY", 0)
+                        }
 
                         TextInput {
                             id: textInput
@@ -455,6 +560,10 @@ Rectangle {
                         Layout.preferredHeight: layoutValue("sendButton", "height", 38)
                         text: "Send"
                         enabled: textInput.text.trim().length > 0
+                        transform: Translate {
+                            x: layoutValue("sendButton", "offsetX", 0)
+                            y: layoutValue("sendButton", "offsetY", 0)
+                        }
                         background: Rectangle {
                             color: !sendBtn.enabled ? layoutValue("sendButton", "colorDisabled", "#a0bfff") : (sendBtn.pressed ? layoutValue("sendButton", "colorPressed", "#0e42d2") : (sendBtn.hovered ? layoutValue("sendButton", "colorHover", "#4080ff") : layoutValue("sendButton", "colorNormal", "#165dff")))
                             radius: layoutValue("sendButton", "radius", 8)
@@ -483,384 +592,883 @@ Rectangle {
     // =========================================================================
     // STUDIO / LAYOUT EDITOR OVERLAY
     // =========================================================================
-    // Visible only when lc.studioMode === true (-s flag).
-    // A floating panel lets the user pick any section/key and edit its value.
-    // Changes are persisted immediately to config/layout_config.json.
+    // Redesigned: click-to-select any element, professional property panel,
+    // color swatches, sliders, per-element highlights.
     // =========================================================================
 
+    // Studio highlight component — shown around selected element
+    Component {
+        id: studioHighlightComp
+        Rectangle {
+            color: "transparent"
+            border.color: "#165dff"
+            border.width: 2
+            radius: 4
+            visible: false
+
+            SequentialAnimation on border.color {
+                id: pulseAnim
+                running: false
+                loops: Animation.Infinite
+                ColorAnimation { to: "#4080ff"; duration: 600; easing.type: Easing.InOutSine }
+                ColorAnimation { to: "#165dff"; duration: 600; easing.type: Easing.InOutSine }
+            }
+        }
+    }
+
+    // Selected element highlight
     Rectangle {
-        id: studioOverlay
-        visible: lc ? lc.studioMode : false
-        anchors.fill: parent
-        color: "transparent"
-        z: 1000
+        id: selectionHighlight
+        visible: studioActive && studioSelectedSection !== ""
+        color: "#08165dff"
+        border.color: "#165dff"
+        border.width: 2
+        radius: 4
+        z: 999
 
-        // Draggable/resizable canvas boxes for main sections
-        // Each box overlays the corresponding section and can be moved/resized.
+        SequentialAnimation on border.color {
+            running: selectionHighlight.visible
+            loops: Animation.Infinite
+            ColorAnimation { to: "#4080ff"; duration: 800; easing.type: Easing.InOutSine }
+            ColorAnimation { to: "#165dff"; duration: 800; easing.type: Easing.InOutSine }
+        }
 
-        // --- titleBar canvas box ---
+        property var selectedRect: { var _v = lc ? lc.configVersion : 0; return rectForSection(studioSelectedSection) }
+        x: selectedRect.x
+        y: selectedRect.y
+        width: selectedRect.width
+        height: selectedRect.height
+
+        Behavior on x { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+        Behavior on y { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+        Behavior on width { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+        Behavior on height { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+
+        // Label tag
         Rectangle {
-            id: canvasTitleBar
-            x: titleBar.x
-            y: titleBar.y
-            width: titleBar.width
-            height: titleBar.height
-            color: "#10ff4444"
-            border.color: "#ff4444"
-            border.width: 2
-            visible: studioOverlay.visible
-
-            Text { anchors.centerIn: parent; text: "titleBar"; color: "#ff4444"; font.pixelSize: 10; font.bold: true }
-
-            MouseArea {
-                id: titleBarDragArea
-                anchors.fill: parent
-                anchors.rightMargin: 12
-                anchors.bottomMargin: 12
-                drag.target: canvasTitleBar
-                drag.minimumX: 0; drag.minimumY: 0
-                cursorShape: Qt.SizeAllCursor
-                onPressed: { sectionCombo.currentIndex = sectionCombo.find("titleBar") }
-                onReleased: {
-                    if (lc) {
-                        lc.set("titleBar", "x", canvasTitleBar.x)
-                        lc.set("titleBar", "y", canvasTitleBar.y)
-                    }
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.top
+            anchors.bottomMargin: 2
+            width: selTagRow.width + 12
+            height: 20
+            radius: 4
+            color: "#165dff"
+            visible: parent.visible
+            Row {
+                id: selTagRow
+                anchors.centerIn: parent
+                spacing: 4
+                Text {
+                    id: selLabel
+                    text: lc ? lc.sectionLabel(studioSelectedSection) : studioSelectedSection
+                    color: "white"
+                    font.pixelSize: 9
+                    font.bold: true
                 }
-            }
-            // Resize handle (bottom-right corner)
-            Rectangle {
-                width: 12; height: 12
-                anchors.right: parent.right; anchors.bottom: parent.bottom
-                color: "#ff4444"; radius: 2
-                MouseArea {
-                    anchors.fill: parent
-                    cursorShape: Qt.SizeFDiagCursor
-                    property real startX; property real startY
-                    property real startW; property real startH
-                    onPressed: { startX = mouseX; startY = mouseY; startW = canvasTitleBar.width; startH = canvasTitleBar.height }
-                    onPositionChanged: {
-                        canvasTitleBar.width = Math.max(60, startW + mouseX - startX)
-                        canvasTitleBar.height = Math.max(20, startH + mouseY - startY)
-                    }
-                    onReleased: {
-                        if (lc) {
-                            lc.set("titleBar", "width", canvasTitleBar.width)
-                            lc.set("titleBar", "height_canvas", canvasTitleBar.height)
-                        }
-                    }
+                Text {
+                    text: "⇄ drag"
+                    color: "#ffffffaa"
+                    font.pixelSize: 8
+                    visible: studioSelectedSection !== "" && studioSelectedSection !== "root"
                 }
             }
         }
+    }
 
-        // --- contentArea canvas box ---
+    // Click overlay for studio mode — covers the entire window
+    // Supports click-to-select AND drag-to-move for the selected element
+    MouseArea {
+        id: studioClickCatcher
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.right: studioPanel.left
+        visible: studioActive
+        z: 998
+        hoverEnabled: true
+        acceptedButtons: Qt.LeftButton
+
+        property bool isDragging: false
+        property real dragStartX: 0
+        property real dragStartY: 0
+        property real elemStartX: 0
+        property real elemStartY: 0
+
+        // Sections that support dragging
+        function isDraggable(section) {
+            return section && section !== "root"
+        }
+
+        // Hover highlight
         Rectangle {
-            id: canvasContentArea
-            x: contentArea.x
-            y: contentArea.y
-            width: contentArea.width
-            height: contentArea.height
-            color: "#1000cc44"
-            border.color: "#00cc44"
-            border.width: 2
-            visible: studioOverlay.visible
+            id: hoverHighlight
+            visible: studioActive && studioClickCatcher.containsMouse && studioSelectedSection === ""
+            color: "#06165dff"
+            border.color: "#40165dff"
+            border.width: 1
+            radius: 4
+        }
 
-            Text { anchors.centerIn: parent; text: "contentArea"; color: "#00cc44"; font.pixelSize: 10; font.bold: true }
-
-            MouseArea {
-                id: contentAreaDragArea
-                anchors.fill: parent
-                anchors.rightMargin: 12
-                anchors.bottomMargin: 12
-                drag.target: canvasContentArea
-                drag.minimumX: 0; drag.minimumY: 0
-                cursorShape: Qt.SizeAllCursor
-                onPressed: { sectionCombo.currentIndex = sectionCombo.find("contentArea") }
-                onReleased: {
-                    if (lc) {
-                        lc.set("contentArea", "x", canvasContentArea.x)
-                        lc.set("contentArea", "y", canvasContentArea.y)
-                    }
-                }
+        function hitTest(mx, my) {
+            function contains(rect, x, y) {
+                return x >= rect.x && x <= rect.x + rect.width &&
+                       y >= rect.y && y <= rect.y + rect.height
             }
-            Rectangle {
-                width: 12; height: 12
-                anchors.right: parent.right; anchors.bottom: parent.bottom
-                color: "#00cc44"; radius: 2
-                MouseArea {
-                    anchors.fill: parent
-                    cursorShape: Qt.SizeFDiagCursor
-                    property real startX; property real startY
-                    property real startW; property real startH
-                    onPressed: { startX = mouseX; startY = mouseY; startW = canvasContentArea.width; startH = canvasContentArea.height }
-                    onPositionChanged: {
-                        canvasContentArea.width = Math.max(60, startW + mouseX - startX)
-                        canvasContentArea.height = Math.max(40, startH + mouseY - startY)
-                    }
-                    onReleased: {
-                        if (lc) {
-                            lc.set("contentArea", "width", canvasContentArea.width)
-                            lc.set("contentArea", "height", canvasContentArea.height)
-                        }
-                    }
-                }
+
+            // Check elements from most specific to least specific
+            var r = rectForItem(sendBtn)
+            if (contains(r, mx, my)) return "sendButton"
+
+            r = rectForItem(textInputBox)
+            if (contains(r, mx, my)) return "textInput"
+
+            r = rectForItem(abortBtn)
+            if (contains(r, mx, my)) return "abortButton"
+
+            r = rectForItem(autoBtn)
+            if (contains(r, mx, my)) return "autoButton"
+
+            r = rectForItem(btnClose)
+            if (contains(r, mx, my)) return "btnClose"
+
+            r = rectForItem(btnMin)
+            if (contains(r, mx, my)) return "btnMin"
+
+            r = rectForItem(statusDot)
+            if (contains(r, mx, my)) return "statusDot"
+
+            r = rectForItem(statusTextItem)
+            if (contains(r, mx, my)) return "statusText"
+
+            r = rectForItem(titleBar)
+            if (contains(r, mx, my)) return "titleBar"
+
+            r = rectForItem(ttsAreaRect)
+            if (contains(r, mx, my)) return "ttsArea"
+
+            r = rectForItem(emotionGlow)
+            if (contains(r, mx, my)) return "emotionGlow"
+
+            r = rectForItem(emotionAreaItem)
+            if (contains(r, mx, my)) return "emotionArea"
+
+            r = rectForItem(buttonBarRect)
+            if (contains(r, mx, my)) return "buttonBar"
+
+            r = rectForItem(contentArea)
+            if (contains(r, mx, my)) return "contentArea"
+
+            return "root"
+        }
+
+        onPressed: {
+            var section = hitTest(mouse.x, mouse.y)
+            studioSelectedSection = section
+            if (isDraggable(section)) {
+                isDragging = true
+                dragStartX = mouse.x
+                dragStartY = mouse.y
+                elemStartX = lc ? (lc.get(section, "offsetX") || 0) : 0
+                elemStartY = lc ? (lc.get(section, "offsetY") || 0) : 0
+                cursorShape = Qt.SizeAllCursor
+            } else {
+                isDragging = false
+            }
+            mouse.accepted = true
+        }
+
+        onPositionChanged: {
+            if (isDragging && studioSelectedSection !== "" && lc) {
+                var dx = mouse.x - dragStartX
+                var dy = mouse.y - dragStartY
+                var newX = elemStartX + dx
+                var newY = elemStartY + dy
+                lc.set(studioSelectedSection, "offsetX", Math.round(newX))
+                lc.set(studioSelectedSection, "offsetY", Math.round(newY))
             }
         }
 
-        // --- buttonBar canvas box ---
-        Rectangle {
-            id: canvasButtonBar
-            x: buttonBarRect.x
-            y: buttonBarRect.y
-            width: buttonBarRect.width
-            height: buttonBarRect.height
-            color: "#104444ff"
-            border.color: "#4444ff"
-            border.width: 2
-            visible: studioOverlay.visible
-
-            Text { anchors.centerIn: parent; text: "buttonBar"; color: "#4444ff"; font.pixelSize: 10; font.bold: true }
-
-            MouseArea {
-                id: buttonBarDragArea
-                anchors.fill: parent
-                anchors.rightMargin: 12
-                anchors.bottomMargin: 12
-                drag.target: canvasButtonBar
-                drag.minimumX: 0; drag.minimumY: 0
-                cursorShape: Qt.SizeAllCursor
-                onPressed: { sectionCombo.currentIndex = sectionCombo.find("buttonBar") }
-                onReleased: {
-                    if (lc) {
-                        lc.set("buttonBar", "x", canvasButtonBar.x)
-                        lc.set("buttonBar", "y", canvasButtonBar.y)
-                    }
-                }
-            }
-            Rectangle {
-                width: 12; height: 12
-                anchors.right: parent.right; anchors.bottom: parent.bottom
-                color: "#4444ff"; radius: 2
-                MouseArea {
-                    anchors.fill: parent
-                    cursorShape: Qt.SizeFDiagCursor
-                    property real startX; property real startY
-                    property real startW; property real startH
-                    onPressed: { startX = mouseX; startY = mouseY; startW = canvasButtonBar.width; startH = canvasButtonBar.height }
-                    onPositionChanged: {
-                        canvasButtonBar.width = Math.max(60, startW + mouseX - startX)
-                        canvasButtonBar.height = Math.max(30, startH + mouseY - startY)
-                    }
-                    onReleased: {
-                        if (lc) {
-                            lc.set("buttonBar", "width", canvasButtonBar.width)
-                            lc.set("buttonBar", "height_canvas", canvasButtonBar.height)
-                        }
-                    }
-                }
-            }
+        onReleased: {
+            isDragging = false
+            cursorShape = Qt.ArrowCursor
         }
+    }
 
-        // Side panel for editing properties
+    // =========================================================================
+    // STUDIO SIDE PANEL
+    // =========================================================================
+    Rectangle {
+        id: studioPanel
+        visible: studioActive
+        width: 310
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        color: "#fafbfc"
+        z: 1001
+
+        // Subtle left shadow
         Rectangle {
-            id: studioPanel
-            width: 280
+            anchors.right: parent.left
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            anchors.right: parent.right
-            color: "#f0f0f0"
-            border.color: "#ccc"
-            border.width: 1
-            z: 1001
+            width: 6
+            gradient: Gradient {
+                orientation: Gradient.Horizontal
+                GradientStop { position: 0.0; color: "transparent" }
+                GradientStop { position: 1.0; color: "#18000000" }
+            }
+        }
 
-            ColumnLayout {
-                anchors.fill: parent
-                anchors.margins: 8
-                spacing: 6
+        ColumnLayout {
+            anchors.fill: parent
+            anchors.margins: 0
+            spacing: 0
 
-                // Header
-                Text {
-                    text: "🎨 Layout Editor"
-                    font.pixelSize: 14
-                    font.bold: true
-                    color: "#333"
-                    Layout.fillWidth: true
-                    horizontalAlignment: Text.AlignHCenter
-                }
-
-                Rectangle { Layout.fillWidth: true; height: 1; color: "#ddd" }
-
-                // Section selector
-                Text { text: "Section:"; font.pixelSize: 11; color: "#666" }
-                ComboBox {
-                    id: sectionCombo
-                    Layout.fillWidth: true
-                    model: lc ? lc.allSections() : []
-                    onCurrentTextChanged: {
-                        if (lc && currentText) {
-                            keyCombo.model = lc.sectionKeys(currentText)
-                            keyCombo.currentIndex = 0
-                        }
-                    }
-                    Component.onCompleted: {
-                        if (lc) {
-                            model = lc.allSections()
-                            if (model.length > 0) {
-                                currentIndex = 0
-                                keyCombo.model = lc.sectionKeys(model[0])
-                            }
-                        }
-                    }
-                }
-
-                // Key selector
-                Text { text: "Property:"; font.pixelSize: 11; color: "#666" }
-                ComboBox {
-                    id: keyCombo
-                    Layout.fillWidth: true
-                    model: []
-                    onCurrentTextChanged: {
-                        if (lc && sectionCombo.currentText && currentText) {
-                            var val = lc.get(sectionCombo.currentText, currentText)
-                            valueField.text = (val !== undefined && val !== null) ? String(val) : ""
-                        }
-                    }
-                }
-
-                // Current value display
-                Text { text: "Value:"; font.pixelSize: 11; color: "#666" }
+            // ── Header ──
+            Rectangle {
+                Layout.fillWidth: true
+                height: 48
+                color: "#165dff"
                 Rectangle {
-                    Layout.fillWidth: true
-                    height: 32
-                    color: "white"
-                    border.color: valueField.activeFocus ? "#165dff" : "#ccc"
-                    border.width: 1
-                    radius: 4
+                    anchors.fill: parent
+                    gradient: Gradient {
+                        GradientStop { position: 0.0; color: "#165dff" }
+                        GradientStop { position: 1.0; color: "#4080ff" }
+                    }
+                }
+                RowLayout {
+                    anchors.fill: parent
+                    anchors.leftMargin: 14
+                    anchors.rightMargin: 14
+                    Text {
+                        text: "🎨 Layout Studio"
+                        font.pixelSize: 15
+                        font.bold: true
+                        color: "white"
+                    }
+                    Item { Layout.fillWidth: true }
+                    // Close studio button
+                    Rectangle {
+                        width: 26; height: 26; radius: 13
+                        color: closeBtnMa.containsMouse ? "#ffffff30" : "transparent"
+                        Text { anchors.centerIn: parent; text: "✕"; color: "white"; font.pixelSize: 13 }
+                        MouseArea {
+                            id: closeBtnMa
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: { if (lc) lc.studioMode = false }
+                        }
+                    }
+                }
+            }
 
-                    TextInput {
-                        id: valueField
-                        anchors.fill: parent
-                        anchors.margins: 6
-                        verticalAlignment: TextInput.AlignVCenter
-                        font.pixelSize: 12
-                        color: "#333"
-                        selectByMouse: true
+            // ── Theme Toggle ──
+            Rectangle {
+                Layout.fillWidth: true
+                height: 44
+                color: "#f7f8fa"
+                border.color: "#e5e6eb"
+                border.width: 0
+
+                RowLayout {
+                    anchors.fill: parent
+                    anchors.leftMargin: 14
+                    anchors.rightMargin: 14
+                    spacing: 8
+
+                    Text {
+                        text: "Theme"
+                        font.pixelSize: 11
+                        color: "#4e5969"
+                    }
+                    Item { Layout.fillWidth: true }
+
+                    Rectangle {
+                        width: 64; height: 26; radius: 6
+                        color: themeLightMa.containsMouse ? "#e5e6eb" : "#f2f3f5"
+                        border.color: "#d9d9d9"
+                        border.width: 1
+                        Text { anchors.centerIn: parent; text: "Light"; font.pixelSize: 10; color: "#4e5969" }
+                        MouseArea {
+                            id: themeLightMa
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: { if (lc) lc.applyTheme("light") }
+                        }
+                    }
+
+                    Rectangle {
+                        width: 64; height: 26; radius: 6
+                        color: themeDarkMa.containsMouse ? "#1d2129" : "#2a2f3a"
+                        border.color: "#3a4354"
+                        border.width: 1
+                        Text { anchors.centerIn: parent; text: "Dark"; font.pixelSize: 10; color: "#e8edf5" }
+                        MouseArea {
+                            id: themeDarkMa
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: { if (lc) lc.applyTheme("dark") }
+                        }
+                    }
+                }
+            }
+
+            // ── Element List (shown when nothing is selected) ──
+            Rectangle {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                color: "transparent"
+                visible: studioSelectedSection === ""
+                clip: true
+
+                ColumnLayout {
+                    anchors.fill: parent
+                    anchors.margins: 12
+                    spacing: 4
+
+                    Text {
+                        text: "Select an element"
+                        font.pixelSize: 13
+                        font.bold: true
+                        color: "#1d2129"
+                        Layout.bottomMargin: 4
+                    }
+                    Text {
+                        text: "Click any element on screen, or pick from the list below:"
+                        font.pixelSize: 11
+                        color: "#86909c"
+                        wrapMode: Text.WordWrap
+                        Layout.fillWidth: true
+                        Layout.bottomMargin: 8
+                    }
+
+                    Flickable {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        contentHeight: sectionListCol.height
                         clip: true
+                        flickableDirection: Flickable.VerticalFlick
+                        boundsBehavior: Flickable.StopAtBounds
 
-                        Keys.onReturnPressed: applyBtn.clicked()
-                    }
-                }
+                        Column {
+                            id: sectionListCol
+                            width: parent.width
+                            spacing: 2
 
-                // Color preview (shown when value looks like a color)
-                Rectangle {
-                    Layout.fillWidth: true
-                    height: 24
-                    radius: 4
-                    color: {
-                        var v = valueField.text.toLowerCase()
-                        if (v && (v.charAt(0) === '#' || v.indexOf("rgb") === 0)) return v
-                        return "transparent"
-                    }
-                    border.color: "#ccc"
-                    border.width: 1
-                    visible: {
-                        var v = valueField.text.toLowerCase()
-                        return v && (v.charAt(0) === '#' || v.indexOf("rgb") === 0)
-                    }
-                }
+                            Repeater {
+                                model: lc ? lc.allSections() : []
+                                delegate: Rectangle {
+                                    width: parent.width
+                                    height: 36
+                                    radius: 6
+                                    color: secItemMa.containsMouse ? "#eef2ff" : "transparent"
+                                    border.color: secItemMa.containsMouse ? "#c5d4ff" : "transparent"
+                                    border.width: 1
+                                    Behavior on color { ColorAnimation { duration: 100 } }
 
-                // Apply button
-                Button {
-                    id: applyBtn
-                    Layout.fillWidth: true
-                    text: "Apply"
-                    onClicked: {
-                        if (lc && sectionCombo.currentText && keyCombo.currentText) {
-                            var raw = valueField.text
-                            var key = keyCombo.currentText.toLowerCase()
-                            var isColor = key.indexOf("color") !== -1
-                            var val
-                            if (isColor) {
-                                val = raw
-                            } else {
-                                var num = Number(raw)
-                                val = isNaN(num) ? raw : num
-                            }
-                            lc.set(sectionCombo.currentText, keyCombo.currentText, val)
-                        }
-                    }
-                    background: Rectangle {
-                        color: applyBtn.pressed ? "#0e42d2" : (applyBtn.hovered ? "#4080ff" : "#165dff")
-                        radius: 6
-                    }
-                    contentItem: Text {
-                        text: applyBtn.text; color: "white"; font.pixelSize: 12
-                        horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter
-                    }
-                }
-
-                Rectangle { Layout.fillWidth: true; height: 1; color: "#ddd" }
-
-                // Reset section
-                Button {
-                    id: resetSectionBtn
-                    Layout.fillWidth: true
-                    text: "Reset Section"
-                    onClicked: {
-                        if (lc && sectionCombo.currentText) {
-                            lc.resetSection(sectionCombo.currentText)
-                            // refresh displayed value
-                            if (keyCombo.currentText) {
-                                var val = lc.get(sectionCombo.currentText, keyCombo.currentText)
-                                valueField.text = (val !== undefined && val !== null) ? String(val) : ""
+                                    RowLayout {
+                                        anchors.fill: parent
+                                        anchors.leftMargin: 10
+                                        anchors.rightMargin: 10
+                                        spacing: 8
+                                        Text {
+                                            text: lc ? lc.sectionLabel(modelData) : modelData
+                                            font.pixelSize: 12
+                                            color: "#1d2129"
+                                            elide: Text.ElideRight
+                                            Layout.fillWidth: true
+                                        }
+                                        Text {
+                                            text: "›"
+                                            font.pixelSize: 16
+                                            color: "#c9cdd4"
+                                        }
+                                    }
+                                    MouseArea {
+                                        id: secItemMa
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                        cursorShape: Qt.PointingHandCursor
+                                        onClicked: studioSelectedSection = modelData
+                                    }
+                                }
                             }
                         }
                     }
-                    background: Rectangle {
-                        color: resetSectionBtn.pressed ? "#e5e6eb" : (resetSectionBtn.hovered ? "#f2f3f5" : "#eceff3")
-                        radius: 6
-                    }
-                    contentItem: Text {
-                        text: resetSectionBtn.text; color: "#333"; font.pixelSize: 11
-                        horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter
-                    }
                 }
+            }
 
-                // Reset all
-                Button {
-                    id: resetAllBtn
-                    Layout.fillWidth: true
-                    text: "Reset All to Defaults"
-                    onClicked: {
-                        if (lc) {
-                            lc.resetAll()
-                            if (sectionCombo.currentText && keyCombo.currentText) {
-                                var val = lc.get(sectionCombo.currentText, keyCombo.currentText)
-                                valueField.text = (val !== undefined && val !== null) ? String(val) : ""
+            // ── Property Editor (shown when an element is selected) ──
+            Rectangle {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                color: "transparent"
+                visible: studioSelectedSection !== ""
+                clip: true
+
+                ColumnLayout {
+                    anchors.fill: parent
+                    anchors.margins: 0
+                    spacing: 0
+
+                    // Section header with back button
+                    Rectangle {
+                        Layout.fillWidth: true
+                        height: 44
+                        color: "#f2f5ff"
+
+                        RowLayout {
+                            anchors.fill: parent
+                            anchors.leftMargin: 8
+                            anchors.rightMargin: 12
+                            spacing: 6
+
+                            // Back button
+                            Rectangle {
+                                width: 30; height: 30; radius: 6
+                                color: backBtnMa.containsMouse ? "#dde4ff" : "transparent"
+                                Text { anchors.centerIn: parent; text: "‹"; font.pixelSize: 20; color: "#165dff" }
+                                MouseArea {
+                                    id: backBtnMa
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    onClicked: studioSelectedSection = ""
+                                }
+                            }
+
+                            Text {
+                                text: lc ? lc.sectionLabel(studioSelectedSection) : studioSelectedSection
+                                font.pixelSize: 13
+                                font.bold: true
+                                color: "#1d2129"
+                                elide: Text.ElideRight
+                                Layout.fillWidth: true
+                            }
+
+                            // Reset section button
+                            Rectangle {
+                                width: resetSecMa.containsMouse ? resetSecLabel.width + 16 : 30
+                                height: 28; radius: 6
+                                color: resetSecMa.containsMouse ? "#fff1f0" : "#f5f5f5"
+                                border.color: resetSecMa.containsMouse ? "#ffccc7" : "transparent"
+                                Behavior on width { NumberAnimation { duration: 150 } }
+                                Behavior on color { ColorAnimation { duration: 150 } }
+                                clip: true
+                                Row {
+                                    anchors.centerIn: parent
+                                    spacing: 4
+                                    Text { text: "↺"; font.pixelSize: 13; color: "#f5222d" }
+                                    Text {
+                                        id: resetSecLabel
+                                        text: "Reset"
+                                        font.pixelSize: 10
+                                        color: "#f5222d"
+                                        visible: resetSecMa.containsMouse
+                                    }
+                                }
+                                MouseArea {
+                                    id: resetSecMa
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    onClicked: {
+                                        if (lc) {
+                                            lc.resetSection(studioSelectedSection)
+                                            propRepeater.model = []
+                                            propRepeater.model = lc.sectionKeys(studioSelectedSection)
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
-                    background: Rectangle {
-                        color: resetAllBtn.pressed ? "#f53f3f" : (resetAllBtn.hovered ? "#ff7875" : "#ff4d4f")
-                        radius: 6
+
+                    // Scrollable properties list
+                    Flickable {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        contentHeight: propsCol.height + 20
+                        clip: true
+                        flickableDirection: Flickable.VerticalFlick
+                        boundsBehavior: Flickable.StopAtBounds
+
+                        Column {
+                            id: propsCol
+                            width: parent.width
+                            spacing: 1
+                            topPadding: 8
+
+                            Repeater {
+                                id: propRepeater
+                                model: (studioSelectedSection && lc) ? lc.sectionKeys(studioSelectedSection) : []
+
+                                delegate: Rectangle {
+                                    width: parent.width
+                                    height: propContent.height + 16
+                                    color: propIdx % 2 === 0 ? "#fafbfc" : "white"
+
+                                    property int propIdx: index
+                                    property string propKey: modelData
+                                    property var propVal: { var _v = lc ? lc.configVersion : 0; return lc ? lc.get(studioSelectedSection, modelData) : "" }
+                                    property bool isColor: modelData.toLowerCase().indexOf("color") !== -1
+                                    property bool isNumeric: !isColor && !isNaN(Number(propVal))
+                                    property bool isModified: { var _v = lc ? lc.configVersion : 0; return lc ? !lc.isDefault(studioSelectedSection, modelData) : false }
+
+                                    // Refresh the text field when the value changes from outside
+                                    onPropValChanged: {
+                                        if (!propValueField.activeFocus) {
+                                            propValueField.text = (propVal !== undefined && propVal !== null) ? String(propVal) : ""
+                                        }
+                                    }
+
+                                    Column {
+                                        id: propContent
+                                        anchors.left: parent.left
+                                        anchors.right: parent.right
+                                        anchors.leftMargin: 14
+                                        anchors.rightMargin: 14
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        spacing: 6
+
+                                        // Property name row
+                                        RowLayout {
+                                            width: parent.width
+                                            spacing: 6
+
+                                            // Modified indicator dot
+                                            Rectangle {
+                                                width: 6; height: 6; radius: 3
+                                                color: isModified ? "#fa8c16" : "transparent"
+                                                Layout.alignment: Qt.AlignVCenter
+                                            }
+
+                                            Text {
+                                                text: propKey
+                                                font.pixelSize: 11
+                                                font.bold: true
+                                                color: "#4e5969"
+                                                Layout.fillWidth: true
+                                            }
+
+                                            // Type badge
+                                            Rectangle {
+                                                width: typeBadge.width + 8
+                                                height: 16
+                                                radius: 3
+                                                color: isColor ? "#f0f5ff" : (isNumeric ? "#e8f5e9" : "#f5f5f5")
+                                                Text {
+                                                    id: typeBadge
+                                                    anchors.centerIn: parent
+                                                    text: isColor ? "color" : (isNumeric ? "number" : "text")
+                                                    font.pixelSize: 9
+                                                    color: isColor ? "#165dff" : (isNumeric ? "#389e0d" : "#8c8c8c")
+                                                }
+                                            }
+                                        }
+
+                                        // Value editor row
+                                        RowLayout {
+                                            width: parent.width
+                                            spacing: 6
+
+                                            // Color swatch (for color properties)
+                                            Rectangle {
+                                                visible: isColor
+                                                width: 28; height: 28
+                                                radius: 6
+                                                color: {
+                                                    var v = propValueField.text
+                                                    if (v && (v.charAt(0) === '#' || v.indexOf("rgb") === 0))
+                                                        return v
+                                                    if (v === "transparent") return "white"
+                                                    if (v === "white") return "white"
+                                                    return "#f0f0f0"
+                                                }
+                                                border.color: "#d9d9d9"
+                                                border.width: 1
+
+                                                // Checkerboard pattern for transparent colors
+                                                Grid {
+                                                    visible: propValueField.text === "transparent"
+                                                    anchors.fill: parent
+                                                    anchors.margins: 1
+                                                    rows: 4; columns: 4; spacing: 0
+                                                    clip: true
+                                                    Repeater {
+                                                        model: 16
+                                                        Rectangle {
+                                                            width: 6; height: 6
+                                                            color: (index % 2 === ((Math.floor(index / 4)) % 2)) ? "#e0e0e0" : "white"
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            // Value text field
+                                            Rectangle {
+                                                Layout.fillWidth: true
+                                                height: 28
+                                                radius: 6
+                                                color: "white"
+                                                border.color: propValueField.activeFocus ? "#165dff" : "#e5e6eb"
+                                                border.width: propValueField.activeFocus ? 2 : 1
+                                                Behavior on border.color { ColorAnimation { duration: 150 } }
+
+                                                TextInput {
+                                                    id: propValueField
+                                                    anchors.fill: parent
+                                                    anchors.leftMargin: 8
+                                                    anchors.rightMargin: 8
+                                                    verticalAlignment: TextInput.AlignVCenter
+                                                    font.pixelSize: 12
+                                                    font.family: "Consolas, Menlo, monospace"
+                                                    color: "#333"
+                                                    selectByMouse: true
+                                                    clip: true
+                                                    text: (propVal !== undefined && propVal !== null) ? String(propVal) : ""
+
+                                                    Keys.onReturnPressed: {
+                                                        applyValue()
+                                                        focus = false
+                                                    }
+
+                                                    function applyValue() {
+                                                        if (!lc) return
+                                                        var raw = propValueField.text
+                                                        var val
+                                                        if (isColor) {
+                                                            val = raw
+                                                        } else {
+                                                            var num = Number(raw)
+                                                            val = isNaN(num) ? raw : num
+                                                        }
+                                                        lc.set(studioSelectedSection, propKey, val)
+                                                    }
+
+                                                    onEditingFinished: applyValue()
+                                                }
+                                            }
+
+                                            // Apply mini button
+                                            Rectangle {
+                                                width: 28; height: 28; radius: 6
+                                                color: applyMiniMa.pressed ? "#0e42d2" : (applyMiniMa.containsMouse ? "#4080ff" : "#165dff")
+                                                Behavior on color { ColorAnimation { duration: 100 } }
+                                                Text { anchors.centerIn: parent; text: "✓"; color: "white"; font.pixelSize: 13; font.bold: true }
+                                                MouseArea {
+                                                    id: applyMiniMa
+                                                    anchors.fill: parent
+                                                    hoverEnabled: true
+                                                    cursorShape: Qt.PointingHandCursor
+                                                    onClicked: propValueField.applyValue()
+                                                }
+                                            }
+                                        }
+
+                                        // Numeric slider (for numeric properties)
+                                        Slider {
+                                            visible: isNumeric && !isColor
+                                            width: parent.width
+                                            height: visible ? 20 : 0
+                                            from: {
+                                                var v = Number(propVal)
+                                                if (propKey.indexOf("pacity") !== -1) return 0
+                                                if (propKey.indexOf("actor") !== -1) return 0.1
+                                                return 0
+                                            }
+                                            to: {
+                                                var v = Number(propVal)
+                                                if (propKey.indexOf("pacity") !== -1) return 1.0
+                                                if (propKey.indexOf("actor") !== -1) return 3.0
+                                                if (propKey === "fontSize" || propKey === "iconSize") return 40
+                                                if (propKey.indexOf("adius") !== -1) return 30
+                                                if (propKey.indexOf("eight") !== -1 || propKey.indexOf("idth") !== -1) return 300
+                                                if (propKey.indexOf("argin") !== -1 || propKey.indexOf("pacing") !== -1) return 50
+                                                return Math.max(v * 3, 100)
+                                            }
+                                            stepSize: {
+                                                if (propKey.indexOf("pacity") !== -1 || propKey.indexOf("actor") !== -1) return 0.05
+                                                return 1.0
+                                            }
+                                            value: Number(propVal) || 0
+                                            onMoved: {
+                                                propValueField.text = String(Math.round(value * 100) / 100)
+                                                propValueField.applyValue()
+                                            }
+
+                                            background: Rectangle {
+                                                x: parent.leftPadding
+                                                y: parent.topPadding + parent.availableHeight / 2 - height / 2
+                                                width: parent.availableWidth
+                                                height: 4
+                                                radius: 2
+                                                color: "#e5e6eb"
+                                                Rectangle {
+                                                    width: parent.parent.visualPosition * parent.width
+                                                    height: parent.height
+                                                    color: "#165dff"
+                                                    radius: 2
+                                                }
+                                            }
+                                            handle: Rectangle {
+                                                x: parent.leftPadding + parent.visualPosition * (parent.availableWidth - width)
+                                                y: parent.topPadding + parent.availableHeight / 2 - height / 2
+                                                width: 14; height: 14; radius: 7
+                                                color: parent.pressed ? "#0e42d2" : "white"
+                                                border.color: "#165dff"
+                                                border.width: 2
+                                            }
+                                        }
+
+                                        // Color preset palette (for color properties)
+                                        Flow {
+                                            visible: isColor
+                                            width: parent.width
+                                            spacing: 4
+                                            Repeater {
+                                                model: ["#165dff", "#4080ff", "#0e42d2", "#00b42a", "#389e0d",
+                                                        "#ff7d00", "#fa8c16", "#f53f3f", "#ff4d4f", "#722ed1",
+                                                        "#eb2f96", "#1d2129", "#4e5969", "#86909c", "#c9cdd4",
+                                                        "#e5e6eb", "#f2f3f5", "#f7f8fa", "#ffffff", "transparent"]
+                                                delegate: Rectangle {
+                                                    width: 22; height: 22; radius: 4
+                                                    color: modelData === "transparent" ? "white" : modelData
+                                                    border.color: paletteMa.containsMouse ? "#165dff" : "#d9d9d9"
+                                                    border.width: paletteMa.containsMouse ? 2 : 1
+                                                    Behavior on border.color { ColorAnimation { duration: 100 } }
+                                                    scale: paletteMa.containsMouse ? 1.15 : 1.0
+                                                    Behavior on scale { NumberAnimation { duration: 100 } }
+
+                                                    // Checkerboard for transparent
+                                                    Grid {
+                                                        visible: modelData === "transparent"
+                                                        anchors.fill: parent; anchors.margins: 2
+                                                        rows: 3; columns: 3; spacing: 0; clip: true
+                                                        Repeater {
+                                                            model: 9
+                                                            Rectangle {
+                                                                width: 6; height: 6
+                                                                color: (index % 2 === ((Math.floor(index / 3)) % 2)) ? "#e0e0e0" : "white"
+                                                            }
+                                                        }
+                                                    }
+
+                                                    MouseArea {
+                                                        id: paletteMa
+                                                        anchors.fill: parent
+                                                        hoverEnabled: true
+                                                        cursorShape: Qt.PointingHandCursor
+                                                        onClicked: {
+                                                            propValueField.text = modelData
+                                                            propValueField.applyValue()
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
-                    contentItem: Text {
-                        text: resetAllBtn.text; color: "white"; font.pixelSize: 11
-                        horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter
+
+                    // ── Bottom actions bar ──
+                    Rectangle {
+                        Layout.fillWidth: true
+                        height: 1
+                        color: "#e5e6eb"
+                    }
+                    Rectangle {
+                        Layout.fillWidth: true
+                        height: 56
+                        color: "#f7f8fa"
+
+                        RowLayout {
+                            anchors.fill: parent
+                            anchors.leftMargin: 12
+                            anchors.rightMargin: 12
+                            spacing: 8
+
+                            // Reset Element button
+                            Rectangle {
+                                Layout.fillWidth: true
+                                height: 34
+                                radius: 6
+                                color: resetElementMa.pressed ? "#e5e6eb" : (resetElementMa.containsMouse ? "#f2f3f5" : "#f7f8fa")
+                                border.color: resetElementMa.containsMouse ? "#c9cdd4" : "#e5e6eb"
+                                border.width: 1
+                                Behavior on color { ColorAnimation { duration: 120 } }
+                                Text {
+                                    anchors.centerIn: parent
+                                    text: "↺ Reset Element"
+                                    font.pixelSize: 11
+                                    font.bold: true
+                                    color: "#4e5969"
+                                }
+                                MouseArea {
+                                    id: resetElementMa
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    onClicked: {
+                                        if (lc && studioSelectedSection) {
+                                            lc.resetSection(studioSelectedSection)
+                                            propRepeater.model = []
+                                            propRepeater.model = lc.sectionKeys(studioSelectedSection)
+                                        }
+                                    }
+                                }
+                            }
+
+                            // Reset All button
+                            Rectangle {
+                                Layout.fillWidth: true
+                                height: 34
+                                radius: 6
+                                color: resetAllMa.pressed ? "#ff4d4f" : (resetAllMa.containsMouse ? "#ff7875" : "#fff1f0")
+                                border.color: resetAllMa.containsMouse ? "#ff4d4f" : "#ffa39e"
+                                border.width: 1
+                                Behavior on color { ColorAnimation { duration: 120 } }
+                                Text {
+                                    anchors.centerIn: parent
+                                    text: "↺ Reset All"
+                                    font.pixelSize: 11
+                                    font.bold: true
+                                    color: resetAllMa.containsMouse ? "white" : "#f5222d"
+                                }
+                                MouseArea {
+                                    id: resetAllMa
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    onClicked: {
+                                        if (lc) {
+                                            lc.resetAll()
+                                            studioSelectedSection = ""
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
+            }
 
-                // Spacer
-                Item { Layout.fillHeight: true }
-
-                // Info
+            // ── Footer info ──
+            Rectangle {
+                Layout.fillWidth: true
+                height: 28
+                color: "#f0f1f3"
                 Text {
-                    text: "Changes are saved automatically.\nRestart to see full effect of\nsome layout changes."
+                    anchors.centerIn: parent
+                    text: "Changes saved automatically  ·  -s flag"
                     font.pixelSize: 9
-                    color: "#999"
-                    wrapMode: Text.WordWrap
-                    Layout.fillWidth: true
-                    horizontalAlignment: Text.AlignHCenter
+                    color: "#b0b5bd"
                 }
             }
         }
