@@ -9,10 +9,13 @@ runtime and persisted back to the JSON file.
 """
 
 import json
+import logging
 from pathlib import Path
 from typing import Any, Dict
 
 from PyQt5.QtCore import QObject, pyqtProperty, pyqtSignal, pyqtSlot
+
+_logger = logging.getLogger(__name__)
 
 _CONFIG_PATH = Path(__file__).resolve().parent.parent.parent / "config" / "layout_config.json"
 
@@ -110,7 +113,8 @@ class LayoutConfigModel(QObject):
                 with open(_CONFIG_PATH, "r", encoding="utf-8") as fh:
                     data = json.load(fh)
                 self._config = _deep_merge(_DEFAULTS, data)
-        except Exception:
+        except Exception as exc:
+            _logger.warning("Failed to load layout config (%s), using defaults", exc)
             self._config = _deep_merge(_DEFAULTS, {})
 
     def _save(self):
@@ -119,8 +123,8 @@ class LayoutConfigModel(QObject):
             _CONFIG_PATH.parent.mkdir(parents=True, exist_ok=True)
             with open(_CONFIG_PATH, "w", encoding="utf-8") as fh:
                 json.dump(self._config, fh, indent=4, ensure_ascii=False)
-        except Exception:
-            pass
+        except Exception as exc:
+            _logger.warning("Failed to save layout config: %s", exc)
 
     # ------------------------------------------------------------------
     # QML-facing API

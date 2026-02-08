@@ -582,14 +582,14 @@ Rectangle {
                     height: 24
                     radius: 4
                     color: {
-                        var v = valueField.text
+                        var v = valueField.text.toLowerCase()
                         if (v && (v.charAt(0) === '#' || v.indexOf("rgb") === 0)) return v
                         return "transparent"
                     }
                     border.color: "#ccc"
                     border.width: 1
                     visible: {
-                        var v = valueField.text
+                        var v = valueField.text.toLowerCase()
                         return v && (v.charAt(0) === '#' || v.indexOf("rgb") === 0)
                     }
                 }
@@ -602,8 +602,15 @@ Rectangle {
                     onClicked: {
                         if (lc && sectionCombo.currentText && keyCombo.currentText) {
                             var raw = valueField.text
-                            var num = Number(raw)
-                            var val = isNaN(num) ? raw : num
+                            var key = keyCombo.currentText.toLowerCase()
+                            var isColor = key.indexOf("color") !== -1
+                            var val
+                            if (isColor) {
+                                val = raw
+                            } else {
+                                var num = Number(raw)
+                                val = isNaN(num) ? raw : num
+                            }
                             lc.set(sectionCombo.currentText, keyCombo.currentText, val)
                         }
                     }
