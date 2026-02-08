@@ -22,7 +22,7 @@ _CONFIG_PATH = Path(__file__).resolve().parent.parent.parent / "config" / "layou
 # Default layout (mirrors the initial gui_display.qml hard-coded values)
 _DEFAULTS: Dict[str, Dict[str, Any]] = {
     "root": {"color": "#f5f5f5"},
-    "titleBar": {"height": 36, "color": "#f7f8fa"},
+    "titleBar": {"height": 36, "color": "#f7f8fa", "x": None, "y": None, "width": None, "height_canvas": None},
     "statusDot": {
         "width": 8, "height": 8, "radius": 4,
         "colorReady": "#00b42a", "colorListening": "#ff7d00",
@@ -41,7 +41,7 @@ _DEFAULTS: Dict[str, Dict[str, Any]] = {
         "colorNormal": "transparent", "iconColor": "#86909c",
         "iconColorHover": "white", "iconSize": 14,
     },
-    "contentArea": {"margins": 12, "spacing": 12},
+    "contentArea": {"margins": 12, "spacing": 12, "x": None, "y": None, "width": None, "height": None},
     "emotionArea": {"minimumHeight": 80, "sizeFactor": 0.7, "minSize": 60},
     "emotionGlow": {
         "scaleFactor": 1.2, "colorInner": "#20165dff", "colorOuter": "transparent",
@@ -53,6 +53,7 @@ _DEFAULTS: Dict[str, Dict[str, Any]] = {
     "buttonBar": {
         "height": 72, "color": "#f7f8fa", "margins": 12,
         "bottomMargin": 10, "spacing": 6,
+        "x": None, "y": None, "width": None, "height_canvas": None,
     },
     "autoButton": {
         "preferredWidth": 100, "maxWidth": 140, "height": 38, "radius": 8,
@@ -100,6 +101,7 @@ class LayoutConfigModel(QObject):
         super().__init__(parent)
         self._config: Dict[str, Dict[str, Any]] = _deep_merge(_DEFAULTS, {})
         self._studio_mode = False
+        self._config_version = 0
         self._load()
 
     # ------------------------------------------------------------------
@@ -140,6 +142,11 @@ class LayoutConfigModel(QObject):
             self._studio_mode = value
             self.configChanged.emit()
 
+    @pyqtProperty(int, notify=configChanged)
+    def configVersion(self):
+        """Incremented on every layout change so QML can observe updates."""
+        return self._config_version
+
     @pyqtSlot(str, str, result="QVariant")
     def get(self, section: str, key: str):
         """Return a single layout value.  ``layoutConfig.get("root", "color")``"""
@@ -151,6 +158,7 @@ class LayoutConfigModel(QObject):
         if section not in self._config:
             self._config[section] = {}
         self._config[section][key] = value
+        self._config_version += 1
         self._save()
         self.configChanged.emit()
 
@@ -158,6 +166,7 @@ class LayoutConfigModel(QObject):
     def resetAll(self):
         """Restore every property to built-in defaults and persist."""
         self._config = _deep_merge(_DEFAULTS, {})
+        self._config_version += 1
         self._save()
         self.configChanged.emit()
 
@@ -166,6 +175,7 @@ class LayoutConfigModel(QObject):
         """Restore one section to defaults and persist."""
         if section in _DEFAULTS:
             self._config[section] = dict(_DEFAULTS[section])
+            self._config_version += 1
             self._save()
             self.configChanged.emit()
 
