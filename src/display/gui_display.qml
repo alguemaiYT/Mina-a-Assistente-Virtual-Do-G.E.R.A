@@ -58,6 +58,35 @@ Rectangle {
                 spacing: 8
                 z: 1  // 按钮层在拖动层上方
 
+                // Status indicator + text in title bar
+                RowLayout {
+                    Layout.fillWidth: false
+                    spacing: 6
+
+                    Rectangle {
+                        id: statusDot
+                        width: 8; height: 8; radius: 4
+                        color: {
+                            var st = displayModel ? displayModel.statusText : ""
+                            if (st.indexOf("Ready") !== -1 || st.indexOf("GUI Ready") !== -1) return "#00b42a"
+                            if (st.indexOf("Listening") !== -1 || st.indexOf("hearing") !== -1) return "#ff7d00"
+                            if (st.indexOf("Thinking") !== -1 || st.indexOf("Transcribing") !== -1) return "#165dff"
+                            if (st.indexOf("error") !== -1 || st.indexOf("fail") !== -1 || st.indexOf("unavailable") !== -1) return "#f53f3f"
+                            return "#c9cdd4"
+                        }
+                        Behavior on color { ColorAnimation { duration: 300; easing.type: Easing.OutCubic } }
+                    }
+
+                    Text {
+                        text: displayModel ? displayModel.statusText : ""
+                        font.family: "PingFang SC, Microsoft YaHei UI"
+                        font.pixelSize: 11
+                        color: "#86909c"
+                        elide: Text.ElideRight
+                        Layout.maximumWidth: 200
+                    }
+                }
+
                 // 左侧拖动区域
                 Item { id: dragArea; Layout.fillWidth: true; Layout.fillHeight: true }
 
@@ -67,6 +96,7 @@ Rectangle {
                     width: 24; height: 24; radius: 6
                     color: btnMinMouse.pressed ? "#e5e6eb" : (btnMinMouse.containsMouse ? "#f2f3f5" : "transparent")
                     z: 2  // 确保按钮在最上层
+                    Behavior on color { ColorAnimation { duration: 150; easing.type: Easing.OutCubic } }
                     Text { anchors.centerIn: parent; text: "–"; font.pixelSize: 14; color: "#4e5969" }
                     MouseArea {
                         id: btnMinMouse
@@ -82,6 +112,7 @@ Rectangle {
                     width: 24; height: 24; radius: 6
                     color: btnCloseMouse.pressed ? "#f53f3f" : (btnCloseMouse.containsMouse ? "#ff7875" : "transparent")
                     z: 2  // 确保按钮在最上层
+                    Behavior on color { ColorAnimation { duration: 150; easing.type: Easing.OutCubic } }
                     Text { anchors.centerIn: parent; text: "×"; font.pixelSize: 14; color: btnCloseMouse.containsMouse ? "white" : "#86909c" }
                     MouseArea {
                         id: btnCloseMouse
@@ -105,75 +136,124 @@ Rectangle {
                 Layout.fillHeight: true
                 Layout.minimumHeight: 80
 
-                Loader {
-                    id: emotionLoader
+                // Smooth fade transition on emotion change
+                Rectangle {
+                    id: emotionContainer
                     anchors.centerIn: parent
-                    property real maxSize: Math.max(Math.min(parent.width, parent.height) * 0.7, 60)
-                    width: maxSize
-                    height: maxSize
+                    width: emotionLoader.maxSize
+                    height: emotionLoader.maxSize
+                    color: "transparent"
 
-                    sourceComponent: {
-                        var path = displayModel ? displayModel.emotionPath : ""
-                        if (!path || path.length === 0) {
+                    // Subtle glow effect behind emotion during active states
+                    Rectangle {
+                        id: emotionGlow
+                        anchors.centerIn: parent
+                        width: parent.width * 1.2
+                        height: parent.height * 1.2
+                        radius: width / 2
+                        color: "transparent"
+                        border.width: 0
+                        visible: glowAnimation.running
+
+                        property bool isActive: {
+                            var st = displayModel ? displayModel.statusText : ""
+                            return st.indexOf("Listening") !== -1 || st.indexOf("hearing") !== -1
+                        }
+
+                        RadialGradient {
+                            anchors.fill: parent
+                            gradient: Gradient {
+                                GradientStop { position: 0.0; color: "#20165dff" }
+                                GradientStop { position: 1.0; color: "transparent" }
+                            }
+                        }
+
+                        SequentialAnimation on opacity {
+                            id: glowAnimation
+                            running: emotionGlow.isActive
+                            loops: Animation.Infinite
+                            NumberAnimation { from: 0.3; to: 1.0; duration: 1000; easing.type: Easing.InOutSine }
+                            NumberAnimation { from: 1.0; to: 0.3; duration: 1000; easing.type: Easing.InOutSine }
+                        }
+                    }
+
+                    Loader {
+                        id: emotionLoader
+                        anchors.centerIn: parent
+                        // Reference the Item ancestor (emotion display area) for sizing
+                        property real maxSize: Math.max(Math.min(emotionContainer.parent.width, emotionContainer.parent.height) * 0.7, 60)
+                        width: maxSize
+                        height: maxSize
+
+                        // Smooth opacity transition when emotion changes
+                        opacity: 1.0
+                        Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+
+                        sourceComponent: {
+                            var path = displayModel ? displayModel.emotionPath : ""
+                            if (!path || path.length === 0) {
+                                return emojiComponent
+                            }
+                            if (path.indexOf(".gif") !== -1) {
+                                return gifComponent
+                            }
+                            if (path.indexOf(".") !== -1) {
+                                return imageComponent
+                            }
                             return emojiComponent
                         }
-                        if (path.indexOf(".gif") !== -1) {
-                            return gifComponent
-                        }
-                        if (path.indexOf(".") !== -1) {
-                            return imageComponent
-                        }
-                        return emojiComponent
-                    }
 
-                    Component {
-                        id: gifComponent
-                        AnimatedImage {
-                            anchors.fill: parent
-                            width: parent.width
-                            height: parent.height
-                            fillMode: Image.PreserveAspectCrop
-                            source: displayModel ? displayModel.emotionPath : ""
-                            playing: true
-                            speed: 1.05
-                            cache: true
-                            clip: true
-                            onStatusChanged: {
-                                if (status === Image.Error) {
-                                    console.error("AnimatedImage error:", errorString, "src=", source)
+                        Component {
+                            id: gifComponent
+                            AnimatedImage {
+                                anchors.fill: parent
+                                width: parent.width
+                                height: parent.height
+                                fillMode: Image.PreserveAspectCrop
+                                source: displayModel ? displayModel.emotionPath : ""
+                                playing: true
+                                speed: 1.05
+                                cache: true
+                                clip: true
+                                asynchronous: true
+                                onStatusChanged: {
+                                    if (status === Image.Error) {
+                                        console.error("AnimatedImage error:", errorString, "src=", source)
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    Component {
-                        id: imageComponent
-                        Image {
-                            anchors.fill: parent
-                            width: parent.width
-                            height: parent.height
-                            fillMode: Image.PreserveAspectCrop
-                            source: displayModel ? displayModel.emotionPath : ""
-                            cache: true
-                            clip: true
-                            onStatusChanged: {
-                                if (status === Image.Error) {
-                                    console.error("Image error:", errorString, "src=", source)
+                        Component {
+                            id: imageComponent
+                            Image {
+                                anchors.fill: parent
+                                width: parent.width
+                                height: parent.height
+                                fillMode: Image.PreserveAspectCrop
+                                source: displayModel ? displayModel.emotionPath : ""
+                                cache: true
+                                clip: true
+                                asynchronous: true
+                                onStatusChanged: {
+                                    if (status === Image.Error) {
+                                        console.error("Image error:", errorString, "src=", source)
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    Component {
-                        id: emojiComponent
-                        Text {
-                            text: displayModel ? displayModel.emotionPath : "😊"
-                            width: parent.width
-                            height: parent.height
-                            font.pixelSize: Math.max(Math.min(parent.width, parent.height) * 0.8, 60)
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
-                            anchors.fill: parent
+                        Component {
+                            id: emojiComponent
+                            Text {
+                                text: displayModel ? displayModel.emotionPath : "😊"
+                                width: parent.width
+                                height: parent.height
+                                font.pixelSize: Math.max(Math.min(parent.width, parent.height) * 0.8, 60)
+                                horizontalAlignment: Text.AlignHCenter
+                                verticalAlignment: Text.AlignVCenter
+                                anchors.fill: parent
+                            }
                         }
                     }
                 }
@@ -186,6 +266,7 @@ Rectangle {
                 color: "transparent"
 
                 Text {
+                    id: ttsTextDisplay
                     anchors.fill: parent
                     anchors.margins: 10
                     text: displayModel ? displayModel.ttsText : ""
@@ -195,6 +276,20 @@ Rectangle {
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     wrapMode: Text.WordWrap
+                }
+
+                // Smooth fade animation when TTS text changes
+                Connections {
+                    target: displayModel
+                    function onTtsTextChanged() {
+                        ttsTextFade.restart()
+                    }
+                }
+
+                SequentialAnimation {
+                    id: ttsTextFade
+                    NumberAnimation { target: ttsTextDisplay; property: "opacity"; to: 0.4; duration: 80 }
+                    NumberAnimation { target: ttsTextDisplay; property: "opacity"; to: 1.0; duration: 200; easing.type: Easing.OutCubic }
                 }
             }
         }
@@ -226,6 +321,9 @@ Rectangle {
                         color: autoBtn.pressed ? "#0e42d2" : (autoBtn.hovered ? "#4080ff" : "#165dff")
                         radius: 8
                         Behavior on color { ColorAnimation { duration: 120; easing.type: Easing.OutCubic } }
+
+                        scale: autoBtn.pressed ? 0.96 : 1.0
+                        Behavior on scale { NumberAnimation { duration: 100; easing.type: Easing.OutCubic } }
                     }
 
                     contentItem: Text {
@@ -249,7 +347,14 @@ Rectangle {
                     Layout.preferredHeight: 38
                     text: "Interrupt"
 
-                    background: Rectangle { color: abortBtn.pressed ? "#e5e6eb" : (abortBtn.hovered ? "#f2f3f5" : "#eceff3"); radius: 8 }
+                    background: Rectangle {
+                        color: abortBtn.pressed ? "#e5e6eb" : (abortBtn.hovered ? "#f2f3f5" : "#eceff3")
+                        radius: 8
+                        Behavior on color { ColorAnimation { duration: 120; easing.type: Easing.OutCubic } }
+
+                        scale: abortBtn.pressed ? 0.96 : 1.0
+                        Behavior on scale { NumberAnimation { duration: 100; easing.type: Easing.OutCubic } }
+                    }
                     contentItem: Text {
                         text: abortBtn.text
                         font.family: "PingFang SC, Microsoft YaHei UI"
@@ -275,7 +380,9 @@ Rectangle {
                         color: "white"
                         radius: 8
                         border.color: textInput.activeFocus ? "#165dff" : "#e5e6eb"
-                        border.width: 1
+                        border.width: textInput.activeFocus ? 2 : 1
+                        Behavior on border.color { ColorAnimation { duration: 200; easing.type: Easing.OutCubic } }
+                        Behavior on border.width { NumberAnimation { duration: 150; easing.type: Easing.OutCubic } }
 
                         TextInput {
                             id: textInput
@@ -289,8 +396,17 @@ Rectangle {
                             selectByMouse: true
                             clip: true
 
-                            // 占位符
-                            Text { anchors.fill: parent; text: "Type a message..."; font: textInput.font; color: "#c9cdd4"; verticalAlignment: Text.AlignVCenter; visible: !textInput.text && !textInput.activeFocus }
+                            // 占位符 - visible when empty (even when focused)
+                            Text {
+                                anchors.fill: parent
+                                text: "Type a message..."
+                                font: textInput.font
+                                color: "#c9cdd4"
+                                verticalAlignment: Text.AlignVCenter
+                                visible: !textInput.text
+                                opacity: textInput.activeFocus ? 0.6 : 1.0
+                                Behavior on opacity { NumberAnimation { duration: 200 } }
+                            }
 
                             Keys.onReturnPressed: { if (textInput.text.trim().length > 0) { root.sendButtonClicked(textInput.text); textInput.text = "" } }
                         }
@@ -302,7 +418,15 @@ Rectangle {
                         Layout.maximumWidth: 84
                         Layout.preferredHeight: 38
                         text: "Send"
-                        background: Rectangle { color: sendBtn.pressed ? "#0e42d2" : (sendBtn.hovered ? "#4080ff" : "#165dff"); radius: 8 }
+                        enabled: textInput.text.trim().length > 0
+                        background: Rectangle {
+                            color: !sendBtn.enabled ? "#a0bfff" : (sendBtn.pressed ? "#0e42d2" : (sendBtn.hovered ? "#4080ff" : "#165dff"))
+                            radius: 8
+                            Behavior on color { ColorAnimation { duration: 120; easing.type: Easing.OutCubic } }
+
+                            scale: sendBtn.pressed ? 0.96 : 1.0
+                            Behavior on scale { NumberAnimation { duration: 100; easing.type: Easing.OutCubic } }
+                        }
                         contentItem: Text {
                             text: sendBtn.text
                             font.family: "PingFang SC, Microsoft YaHei UI"
@@ -310,6 +434,7 @@ Rectangle {
                             color: "white"
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
+                            opacity: sendBtn.enabled ? 1.0 : 0.7
                         }
                         onClicked: { if (textInput.text.trim().length > 0) { root.sendButtonClicked(textInput.text); textInput.text = "" } }
                     }

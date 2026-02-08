@@ -50,6 +50,7 @@ class GuiDisplay(BaseDisplay, QObject, metaclass=CombinedMeta):
         # 表情管理
         self._emotion_cache = {}
         self._last_emotion_name = None
+        self._emotion_cache_ready = False
 
         # 状态管理
         self._running = True
@@ -312,6 +313,9 @@ class GuiDisplay(BaseDisplay, QObject, metaclass=CombinedMeta):
         """
         完成启动流程.
         """
+        # Eagerly preload all emotion assets to avoid first-use latency
+        self._preload_emotion_cache()
+
         await self.update_emotion("neutral")
 
         # 根据配置决定显示模式
@@ -465,6 +469,32 @@ class GuiDisplay(BaseDisplay, QObject, metaclass=CombinedMeta):
             if file_path.exists():
                 return file_path
         return None
+
+    def _preload_emotion_cache(self):
+        """
+        Eagerly preload all emotion assets into the cache at startup.
+
+        This avoids file-system lookups on the first display of each emotion,
+        reducing latency when switching emotions during runtime.
+        """
+        assets_dir = find_assets_dir()
+        if not assets_dir:
+            return
+
+        emotion_dir = assets_dir / "emojis"
+        if not emotion_dir.is_dir():
+            return
+
+        count = 0
+        for ext in self.EMOTION_EXTENSIONS:
+            for file_path in emotion_dir.glob(f"*{ext}"):
+                name = file_path.stem
+                if name not in self._emotion_cache:
+                    self._emotion_cache[name] = str(file_path)
+                    count += 1
+
+        self._emotion_cache_ready = True
+        self.logger.debug(f"Preloaded {count} emotion assets into cache")
 
     # =========================================================================
     # 系统设置
