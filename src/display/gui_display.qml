@@ -327,7 +327,7 @@ Rectangle {
             }
         }
 
-        // 按钮区域（統一配色与尺寸）
+        // 按钮区域（统一配色与尺寸）
         Rectangle {
             id: buttonBarRect
             x: layoutValue("buttonBar", "x", 0)
@@ -521,12 +521,6 @@ Rectangle {
                 drag.minimumX: 0; drag.minimumY: 0
                 cursorShape: Qt.SizeAllCursor
                 onPressed: { sectionCombo.currentIndex = sectionCombo.find("titleBar") }
-                onPositionChanged: {
-                    if (drag.active && lc) {
-                        lc.set("titleBar", "x", canvasTitleBar.x)
-                        lc.set("titleBar", "y", canvasTitleBar.y)
-                    }
-                }
                 onReleased: {
                     if (lc) {
                         lc.set("titleBar", "x", canvasTitleBar.x)
@@ -546,13 +540,13 @@ Rectangle {
                     property real startW; property real startH
                     onPressed: { startX = mouseX; startY = mouseY; startW = canvasTitleBar.width; startH = canvasTitleBar.height }
                     onPositionChanged: {
-                        var newW = Math.max(60, startW + mouseX - startX)
-                        var newH = Math.max(20, startH + mouseY - startY)
-                        canvasTitleBar.width = newW
-                        canvasTitleBar.height = newH
+                        canvasTitleBar.width = Math.max(60, startW + mouseX - startX)
+                        canvasTitleBar.height = Math.max(20, startH + mouseY - startY)
+                    }
+                    onReleased: {
                         if (lc) {
-                            lc.set("titleBar", "width", newW)
-                            lc.set("titleBar", "height_canvas", newH)
+                            lc.set("titleBar", "width", canvasTitleBar.width)
+                            lc.set("titleBar", "height_canvas", canvasTitleBar.height)
                         }
                     }
                 }
@@ -582,12 +576,6 @@ Rectangle {
                 drag.minimumX: 0; drag.minimumY: 0
                 cursorShape: Qt.SizeAllCursor
                 onPressed: { sectionCombo.currentIndex = sectionCombo.find("contentArea") }
-                onPositionChanged: {
-                    if (drag.active && lc) {
-                        lc.set("contentArea", "x", canvasContentArea.x)
-                        lc.set("contentArea", "y", canvasContentArea.y)
-                    }
-                }
                 onReleased: {
                     if (lc) {
                         lc.set("contentArea", "x", canvasContentArea.x)
@@ -606,13 +594,13 @@ Rectangle {
                     property real startW; property real startH
                     onPressed: { startX = mouseX; startY = mouseY; startW = canvasContentArea.width; startH = canvasContentArea.height }
                     onPositionChanged: {
-                        var newW = Math.max(60, startW + mouseX - startX)
-                        var newH = Math.max(40, startH + mouseY - startY)
-                        canvasContentArea.width = newW
-                        canvasContentArea.height = newH
+                        canvasContentArea.width = Math.max(60, startW + mouseX - startX)
+                        canvasContentArea.height = Math.max(40, startH + mouseY - startY)
+                    }
+                    onReleased: {
                         if (lc) {
-                            lc.set("contentArea", "width", newW)
-                            lc.set("contentArea", "height", newH)
+                            lc.set("contentArea", "width", canvasContentArea.width)
+                            lc.set("contentArea", "height", canvasContentArea.height)
                         }
                     }
                 }
@@ -642,12 +630,6 @@ Rectangle {
                 drag.minimumX: 0; drag.minimumY: 0
                 cursorShape: Qt.SizeAllCursor
                 onPressed: { sectionCombo.currentIndex = sectionCombo.find("buttonBar") }
-                onPositionChanged: {
-                    if (drag.active && lc) {
-                        lc.set("buttonBar", "x", canvasButtonBar.x)
-                        lc.set("buttonBar", "y", canvasButtonBar.y)
-                    }
-                }
                 onReleased: {
                     if (lc) {
                         lc.set("buttonBar", "x", canvasButtonBar.x)
@@ -666,13 +648,13 @@ Rectangle {
                     property real startW; property real startH
                     onPressed: { startX = mouseX; startY = mouseY; startW = canvasButtonBar.width; startH = canvasButtonBar.height }
                     onPositionChanged: {
-                        var newW = Math.max(60, startW + mouseX - startX)
-                        var newH = Math.max(30, startH + mouseY - startY)
-                        canvasButtonBar.width = newW
-                        canvasButtonBar.height = newH
+                        canvasButtonBar.width = Math.max(60, startW + mouseX - startX)
+                        canvasButtonBar.height = Math.max(30, startH + mouseY - startY)
+                    }
+                    onReleased: {
                         if (lc) {
-                            lc.set("buttonBar", "width", newW)
-                            lc.set("buttonBar", "height_canvas", newH)
+                            lc.set("buttonBar", "width", canvasButtonBar.width)
+                            lc.set("buttonBar", "height_canvas", canvasButtonBar.height)
                         }
                     }
                 }
