@@ -14,6 +14,20 @@ Rectangle {
         return (v !== undefined && v !== null) ? v : fallback
     }
 
+    // Helper: clamp a value between min and max
+    function clampBetween(val, minVal, maxVal) {
+        return Math.max(minVal, Math.min(maxVal, val))
+    }
+
+    // Track configVersion to force re-reads when layout changes
+    property int _cfgVer: lc ? lc.configVersion : 0
+    Connections {
+        target: lc
+        function onConfigChanged() {
+            root._cfgVer = lc ? lc.configVersion : 0
+        }
+    }
+
     // 信号定义 - 与 Python 回调对接
     signal autoButtonClicked()
     signal abortButtonClicked()
@@ -25,17 +39,18 @@ Rectangle {
     signal titleDragMoveTo(real mouseX, real mouseY)
     signal titleDragEnd()
 
-    // 主布局
-    ColumnLayout {
+    // 主布局 — absolute positioning with configurable x/y/width/height
+    Item {
+        id: mainContainer
         anchors.fill: parent
-        anchors.margins: 0
-        spacing: 0
 
         // 自定义标题栏：最小化、关闭、可拖动
         Rectangle {
             id: titleBar
-            Layout.fillWidth: true
-            Layout.preferredHeight: layoutValue("titleBar", "height", 36)
+            x: layoutValue("titleBar", "x", 0)
+            y: layoutValue("titleBar", "y", 0)
+            width: layoutValue("titleBar", "width", parent.width)
+            height: layoutValue("titleBar", "height_canvas", layoutValue("titleBar", "height", 36))
             color: layoutValue("titleBar", "color", "#f7f8fa")
             border.width: 0
 
@@ -134,10 +149,18 @@ Rectangle {
         }
 
         // 内容区域（表情、TTS, 输入）
-        ColumnLayout {
-            anchors.fill: parent
-            anchors.margins: layoutValue("contentArea", "margins", 12)
-            spacing: layoutValue("contentArea", "spacing", 12)
+        Item {
+            id: contentArea
+            x: layoutValue("contentArea", "x", 0)
+            y: layoutValue("contentArea", "y", titleBar.height)
+            width: layoutValue("contentArea", "width", parent.width)
+            height: layoutValue("contentArea", "height", parent.height - titleBar.height - buttonBarRect.height)
+            clip: true
+
+            ColumnLayout {
+                anchors.fill: parent
+                anchors.margins: layoutValue("contentArea", "margins", 12)
+                spacing: layoutValue("contentArea", "spacing", 12)
 
             // 表情显示区域
             Item {
@@ -300,13 +323,17 @@ Rectangle {
                     NumberAnimation { target: ttsTextDisplay; property: "opacity"; to: 0.4; duration: 80 }
                     NumberAnimation { target: ttsTextDisplay; property: "opacity"; to: 1.0; duration: 200; easing.type: Easing.OutCubic }
                 }
+                }
             }
         }
 
         // 按钮区域（统一配色与尺寸）
         Rectangle {
-            Layout.fillWidth: true
-            Layout.preferredHeight: layoutValue("buttonBar", "height", 72)
+            id: buttonBarRect
+            x: layoutValue("buttonBar", "x", 0)
+            y: layoutValue("buttonBar", "y", parent.height - height)
+            width: layoutValue("buttonBar", "width", parent.width)
+            height: layoutValue("buttonBar", "height_canvas", layoutValue("buttonBar", "height", 72))
             color: layoutValue("buttonBar", "color", "#f7f8fa")
 
             RowLayout {
@@ -468,22 +495,170 @@ Rectangle {
         color: "transparent"
         z: 1000
 
-        // Highlight borders on major areas so the user can see what is editable
+        // Draggable/resizable canvas boxes for main sections
+        // Each box overlays the corresponding section and can be moved/resized.
+
+        // --- titleBar canvas box ---
         Rectangle {
-            anchors.top: parent.top
-            anchors.left: parent.left
-            anchors.right: parent.right
-            height: layoutValue("titleBar", "height", 36)
-            color: "transparent"
+            id: canvasTitleBar
+            x: titleBar.x
+            y: titleBar.y
+            width: titleBar.width
+            height: titleBar.height
+            color: "#10ff4444"
             border.color: "#ff4444"
-            border.width: 1
+            border.width: 2
             visible: studioOverlay.visible
+
+            Text { anchors.centerIn: parent; text: "titleBar"; color: "#ff4444"; font.pixelSize: 10; font.bold: true }
+
             MouseArea {
+                id: titleBarDragArea
                 anchors.fill: parent
-                onClicked: { sectionCombo.currentIndex = sectionCombo.find("titleBar") }
-                propagateComposedEvents: true
+                anchors.rightMargin: 12
+                anchors.bottomMargin: 12
+                drag.target: canvasTitleBar
+                drag.minimumX: 0; drag.minimumY: 0
+                cursorShape: Qt.SizeAllCursor
+                onPressed: { sectionCombo.currentIndex = sectionCombo.find("titleBar") }
+                onReleased: {
+                    if (lc) {
+                        lc.set("titleBar", "x", canvasTitleBar.x)
+                        lc.set("titleBar", "y", canvasTitleBar.y)
+                    }
+                }
             }
-            Text { anchors.centerIn: parent; text: "titleBar"; color: "#ff4444"; font.pixelSize: 9; opacity: 0.8 }
+            // Resize handle (bottom-right corner)
+            Rectangle {
+                width: 12; height: 12
+                anchors.right: parent.right; anchors.bottom: parent.bottom
+                color: "#ff4444"; radius: 2
+                MouseArea {
+                    anchors.fill: parent
+                    cursorShape: Qt.SizeFDiagCursor
+                    property real startX; property real startY
+                    property real startW; property real startH
+                    onPressed: { startX = mouseX; startY = mouseY; startW = canvasTitleBar.width; startH = canvasTitleBar.height }
+                    onPositionChanged: {
+                        canvasTitleBar.width = Math.max(60, startW + mouseX - startX)
+                        canvasTitleBar.height = Math.max(20, startH + mouseY - startY)
+                    }
+                    onReleased: {
+                        if (lc) {
+                            lc.set("titleBar", "width", canvasTitleBar.width)
+                            lc.set("titleBar", "height_canvas", canvasTitleBar.height)
+                        }
+                    }
+                }
+            }
+        }
+
+        // --- contentArea canvas box ---
+        Rectangle {
+            id: canvasContentArea
+            x: contentArea.x
+            y: contentArea.y
+            width: contentArea.width
+            height: contentArea.height
+            color: "#1000cc44"
+            border.color: "#00cc44"
+            border.width: 2
+            visible: studioOverlay.visible
+
+            Text { anchors.centerIn: parent; text: "contentArea"; color: "#00cc44"; font.pixelSize: 10; font.bold: true }
+
+            MouseArea {
+                id: contentAreaDragArea
+                anchors.fill: parent
+                anchors.rightMargin: 12
+                anchors.bottomMargin: 12
+                drag.target: canvasContentArea
+                drag.minimumX: 0; drag.minimumY: 0
+                cursorShape: Qt.SizeAllCursor
+                onPressed: { sectionCombo.currentIndex = sectionCombo.find("contentArea") }
+                onReleased: {
+                    if (lc) {
+                        lc.set("contentArea", "x", canvasContentArea.x)
+                        lc.set("contentArea", "y", canvasContentArea.y)
+                    }
+                }
+            }
+            Rectangle {
+                width: 12; height: 12
+                anchors.right: parent.right; anchors.bottom: parent.bottom
+                color: "#00cc44"; radius: 2
+                MouseArea {
+                    anchors.fill: parent
+                    cursorShape: Qt.SizeFDiagCursor
+                    property real startX; property real startY
+                    property real startW; property real startH
+                    onPressed: { startX = mouseX; startY = mouseY; startW = canvasContentArea.width; startH = canvasContentArea.height }
+                    onPositionChanged: {
+                        canvasContentArea.width = Math.max(60, startW + mouseX - startX)
+                        canvasContentArea.height = Math.max(40, startH + mouseY - startY)
+                    }
+                    onReleased: {
+                        if (lc) {
+                            lc.set("contentArea", "width", canvasContentArea.width)
+                            lc.set("contentArea", "height", canvasContentArea.height)
+                        }
+                    }
+                }
+            }
+        }
+
+        // --- buttonBar canvas box ---
+        Rectangle {
+            id: canvasButtonBar
+            x: buttonBarRect.x
+            y: buttonBarRect.y
+            width: buttonBarRect.width
+            height: buttonBarRect.height
+            color: "#104444ff"
+            border.color: "#4444ff"
+            border.width: 2
+            visible: studioOverlay.visible
+
+            Text { anchors.centerIn: parent; text: "buttonBar"; color: "#4444ff"; font.pixelSize: 10; font.bold: true }
+
+            MouseArea {
+                id: buttonBarDragArea
+                anchors.fill: parent
+                anchors.rightMargin: 12
+                anchors.bottomMargin: 12
+                drag.target: canvasButtonBar
+                drag.minimumX: 0; drag.minimumY: 0
+                cursorShape: Qt.SizeAllCursor
+                onPressed: { sectionCombo.currentIndex = sectionCombo.find("buttonBar") }
+                onReleased: {
+                    if (lc) {
+                        lc.set("buttonBar", "x", canvasButtonBar.x)
+                        lc.set("buttonBar", "y", canvasButtonBar.y)
+                    }
+                }
+            }
+            Rectangle {
+                width: 12; height: 12
+                anchors.right: parent.right; anchors.bottom: parent.bottom
+                color: "#4444ff"; radius: 2
+                MouseArea {
+                    anchors.fill: parent
+                    cursorShape: Qt.SizeFDiagCursor
+                    property real startX; property real startY
+                    property real startW; property real startH
+                    onPressed: { startX = mouseX; startY = mouseY; startW = canvasButtonBar.width; startH = canvasButtonBar.height }
+                    onPositionChanged: {
+                        canvasButtonBar.width = Math.max(60, startW + mouseX - startX)
+                        canvasButtonBar.height = Math.max(30, startH + mouseY - startY)
+                    }
+                    onReleased: {
+                        if (lc) {
+                            lc.set("buttonBar", "width", canvasButtonBar.width)
+                            lc.set("buttonBar", "height_canvas", canvasButtonBar.height)
+                        }
+                    }
+                }
+            }
         }
 
         // Side panel for editing properties

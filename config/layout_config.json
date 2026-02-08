@@ -4,7 +4,11 @@
     },
     "titleBar": {
         "height": 36,
-        "color": "#f7f8fa"
+        "color": "#f7f8fa",
+        "x": null,
+        "y": null,
+        "width": null,
+        "height_canvas": null
     },
     "statusDot": {
         "width": 8,
@@ -44,7 +48,11 @@
     },
     "contentArea": {
         "margins": 12,
-        "spacing": 12
+        "spacing": 12,
+        "x": null,
+        "y": null,
+        "width": null,
+        "height": null
     },
     "emotionArea": {
         "minimumHeight": 80,
@@ -68,7 +76,11 @@
         "color": "#f7f8fa",
         "margins": 12,
         "bottomMargin": 10,
-        "spacing": 6
+        "spacing": 6,
+        "x": null,
+        "y": null,
+        "width": null,
+        "height_canvas": null
     },
     "autoButton": {
         "preferredWidth": 100,
