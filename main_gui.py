@@ -257,7 +257,7 @@ async def run_gui(fullscreen: bool = False):
         # Keep the event loop running until GUI is closed
         try:
             while gui_display._running:
-                await asyncio.sleep(0.1)
+                await asyncio.sleep(0.5)
         finally:
             if stt_controller:
                 await stt_controller.shutdown()
