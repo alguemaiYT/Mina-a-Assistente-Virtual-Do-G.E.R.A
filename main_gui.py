@@ -129,12 +129,14 @@ def _parse_cli_args():
     parser.add_argument("-f", "--fullscreen", action="store_true")
     parser.add_argument("-s", "--studio", action="store_true",
                         help="Open the layout editor mode")
+    parser.add_argument("-g", "--gravity", choices=["right", "left"], default=None,
+                        help="Rotate the GUI 90 degrees: 'right' (clockwise) or 'left' (counter-clockwise)")
     args, remaining = parser.parse_known_args(sys.argv[1:])
     sys.argv = [sys.argv[0]] + remaining
-    return args.fullscreen, args.studio
+    return args.fullscreen, args.studio, args.gravity
 
 
-async def run_gui(fullscreen: bool = False, studio_mode: bool = False):
+async def run_gui(fullscreen: bool = False, studio_mode: bool = False, rotation_gravity: str = None):
     """
     Run the GUI display in standalone mode.
     """
@@ -144,7 +146,7 @@ async def run_gui(fullscreen: bool = False, studio_mode: bool = False):
         chat_bridge = ChatBridge()
 
         # Create and start the GUI display
-        gui_display = GuiDisplay(studio_mode=studio_mode)
+        gui_display = GuiDisplay(studio_mode=studio_mode, rotation_gravity=rotation_gravity)
         if fullscreen:
             gui_display.set_force_fullscreen(True)
 
@@ -292,7 +294,7 @@ def main():
         except Exception:
             pass
         
-        fullscreen, studio_mode = _parse_cli_args()
+        fullscreen, studio_mode, rotation_gravity = _parse_cli_args()
         # Create Qt application
         qt_app = QApplication.instance() or QApplication(sys.argv)
         qt_app.setQuitOnLastWindowClosed(False)
@@ -304,7 +306,7 @@ def main():
         
         # Run the GUI
         with loop:
-            exit_code = loop.run_until_complete(run_gui(fullscreen=fullscreen, studio_mode=studio_mode))
+            exit_code = loop.run_until_complete(run_gui(fullscreen=fullscreen, studio_mode=studio_mode, rotation_gravity=rotation_gravity))
             
     except KeyboardInterrupt:
         logger.info("Program interrupted by user")

@@ -1,25 +1,8 @@
-2026-02-09 08:14:15,242[root] - INFO - Logging initialized, log file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-02-09 08:14:16,627[__main__] - INFO - Created qasync event loop - MainThread
-2026-02-09 08:14:16,638[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-02-09 08:14:17,697[src.utils.config_manager] - INFO - Config directory: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-02-09 08:14:17,698[src.utils.config_manager] - INFO - Config file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-02-09 08:14:21,010[__main__] - INFO - GUI started successfully - MainThread
-2026-02-09 08:14:45,701[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
-2026-02-09 08:14:45,741[__main__] - INFO - GUI closed before loop completion - MainThread
-2026-02-09 09:01:30,303[root] - INFO - Logging initialized, log file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-02-09 09:01:31,745[__main__] - INFO - Created qasync event loop - MainThread
-2026-02-09 09:01:31,753[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-02-09 09:01:33,392[src.utils.config_manager] - INFO - Config directory: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-02-09 09:01:33,393[src.utils.config_manager] - INFO - Config file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-02-09 09:01:36,726[__main__] - INFO - GUI started successfully - MainThread
-2026-02-09 09:01:51,059[GuiDisplay] - INFO - 关闭窗口：退出应用程序 - MainThread
-2026-02-09 09:01:51,084[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
-2026-02-09 09:01:51,085[__main__] - INFO - GUI closed before loop completion - MainThread
-2026-02-09 09:03:24,285[root] - INFO - Logging initialized, log file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-02-09 09:03:24,311[__main__] - INFO - Created qasync event loop - MainThread
-2026-02-09 09:03:24,312[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-02-09 09:03:24,588[src.utils.config_manager] - INFO - Config directory: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-02-09 09:03:24,588[src.utils.config_manager] - INFO - Config file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-02-09 09:03:24,915[__main__] - INFO - GUI started successfully - MainThread
-2026-02-09 09:03:36,746[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
-2026-02-09 09:03:36,748[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-03-08 17:58:38,013[root] - INFO - Logging initialized, log file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-03-08 17:58:39,405[__main__] - INFO - Created qasync event loop - MainThread
+2026-03-08 17:58:39,414[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-03-08 17:58:40,387[src.utils.config_manager] - INFO - Config directory: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-03-08 17:58:40,388[src.utils.config_manager] - INFO - Config file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-03-08 17:58:45,388[__main__] - INFO - GUI started successfully - MainThread
+2026-03-08 17:59:05,257[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-03-08 17:59:05,258[__main__] - INFO - GUI closed before loop completion - MainThread

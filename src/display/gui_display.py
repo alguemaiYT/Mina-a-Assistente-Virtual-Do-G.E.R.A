@@ -36,7 +36,7 @@ class GuiDisplay(BaseDisplay, QObject, metaclass=CombinedMeta):
     DEFAULT_FONT_SIZE = 12
     QUIT_TIMEOUT_MS = 3000
 
-    def __init__(self, studio_mode: bool = False):
+    def __init__(self, studio_mode: bool = False, rotation_gravity: str = None):
         super().__init__()
         QObject.__init__(self)
 
@@ -44,6 +44,10 @@ class GuiDisplay(BaseDisplay, QObject, metaclass=CombinedMeta):
         self.app = None
         self.root = None
         self.qml_widget = None
+
+        # Rotation: "right" → 90°, "left" → -90°, None → 0°
+        _gravity_map = {"right": 90, "left": -90}
+        self._rotation_angle: int = _gravity_map.get(rotation_gravity, 0) if rotation_gravity else 0
 
         # 数据模型
         self.display_model = GuiDisplayModel()
@@ -281,6 +285,10 @@ class GuiDisplay(BaseDisplay, QObject, metaclass=CombinedMeta):
                 height = int(screen_height * 0.5)
                 is_fullscreen = False
 
+            # Swap dimensions when rotated 90°
+            if self._rotation_angle % 180 != 0:
+                width, height = height, width
+
             return ((width, height), is_fullscreen)
 
         except Exception as e:
@@ -308,6 +316,7 @@ class GuiDisplay(BaseDisplay, QObject, metaclass=CombinedMeta):
         qml_context = self.qml_widget.rootContext()
         qml_context.setContextProperty("displayModel", self.display_model)
         qml_context.setContextProperty("lc", self.layout_config)
+        qml_context.setContextProperty("appRotationAngle", self._rotation_angle)
 
         # 加载 QML 文件
         qml_file = Path(__file__).parent / "gui_display.qml"

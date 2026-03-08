@@ -64,7 +64,19 @@ Rectangle {
     property string studioSelectedSection: ""
     property bool studioActive: lc ? lc.studioMode : false
 
+    // Rotation support: appRotationAngle is injected via QML context (0, 90, or -90)
+    property int rotationAngle: (typeof appRotationAngle !== "undefined") ? appRotationAngle : 0
+
     // 主布局 — absolute positioning with configurable x/y/width/height
+    // rotationWrapper swaps logical width/height when rotated 90° so the content
+    // fills the (already swapped) window dimensions correctly.
+    Item {
+        id: rotationWrapper
+        width:  (root.rotationAngle % 180 !== 0) ? root.height : root.width
+        height: (root.rotationAngle % 180 !== 0) ? root.width  : root.height
+        anchors.centerIn: parent
+        rotation: root.rotationAngle
+
     Item {
         id: mainContainer
         anchors.fill: parent
@@ -588,6 +600,7 @@ Rectangle {
             }
         }
     }
+    } // end rotationWrapper
 
     // =========================================================================
     // STUDIO / LAYOUT EDITOR OVERLAY
