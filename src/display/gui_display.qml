@@ -7,6 +7,16 @@ Rectangle {
     id: root
     color: layoutValue("root", "color", "#f5f5f5")
 
+    Rectangle {
+        anchors.fill: parent
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: "#102033" }
+            GradientStop { position: 0.38; color: "#0a1623" }
+            GradientStop { position: 1.0; color: layoutValue("root", "color", "#060f18") }
+        }
+        opacity: 0.95
+    }
+
     // Helper: read a layout value with a fallback.
     // Touch lc.configVersion to create a binding dependency.
     function layoutValue(section, key, fallback) {
@@ -89,7 +99,8 @@ Rectangle {
             width: layoutValue("titleBar", "width", parent.width)
             height: layoutValue("titleBar", "height_canvas", layoutValue("titleBar", "height", 36))
             color: layoutValue("titleBar", "color", "#f7f8fa")
-            border.width: 0
+            border.width: 1
+            border.color: "#182d43"
             transform: Translate {
                 x: layoutValue("titleBar", "offsetX", 0)
                 y: layoutValue("titleBar", "offsetY", 0)
@@ -335,6 +346,7 @@ Rectangle {
                                 width: parent.width
                                 height: parent.height
                                 fillMode: Image.PreserveAspectCrop
+                                smooth: true
                                 source: displayModel ? displayModel.emotionPath : ""
                                 playing: true
                                 speed: 1.05
@@ -356,6 +368,7 @@ Rectangle {
                                 width: parent.width
                                 height: parent.height
                                 fillMode: Image.PreserveAspectCrop
+                                smooth: true
                                 source: displayModel ? displayModel.emotionPath : ""
                                 cache: true
                                 clip: true
@@ -390,6 +403,9 @@ Rectangle {
                 Layout.fillWidth: true
                 Layout.preferredHeight: layoutValue("ttsArea", "height", 60)
                 color: layoutValue("ttsArea", "color", "transparent")
+                radius: 16
+                border.width: 1
+                border.color: "#1d334a"
                 transform: Translate {
                     x: layoutValue("ttsArea", "offsetX", 0)
                     y: layoutValue("ttsArea", "offsetY", 0)
@@ -434,6 +450,9 @@ Rectangle {
             property bool barVisible: displayModel ? displayModel.buttonBarVisible : true
             height: layoutValue("buttonBar", "height_canvas", layoutValue("buttonBar", "height", 72))
             color: layoutValue("buttonBar", "color", "#f7f8fa")
+            radius: 18
+            border.width: 1
+            border.color: "#162a3e"
             transform: Translate {
                 x: layoutValue("buttonBar", "offsetX", 0)
                 y: layoutValue("buttonBar", "offsetY", 0)
@@ -464,6 +483,8 @@ Rectangle {
                     background: Rectangle {
                         color: autoBtn.pressed ? layoutValue("autoButton", "colorPressed", "#0e42d2") : (autoBtn.hovered ? layoutValue("autoButton", "colorHover", "#4080ff") : layoutValue("autoButton", "colorNormal", "#165dff"))
                         radius: layoutValue("autoButton", "radius", 8)
+                        border.width: 1
+                        border.color: autoBtn.hovered ? "#8fdaff" : "#4fb4ff"
                         Behavior on color { ColorAnimation { duration: 120; easing.type: Easing.OutCubic } }
 
                         scale: autoBtn.pressed ? 0.96 : 1.0
@@ -498,6 +519,8 @@ Rectangle {
                     background: Rectangle {
                         color: abortBtn.pressed ? layoutValue("abortButton", "colorPressed", "#e5e6eb") : (abortBtn.hovered ? layoutValue("abortButton", "colorHover", "#f2f3f5") : layoutValue("abortButton", "colorNormal", "#eceff3"))
                         radius: layoutValue("abortButton", "radius", 8)
+                        border.width: 1
+                        border.color: abortBtn.hovered ? "#385b7f" : "#223850"
                         Behavior on color { ColorAnimation { duration: 120; easing.type: Easing.OutCubic } }
 
                         scale: abortBtn.pressed ? 0.96 : 1.0
@@ -579,6 +602,8 @@ Rectangle {
                         background: Rectangle {
                             color: !sendBtn.enabled ? layoutValue("sendButton", "colorDisabled", "#a0bfff") : (sendBtn.pressed ? layoutValue("sendButton", "colorPressed", "#0e42d2") : (sendBtn.hovered ? layoutValue("sendButton", "colorHover", "#4080ff") : layoutValue("sendButton", "colorNormal", "#165dff")))
                             radius: layoutValue("sendButton", "radius", 8)
+                            border.width: 1
+                            border.color: sendBtn.enabled ? (sendBtn.hovered ? "#8fdaff" : "#4fb4ff") : "#23405d"
                             Behavior on color { ColorAnimation { duration: 120; easing.type: Easing.OutCubic } }
 
                             scale: sendBtn.pressed ? 0.96 : 1.0

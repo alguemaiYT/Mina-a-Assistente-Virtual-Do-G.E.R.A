@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Callable, Optional
 
 from PyQt5.QtCore import QObject, Qt, QTimer, QUrl
-from PyQt5.QtGui import QCursor, QFont
+from PyQt5.QtGui import QColor, QCursor, QFont
 from PyQt5.QtQuickWidgets import QQuickWidget
 from PyQt5.QtWidgets import QApplication, QVBoxLayout, QWidget
 
@@ -310,7 +310,7 @@ class GuiDisplay(BaseDisplay, QObject, metaclass=CombinedMeta):
         """
         self.qml_widget = QQuickWidget()
         self.qml_widget.setResizeMode(QQuickWidget.SizeRootObjectToView)
-        self.qml_widget.setClearColor(Qt.white)
+        self.qml_widget.setClearColor(QColor("#060f18"))
 
         # 注册数据模型到 QML 上下文
         qml_context = self.qml_widget.rootContext()
