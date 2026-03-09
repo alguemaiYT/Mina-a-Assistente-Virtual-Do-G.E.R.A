@@ -220,7 +220,7 @@
              </size>
             </property>
             <property name="styleSheet">
-             <string>border: 2px solid #ccc; background-color: #000;</string>
+             <string>border: 1px solid #294563; border-radius: 12px; background-color: #08111a; color: #9cb7d7;</string>
             </property>
             <property name="text">
              <string>Camera preview area\nClick to refresh preview or change camera index</string>

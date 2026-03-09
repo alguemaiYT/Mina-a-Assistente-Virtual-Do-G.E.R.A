@@ -120,7 +120,7 @@
              <string>Please enter wake words in Chinese; they will be converted to pinyin when saved.\nExample: 小米小米 (will be converted to: x iǎo m ǐ x iǎo m ǐ @小米小米)</string>
             </property>
             <property name="styleSheet">
-             <string>color: #666666; font-size: 11px;</string>
+             <string>color: #90a7c4; font-size: 11px;</string>
             </property>
            </widget>
           </item>

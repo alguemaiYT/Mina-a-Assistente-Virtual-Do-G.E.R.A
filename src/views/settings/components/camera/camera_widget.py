@@ -268,14 +268,61 @@ class CameraWidget(QWidget):
             dialog = QDialog(self)
             dialog.setWindowTitle("Select Camera")
             dialog.setFixedSize(400, 300)
+            dialog.setStyleSheet(
+                """
+                QDialog {
+                    background: #09131f;
+                    color: #e8f2ff;
+                }
+                QLabel {
+                    color: #d7e5f7;
+                }
+                QListWidget {
+                    background: #0b1520;
+                    color: #eff6ff;
+                    border: 1px solid #233a54;
+                    border-radius: 12px;
+                    padding: 6px;
+                    outline: none;
+                }
+                QListWidget::item {
+                    padding: 10px 12px;
+                    border-radius: 8px;
+                }
+                QListWidget::item:hover:!selected {
+                    background: #112031;
+                }
+                QListWidget::item:selected {
+                    background: #17324d;
+                    border: 1px solid #4f87bd;
+                    color: white;
+                }
+                QPushButton {
+                    background: #16273a;
+                    color: #eef5ff;
+                    border: 1px solid #26425f;
+                    border-radius: 10px;
+                    padding: 8px 14px;
+                }
+                QPushButton:hover {
+                    background: #1b3450;
+                    border-color: #4f87bd;
+                }
+                QPushButton:pressed {
+                    background: #102033;
+                }
+                """
+            )
 
             layout = QVBoxLayout(dialog)
 
             # Title label
             title_label = QLabel(
-                f"Detected {len(available_cameras)} available cameras — please select one:"
+                f"Detected {len(available_cameras)} available cameras - please select one:"
             )
-            title_label.setStyleSheet("font-weight: bold; margin-bottom: 10px;")
+            title_label.setStyleSheet(
+                "font-weight: 600; margin-bottom: 10px; color: #f3f8ff;"
+            )
             layout.addWidget(title_label)
 
             # Camera list

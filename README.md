@@ -92,11 +92,18 @@ The GUI uses the same configuration files as the full version:
 - Settings are stored in platform-specific locations
 - Window size, display options, and preferences are configurable
 
+### Chat (Groq)
+
+To enable chat responses, set `GROQ_API_KEY`. The default chat model is
+`moonshotai/kimi-k2-instruct`, override with `GROQ_CHAT_MODEL` if needed.
+Set `CHAT_BACKEND=binary` to force the bundled `apicomm` binary instead of
+the Python Groq client.
+
 ## Notes
 
-- The GUI will start but won't have backend functionality
-- Callbacks are set up but won't trigger actual AI operations
-- This is purely a visual/frontend testing environment
+- The GUI starts without bundled backend services; chat requires `GROQ_API_KEY`
+- If credentials are missing, the GUI still loads for visual testing
+- This is primarily a visual/frontend testing environment
 - To use the full AI capabilities, please use the complete version
 
 ## License

@@ -8,6 +8,20 @@ Rectangle {
     width: 520
     height: 420
     color: "transparent"
+    property color panelTop: "#132134"
+    property color panelBottom: "#0a1420"
+    property color cardColor: "#0f1a2a"
+    property color cardHover: "#15263a"
+    property color fieldColor: "#08111a"
+    property color borderColor: "#223952"
+    property color accentColor: "#2f9fff"
+    property color accentHover: "#5db7ff"
+    property color accentPressed: "#227fd1"
+    property color primaryText: "#f2f7ff"
+    property color secondaryText: "#8fa6c5"
+    property color successColor: "#4de28f"
+    property color warningColor: "#ffbf69"
+    property color dangerColor: "#ff7285"
 
     // 信号定义
     signal copyCodeClicked()
@@ -18,19 +32,23 @@ Rectangle {
         id: mainContainer
         anchors.fill: parent
         anchors.margins: 8  // 为阴影留出空间
-        color: "#ffffff"
-        radius: 10  // QML圆角，提供更好的抗锯齿效果
-        border.width: 0
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: root.panelTop }
+            GradientStop { position: 1.0; color: root.panelBottom }
+        }
+        radius: 18
+        border.width: 1
+        border.color: "#1c3047"
         antialiasing: true
 
         // 添加窗口阴影效果
         layer.enabled: true
         layer.effect: DropShadow {
             horizontalOffset: 0
-            verticalOffset: 2
-            radius: 10
-            samples: 16
-            color: "#15000000"
+            verticalOffset: 10
+            radius: 28
+            samples: 32
+            color: "#70040a12"
             transparentBorder: true
         }
 
@@ -49,7 +67,7 @@ Rectangle {
                     font.family: "PingFang SC, Microsoft YaHei UI, Helvetica Neue"
                     font.pixelSize: 20
                     font.weight: Font.Medium
-                    color: "#1d2129"
+                    color: root.primaryText
                 }
 
                 Item { Layout.fillWidth: true }
@@ -62,14 +80,14 @@ Rectangle {
                         width: 6
                         height: 6
                         radius: 3
-                        color: activationModel ? getArcoStatusColor() : "#f53f3f"
+                        color: activationModel ? getArcoStatusColor() : root.dangerColor
 
                         function getArcoStatusColor() {
                             var status = activationModel.activationStatus
-                            if (status === "已激活") return "#00b42a"
-                            if (status === "激活中...") return "#ff7d00"
-                            if (status.includes("不一致")) return "#f53f3f"
-                            return "#f53f3f"
+                            if (status === "已激活") return root.successColor
+                            if (status === "激活中...") return root.warningColor
+                            if (status.includes("不一致")) return root.dangerColor
+                            return root.dangerColor
                         }
                     }
 
@@ -77,7 +95,7 @@ Rectangle {
                         text: activationModel ? activationModel.activationStatus : "未激活"
                         font.family: "PingFang SC, Microsoft YaHei UI"
                         font.pixelSize: 12
-                        color: "#4e5969"
+                        color: root.secondaryText
                     }
                 }
 
@@ -88,10 +106,11 @@ Rectangle {
                     height: 32
 
                     background: Rectangle {
-                        color: windowCloseBtn.pressed ? "#f53f3f" :
-                               windowCloseBtn.hovered ? "#ff7875" : "transparent"
-                        radius: 3
-                        border.width: 0
+                        color: windowCloseBtn.pressed ? root.dangerColor :
+                               windowCloseBtn.hovered ? "#33131a" : "transparent"
+                        radius: 10
+                        border.width: windowCloseBtn.hovered ? 1 : 0
+                        border.color: windowCloseBtn.hovered ? "#ff92a1" : "transparent"
                         antialiasing: true
 
                         // 颜色过渡动效
@@ -114,7 +133,7 @@ Rectangle {
 
                     contentItem: Text {
                         text: "×"
-                        color: windowCloseBtn.hovered ? "white" : "#86909c"
+                        color: windowCloseBtn.hovered ? "white" : root.secondaryText
                         font.family: "Arial"
                         font.pixelSize: 18
                         font.weight: Font.Bold
@@ -139,9 +158,10 @@ Rectangle {
                 id: deviceInfoCard
                 Layout.fillWidth: true
                 Layout.preferredHeight: 80
-                color: deviceInfoMouseArea.containsMouse ? "#f2f3f5" : "#f7f8fa"
-                radius: 3
-                border.width: 0
+                color: deviceInfoMouseArea.containsMouse ? root.cardHover : root.cardColor
+                radius: 14
+                border.width: 1
+                border.color: root.borderColor
                 antialiasing: true
 
                 // 颜色过渡动效
@@ -178,7 +198,7 @@ Rectangle {
                             font.family: "PingFang SC, Microsoft YaHei UI"
                             font.pixelSize: 13
                             font.weight: Font.Medium
-                            color: "#4e5969"
+                            color: "#7bbcff"
                         }
 
                         GridLayout {
@@ -191,28 +211,28 @@ Rectangle {
                                 text: "设备序列号"
                                 font.family: "PingFang SC, Microsoft YaHei UI"
                                 font.pixelSize: 12
-                                color: "#86909c"
+                                color: root.secondaryText
                             }
 
                             Text {
                                 text: "MAC地址"
                                 font.family: "PingFang SC, Microsoft YaHei UI"
                                 font.pixelSize: 12
-                                color: "#86909c"
+                                color: root.secondaryText
                             }
 
                             Text {
                                 text: activationModel ? activationModel.serialNumber : "SN-7B46DAF2-00ff732a9678"
                                 font.family: "SF Mono, Consolas, monospace"
                                 font.pixelSize: 12
-                                color: "#1d2129"
+                                color: root.primaryText
                             }
 
                             Text {
                                 text: activationModel ? activationModel.macAddress : "00:ff:73:2a:96:78"
                                 font.family: "SF Mono, Consolas, monospace"
                                 font.pixelSize: 12
-                                color: "#1d2129"
+                                color: root.primaryText
                             }
                         }
                     }
@@ -226,9 +246,10 @@ Rectangle {
                 id: activationCodeCard
                 Layout.fillWidth: true
                 Layout.preferredHeight: 64
-                color: activationCodeMouseArea.containsMouse ? "#f2f3f5" : "#f7f8fa"
-                radius: 3
-                border.width: 0
+                color: activationCodeMouseArea.containsMouse ? root.cardHover : root.cardColor
+                radius: 14
+                border.width: 1
+                border.color: root.borderColor
                 antialiasing: true
 
                 // 颜色过渡动效
@@ -258,15 +279,15 @@ Rectangle {
                         font.family: "PingFang SC, Microsoft YaHei UI"
                         font.pixelSize: 13
                         font.weight: Font.Medium
-                        color: "#4e5969"
+                        color: "#7bbcff"
                     }
 
                     Rectangle {
                         Layout.fillWidth: true
                         height: 36
-                        color: "#ffffff"
-                        radius: 3
-                        border.color: "#e5e6eb"
+                        color: root.fieldColor
+                        radius: 10
+                        border.color: root.borderColor
                         border.width: 1
                         antialiasing: true
 
@@ -276,7 +297,7 @@ Rectangle {
                             font.family: "SF Mono, Consolas, monospace"
                             font.pixelSize: 15
                             font.weight: Font.Medium
-                            color: "#f53f3f"
+                            color: "#7fd2ff"
                             font.letterSpacing: 2
                         }
                     }
@@ -288,10 +309,11 @@ Rectangle {
                         height: 36
 
                         background: Rectangle {
-                            color: copyCodeBtn.pressed ? "#0e42d2" :
-                                   copyCodeBtn.hovered ? "#4080ff" : "#165dff"
-                            radius: 3
-                            border.width: 0
+                            color: copyCodeBtn.pressed ? root.accentPressed :
+                                   copyCodeBtn.hovered ? root.accentHover : root.accentColor
+                            radius: 10
+                            border.width: 1
+                            border.color: copyCodeBtn.hovered ? "#8fdaff" : "#4fb4ff"
                             antialiasing: true
 
                             // 颜色过渡动效
@@ -334,10 +356,11 @@ Rectangle {
                     Layout.preferredHeight: 36
 
                     background: Rectangle {
-                        color: retryBtn.pressed ? "#0e42d2" :
-                               retryBtn.hovered ? "#4080ff" : "#165dff"
-                        radius: 3
-                        border.width: 0
+                        color: retryBtn.pressed ? root.accentPressed :
+                               retryBtn.hovered ? root.accentHover : root.accentColor
+                        radius: 12
+                        border.width: 1
+                        border.color: retryBtn.hovered ? "#8fdaff" : "#4fb4ff"
                         antialiasing: true
 
                         // 颜色过渡动效
@@ -361,10 +384,10 @@ Rectangle {
                         layer.enabled: true
                         layer.effect: DropShadow {
                             horizontalOffset: 0
-                            verticalOffset: 2
-                            radius: 6
+                            verticalOffset: 6
+                            radius: 14
                             samples: 12
-                            color: "#20165dff"
+                            color: "#402f9fff"
                         }
                     }
 

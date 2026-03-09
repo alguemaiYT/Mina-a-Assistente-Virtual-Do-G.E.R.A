@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Callable, Optional
 
 from PyQt5.QtCore import QObject, Qt, QTimer, QUrl
-from PyQt5.QtGui import QCursor, QFont
+from PyQt5.QtGui import QColor, QCursor, QFont
 from PyQt5.QtQuickWidgets import QQuickWidget
 from PyQt5.QtWidgets import QApplication, QVBoxLayout, QWidget
 
@@ -36,7 +36,7 @@ class GuiDisplay(BaseDisplay, QObject, metaclass=CombinedMeta):
     DEFAULT_FONT_SIZE = 12
     QUIT_TIMEOUT_MS = 3000
 
-    def __init__(self, studio_mode: bool = False):
+    def __init__(self, studio_mode: bool = False, rotation_gravity: str = None):
         super().__init__()
         QObject.__init__(self)
 
@@ -44,6 +44,10 @@ class GuiDisplay(BaseDisplay, QObject, metaclass=CombinedMeta):
         self.app = None
         self.root = None
         self.qml_widget = None
+
+        # Rotation: "right" → 90°, "left" → -90°, None → 0°
+        _gravity_map = {"right": 90, "left": -90}
+        self._rotation_angle: int = _gravity_map.get(rotation_gravity, 0) if rotation_gravity else 0
 
         # 数据模型
         self.display_model = GuiDisplayModel()
@@ -68,7 +72,8 @@ class GuiDisplay(BaseDisplay, QObject, metaclass=CombinedMeta):
 
         # 窗口拖动状态
         self._dragging = False
-        self._drag_position = None
+        self._drag_start_pos = None
+        self._window_start_pos = None
 
         # 回调函数映射
         self._callbacks = {
@@ -281,6 +286,10 @@ class GuiDisplay(BaseDisplay, QObject, metaclass=CombinedMeta):
                 height = int(screen_height * 0.5)
                 is_fullscreen = False
 
+            # Swap dimensions when rotated 90°
+            if self._rotation_angle % 180 != 0:
+                width, height = height, width
+
             return ((width, height), is_fullscreen)
 
         except Exception as e:
@@ -302,12 +311,13 @@ class GuiDisplay(BaseDisplay, QObject, metaclass=CombinedMeta):
         """
         self.qml_widget = QQuickWidget()
         self.qml_widget.setResizeMode(QQuickWidget.SizeRootObjectToView)
-        self.qml_widget.setClearColor(Qt.white)
+        self.qml_widget.setClearColor(QColor("#060f18"))
 
         # 注册数据模型到 QML 上下文
         qml_context = self.qml_widget.rootContext()
         qml_context.setContextProperty("displayModel", self.display_model)
         qml_context.setContextProperty("lc", self.layout_config)
+        qml_context.setContextProperty("appRotationAngle", self._rotation_angle)
 
         # 加载 QML 文件
         qml_file = Path(__file__).parent / "gui_display.qml"
@@ -425,26 +435,30 @@ class GuiDisplay(BaseDisplay, QObject, metaclass=CombinedMeta):
     # 窗口拖动
     # =========================================================================
 
-    def _on_title_drag_start(self, _x, _y):
+    def _on_title_drag_start(self, x, y):
         """
         标题栏拖动开始.
         """
         self._dragging = True
-        self._drag_position = QCursor.pos() - self.root.pos()
+        self._drag_start_pos = QCursor.pos()
+        self._window_start_pos = self.root.pos()
 
-    def _on_title_drag_move(self, _x, _y):
+    def _on_title_drag_move(self, x, y):
         """
         标题栏拖动移动.
         """
-        if self._dragging and self._drag_position:
-            self.root.move(QCursor.pos() - self._drag_position)
+        if self._dragging and self._drag_start_pos and self._window_start_pos:
+            curr_pos = QCursor.pos()
+            delta = curr_pos - self._drag_start_pos
+            self.root.move(self._window_start_pos + delta)
 
     def _on_title_drag_end(self):
         """
         标题栏拖动结束.
         """
         self._dragging = False
-        self._drag_position = None
+        self._drag_start_pos = None
+        self._window_start_pos = None
 
     # =========================================================================
     # 表情管理

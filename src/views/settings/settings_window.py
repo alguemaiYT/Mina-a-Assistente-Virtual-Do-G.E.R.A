@@ -56,10 +56,207 @@ class SettingsWindow(QDialog):
 
             # 添加各个组件选项卡
             self._add_component_tabs()
+            self._apply_theme()
 
         except Exception as e:
             self.logger.error(f"设置UI失败: {e}", exc_info=True)
             raise
+
+    def _apply_theme(self):
+        """Apply a cohesive visual theme without changing the dialog layout."""
+        self.setObjectName("SettingsWindow")
+        self.setStyleSheet(
+            """
+            QDialog#SettingsWindow {
+                background-color: #09131f;
+                color: #e8f2ff;
+            }
+            QWidget {
+                color: #d7e5f7;
+                font-family: "Segoe UI";
+                font-size: 12px;
+            }
+            QScrollArea,
+            QAbstractScrollArea {
+                background: transparent;
+                border: none;
+            }
+            QTabWidget::pane {
+                background: #0d1826;
+                border: 1px solid #1d3148;
+                border-radius: 16px;
+                top: -1px;
+            }
+            QTabBar::tab {
+                background: #0c1522;
+                color: #8ea5c4;
+                border: 1px solid #1b2d42;
+                border-bottom: none;
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+                padding: 10px 16px;
+                margin-right: 6px;
+            }
+            QTabBar::tab:selected {
+                background: #13243a;
+                color: #f4f8ff;
+                border-color: #31567a;
+            }
+            QTabBar::tab:hover:!selected {
+                background: #112031;
+                color: #d9e9fb;
+            }
+            QGroupBox {
+                background: #101c2b;
+                border: 1px solid #1d324a;
+                border-radius: 14px;
+                margin-top: 16px;
+                padding: 18px 14px 14px 14px;
+                font-weight: 600;
+                color: #f4f8ff;
+            }
+            QGroupBox::title {
+                subcontrol-origin: margin;
+                left: 14px;
+                padding: 0 6px;
+                color: #74b8ff;
+            }
+            QLabel {
+                color: #c7d7ec;
+            }
+            QLineEdit,
+            QTextEdit,
+            QComboBox,
+            QSpinBox,
+            QListWidget {
+                background: #0b1520;
+                color: #eff6ff;
+                border: 1px solid #233a54;
+                border-radius: 10px;
+                padding: 8px 10px;
+                selection-background-color: #2f9fff;
+                selection-color: #05111a;
+            }
+            QLineEdit:focus,
+            QTextEdit:focus,
+            QComboBox:focus,
+            QSpinBox:focus,
+            QListWidget:focus {
+                background: #0d1a29;
+                border: 1px solid #6dc9ff;
+            }
+            QComboBox::drop-down {
+                border: none;
+                width: 28px;
+            }
+            QAbstractItemView {
+                background: #0f1b2a;
+                color: #eff6ff;
+                border: 1px solid #31567a;
+                selection-background-color: #17324d;
+                selection-color: white;
+                outline: none;
+            }
+            QPushButton {
+                background: #16273a;
+                color: #eef5ff;
+                border: 1px solid #26425f;
+                border-radius: 10px;
+                padding: 9px 14px;
+            }
+            QPushButton:hover {
+                background: #1b3450;
+                border-color: #4f87bd;
+            }
+            QPushButton:pressed {
+                background: #102033;
+            }
+            QPushButton:disabled {
+                background: #0c1420;
+                color: #6b829f;
+                border-color: #172636;
+            }
+            QPushButton#save_btn {
+                background: #2f9fff;
+                color: #04101a;
+                border-color: #79ccff;
+                font-weight: 700;
+            }
+            QPushButton#save_btn:hover {
+                background: #57b5ff;
+            }
+            QPushButton#save_btn:pressed {
+                background: #227fd1;
+            }
+            QPushButton#cancel_btn {
+                background: #132232;
+                color: #d8e6f8;
+                border-color: #26425f;
+            }
+            QPushButton#reset_btn {
+                background: #2a1620;
+                color: #ffd6df;
+                border-color: #5d3146;
+            }
+            QPushButton#reset_btn:hover {
+                background: #3a1d29;
+                border-color: #83445f;
+            }
+            QCheckBox {
+                spacing: 8px;
+                color: #dbe8f8;
+            }
+            QCheckBox::indicator {
+                width: 18px;
+                height: 18px;
+                background: #09131f;
+                border: 1px solid #30506f;
+                border-radius: 5px;
+            }
+            QCheckBox::indicator:hover {
+                border-color: #6dc9ff;
+            }
+            QCheckBox::indicator:checked {
+                background: #2f9fff;
+                border-color: #79ccff;
+            }
+            QScrollBar:vertical {
+                background: transparent;
+                width: 10px;
+                margin: 4px 0;
+            }
+            QScrollBar::handle:vertical {
+                background: #20344b;
+                border-radius: 5px;
+                min-height: 24px;
+            }
+            QScrollBar::handle:vertical:hover {
+                background: #2d4d6e;
+            }
+            QScrollBar::add-line:vertical,
+            QScrollBar::sub-line:vertical,
+            QScrollBar::add-page:vertical,
+            QScrollBar::sub-page:vertical,
+            QScrollBar:horizontal,
+            QScrollBar::handle:horizontal,
+            QScrollBar::add-line:horizontal,
+            QScrollBar::sub-line:horizontal,
+            QScrollBar::add-page:horizontal,
+            QScrollBar::sub-page:horizontal {
+                background: transparent;
+                border: none;
+            }
+            QTextEdit#status_text {
+                font-family: "Consolas";
+            }
+            QMessageBox {
+                background: #09131f;
+            }
+            QMessageBox QLabel {
+                color: #e8f2ff;
+            }
+            """
+        )
 
     def _add_component_tabs(self):
         """

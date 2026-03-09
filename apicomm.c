@@ -27,6 +27,7 @@ struct buffer
 
 #define MAX_HISTORY 10
 #define MAX_SYSTEM_PROMPT 4096
+#define DEFAULT_CHAT_MODEL "moonshotai/kimi-k2-instruct"
 
 char *history_roles[MAX_HISTORY];
 char *history_contents[MAX_HISTORY];
@@ -302,8 +303,14 @@ int main()
 
         add_to_history("user", input);
 
+        const char *chat_model = getenv("GROQ_CHAT_MODEL");
+        if (!chat_model || !*chat_model)
+        {
+            chat_model = DEFAULT_CHAT_MODEL;
+        }
+
         cJSON *root = cJSON_CreateObject();
-        cJSON_AddStringToObject(root, "model", "llama-3.3-70b-versatile");
+        cJSON_AddStringToObject(root, "model", chat_model);
         cJSON_AddBoolToObject(root, "stream", true);
         cJSON_AddNumberToObject(root, "temperature", 0.7);
         cJSON_AddNumberToObject(root, "max_tokens", 512);

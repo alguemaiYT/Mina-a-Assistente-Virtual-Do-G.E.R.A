@@ -73,7 +73,7 @@
              <string>No device selected</string>
             </property>
             <property name="styleSheet">
-             <string>color: #666;</string>
+             <string>color: #90a7c4;</string>
             </property>
            </widget>
           </item>
@@ -124,7 +124,7 @@
              <string>No device selected</string>
             </property>
             <property name="styleSheet">
-             <string>color: #666;</string>
+             <string>color: #90a7c4;</string>
             </property>
            </widget>
           </item>
