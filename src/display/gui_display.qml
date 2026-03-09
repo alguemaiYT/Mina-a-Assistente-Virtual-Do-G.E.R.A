@@ -5,6 +5,7 @@ import QtGraphicalEffects 1.15
 
 Rectangle {
     id: root
+    focus: true
     color: layoutValue("root", "color", "#f5f5f5")
 
     Rectangle {
@@ -73,9 +74,92 @@ Rectangle {
     // Studio mode: currently selected section for editing
     property string studioSelectedSection: ""
     property bool studioActive: lc ? lc.studioMode : false
+    property bool rotatedLayout: rotationAngle % 180 !== 0
+    property bool studioPanelDockBottom: studioActive && rotatedLayout
+    property bool selectChatTextOnFocus: false
 
     // Rotation support: appRotationAngle is injected via QML context (0, 90, or -90)
     property int rotationAngle: (typeof appRotationAngle !== "undefined") ? appRotationAngle : 0
+
+    function focusTextChat(selectExistingText) {
+        if (selectExistingText === undefined)
+            selectExistingText = false
+
+        if (lc && lc.studioMode) {
+            lc.studioMode = false
+            studioSelectedSection = ""
+        }
+
+        selectChatTextOnFocus = selectExistingText
+        textInputFocusTimer.restart()
+    }
+
+    function sendCurrentText() {
+        var trimmed = textInput.text.trim()
+        if (!trimmed.length) {
+            focusTextChat(false)
+            return
+        }
+
+        root.sendButtonClicked(trimmed)
+        textInput.text = ""
+        focusTextChat(false)
+    }
+
+    function toggleStudioMode() {
+        if (!lc || !lc.studioAvailable)
+            return
+
+        lc.studioMode = !lc.studioMode
+        studioSelectedSection = ""
+
+        if (!lc.studioMode)
+            textInputFocusTimer.restart()
+    }
+
+    Timer {
+        id: textInputFocusTimer
+        interval: 0
+        repeat: false
+        onTriggered: {
+            if (!studioActive) {
+                textInput.forceActiveFocus()
+                if (selectChatTextOnFocus && textInput.text.length > 0)
+                    textInput.selectAll()
+                selectChatTextOnFocus = false
+            }
+        }
+    }
+
+    Shortcut {
+        sequences: ["Ctrl+L", "Alt+C"]
+        onActivated: root.focusTextChat(true)
+    }
+
+    Shortcut {
+        sequence: "Ctrl+E"
+        enabled: lc ? lc.studioAvailable : false
+        onActivated: root.toggleStudioMode()
+    }
+
+    Shortcut {
+        sequence: "Escape"
+        onActivated: {
+            if (studioActive && studioSelectedSection !== "") {
+                studioSelectedSection = ""
+            } else if (studioActive && lc) {
+                lc.studioMode = false
+                studioSelectedSection = ""
+                textInputFocusTimer.restart()
+            }
+        }
+    }
+
+    Component.onCompleted: textInputFocusTimer.start()
+    onStudioActiveChanged: {
+        if (!studioActive)
+            textInputFocusTimer.restart()
+    }
 
     // 主布局 — absolute positioning with configurable x/y/width/height
     // rotationWrapper swaps logical width/height when rotated 90° so the content
@@ -566,6 +650,7 @@ Rectangle {
                             anchors.leftMargin: layoutValue("textInput", "leftMargin", 10)
                             anchors.rightMargin: layoutValue("textInput", "rightMargin", 10)
                             verticalAlignment: TextInput.AlignVCenter
+                            activeFocusOnTab: true
                             font.family: "PingFang SC, Microsoft YaHei UI"
                             font.pixelSize: layoutValue("textInput", "fontSize", 12)
                             color: layoutValue("textInput", "textColor", "#333333")
@@ -584,7 +669,7 @@ Rectangle {
                                 Behavior on opacity { NumberAnimation { duration: 200 } }
                             }
 
-                            Keys.onReturnPressed: { if (textInput.text.trim().length > 0) { root.sendButtonClicked(textInput.text); textInput.text = "" } }
+                            Keys.onReturnPressed: root.sendCurrentText()
                         }
                     }
 
@@ -618,7 +703,7 @@ Rectangle {
                             verticalAlignment: Text.AlignVCenter
                             opacity: sendBtn.enabled ? 1.0 : 0.7
                         }
-                        onClicked: { if (textInput.text.trim().length > 0) { root.sendButtonClicked(textInput.text); textInput.text = "" } }
+                        onClicked: root.sendCurrentText()
                     }
                 }
 
@@ -719,8 +804,8 @@ Rectangle {
         id: studioClickCatcher
         anchors.left: parent.left
         anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.right: studioPanel.left
+        anchors.bottom: studioPanelDockBottom ? studioPanel.top : parent.bottom
+        anchors.right: studioPanelDockBottom ? parent.right : studioPanel.left
         visible: studioActive
         z: 998
         hoverEnabled: true
@@ -735,6 +820,10 @@ Rectangle {
         // Sections that support dragging
         function isDraggable(section) {
             return section && section !== "root"
+        }
+
+        function layoutPointFromMouse(mouseX, mouseY) {
+            return rotationWrapper.mapFromItem(studioClickCatcher, mouseX, mouseY)
         }
 
         // Hover highlight
@@ -801,11 +890,12 @@ Rectangle {
 
         onPressed: {
             var section = hitTest(mouse.x, mouse.y)
+            var layoutPoint = layoutPointFromMouse(mouse.x, mouse.y)
             studioSelectedSection = section
             if (isDraggable(section)) {
                 isDragging = true
-                dragStartX = mouse.x
-                dragStartY = mouse.y
+                dragStartX = layoutPoint.x
+                dragStartY = layoutPoint.y
                 elemStartX = lc ? (lc.get(section, "offsetX") || 0) : 0
                 elemStartY = lc ? (lc.get(section, "offsetY") || 0) : 0
                 cursorShape = Qt.SizeAllCursor
@@ -817,12 +907,20 @@ Rectangle {
 
         onPositionChanged: {
             if (isDragging && studioSelectedSection !== "" && lc) {
-                var dx = mouse.x - dragStartX
-                var dy = mouse.y - dragStartY
+                var layoutPoint = layoutPointFromMouse(mouse.x, mouse.y)
+                var dx = layoutPoint.x - dragStartX
+                var dy = layoutPoint.y - dragStartY
                 var newX = elemStartX + dx
                 var newY = elemStartY + dy
                 lc.set(studioSelectedSection, "offsetX", Math.round(newX))
                 lc.set(studioSelectedSection, "offsetY", Math.round(newY))
+            } else if (studioSelectedSection === "") {
+                var hoveredSection = hitTest(mouse.x, mouse.y)
+                var hoveredRect = rectForSection(hoveredSection)
+                hoverHighlight.x = hoveredRect.x
+                hoverHighlight.y = hoveredRect.y
+                hoverHighlight.width = hoveredRect.width
+                hoverHighlight.height = hoveredRect.height
             }
         }
 
@@ -838,15 +936,18 @@ Rectangle {
     Rectangle {
         id: studioPanel
         visible: studioActive
-        width: 310
-        anchors.top: parent.top
+        width: studioPanelDockBottom ? parent.width : 310
+        height: studioPanelDockBottom ? Math.min(parent.height * 0.42, 320) : parent.height
+        anchors.top: studioPanelDockBottom ? undefined : parent.top
         anchors.bottom: parent.bottom
         anchors.right: parent.right
+        anchors.left: studioPanelDockBottom ? parent.left : undefined
         color: "#fafbfc"
         z: 1001
 
         // Subtle left shadow
         Rectangle {
+            visible: !studioPanelDockBottom
             anchors.right: parent.left
             anchors.top: parent.top
             anchors.bottom: parent.bottom
@@ -855,6 +956,19 @@ Rectangle {
                 orientation: Gradient.Horizontal
                 GradientStop { position: 0.0; color: "transparent" }
                 GradientStop { position: 1.0; color: "#18000000" }
+            }
+        }
+
+        Rectangle {
+            visible: studioPanelDockBottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.top
+            height: 6
+            gradient: Gradient {
+                orientation: Gradient.Vertical
+                GradientStop { position: 0.0; color: "#18000000" }
+                GradientStop { position: 1.0; color: "transparent" }
             }
         }
 
@@ -1504,7 +1618,7 @@ Rectangle {
                 color: "#f0f1f3"
                 Text {
                     anchors.centerIn: parent
-                    text: "Changes saved automatically  ·  -s flag"
+                    text: studioPanelDockBottom ? "Changes saved automatically  ·  Ctrl+E studio  ·  Ctrl+L chat" : "Changes saved automatically  ·  -s flag  ·  Ctrl+L chat"
                     font.pixelSize: 9
                     color: "#b0b5bd"
                 }

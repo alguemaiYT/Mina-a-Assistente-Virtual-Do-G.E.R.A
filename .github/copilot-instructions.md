@@ -13,8 +13,11 @@ python main_gui.py --fullscreen        # fullscreen mode
 python main_gui.py --studio            # layout editor mode
 
 # Install dependencies
-pip install -r requirements.txt        # Linux/Windows
+pip install -r requirements.txt        # Windows/Linux
 pip install -r requirements_mac.txt   # macOS
+
+# Diagnostic tools
+python vadtest.py                      # Verify VAD/Audio input
 
 # Code formatting & linting
 black .
@@ -22,18 +25,22 @@ isort .
 flake8
 ```
 
-There is no test suite.
+There is no formal test suite. Validation is done via local runs.
 
 **Required environment variables:**
+
 ```bash
 export GROQ_API_KEY="..."        # Groq Whisper (STT) + chat API
 export CHAT_BACKEND="groq"       # "groq" (Python) or "binary" (C apicomm)
 ```
 
 **Recompile C shared libraries if modified:**
+
 ```bash
+# Windows (requires gcc/mingw)
+gcc -shared -fPIC stt.c -o libs/stt/stt.dll -lportaudio -lcurl
+# Linux
 gcc -shared -fPIC stt.c -o libs/stt/libstt.so -lportaudio -lcurl
-gcc -shared -fPIC apicomm.c -o libs/apicomm/libapicomm.so -lcurl
 ```
 
 ## Architecture
@@ -54,6 +61,7 @@ main_gui.py
 ```
 
 **Request flow:**
+
 1. Talk button held → `STTController.toggle()` → `libstt.so` records 16kHz mono audio
 2. Recording stops → Groq Whisper API transcribes → text returned to `handle_send_text()`
 3. Text sent to `ChatBridge` → Groq API returns structured response
@@ -62,7 +70,7 @@ main_gui.py
 
 ## AI Response Format
 
-The system prompt (active version: `prompts.txt`) instructs the model to respond in this format:
+The system prompt (active version: `prompts.txt`) MUST instruct the model to respond in this sync-chunk format:
 
 ```
 EMOTION: thinking
@@ -70,40 +78,46 @@ CHUNK|500|thinking|Hmm, deixa eu pensar...
 CHUNK|300|confident|Sim, é exatamente isso!
 ```
 
-- `EMOTION:` sets the dominant/global emotion
-- `CHUNK|<delay_ms>|<emotion>|<text>` — each chunk drives one animation frame
-- Valid emotions: `angry, confident, confused, cool, crying, delicious, embarrassed, funny, happy, kissy, laughing, loving, neutral, relaxed, sad, shocked, silly, sleepy, surprised, thinking, winking`
-- Emotion GIFs live in `assets/emojis/<emotion>.gif`
-- Change emotion per-chunk only for intentional tone shifts; inherit global emotion otherwise
+- `EMOTION:` sets the dominant/global emotion.
+- `CHUNK|<delay_ms>|<emotion>|<text>` — each chunk drives one animation frame update.
+- `PAUSE:<ms>` — can be used for timed pauses without text.
+- Valid emotions: `angry, confident, confused, cool, crying, delicious, embarrassed, funny, happy, kissy, laughing, loving, neutral, relaxed, sad, shocked, silly, sleepy, surprised, thinking, winking`.
+- Emotion GIFs live in `assets/emojis/<emotion>.gif`.
 
 ## Key Conventions
 
-**Configuration** is JSON-based via `ConfigManager` (singleton). Keys are accessed as nested dicts. The config file is `config/config.json`. Layout properties come from `config/layout_config.json`.
+**Configuration** is JSON-based via `ConfigManager` (singleton).
 
-**Display callbacks** are injected into `GuiDisplay` at construction time in `main_gui.py`. Do not add direct coupling between display and business logic.
+- Core config: `config/config.json`.
+- UI Layout: `config/layout_config.json`.
+- Access in Python: `ConfigManager().get("backend", "type")`.
+- Access in QML: `lc.get("section", "key")` via `LayoutConfigModel`.
 
-**Async pattern**: The app uses `qasync` to bridge Qt's event loop with Python asyncio. All I/O-bound operations (API calls, STT) are `async def`. The Qt signal/slot system is used for thread-safe GUI updates.
+**Display logic**:
 
-**STT library loading** is graceful: if `libstt.so` fails to load, the app continues with the talk button disabled. Check `stt_client.py` for the fallback path logic.
+- Use `GuiDisplayModel` properties (`statusText`, `emotionPath`, `ttsText`) to trigger QML updates.
+- Keep UI logic in QML/Model and business logic in `src/utils/`.
 
-**Import order** enforced by isort (black profile): `FUTURE → STDLIB → THIRDPARTY → FIRSTPARTY (src/) → LOCALFOLDER`.
+**Async pattern**:
 
-**Code style**: Black, line length 88, target Python 3.9+.
+- The app uses `qasync` to bridge Qt's event loop with Python `asyncio`.
+- All I/O operations (API, STT) are `async def`. Use `await` for calls.
 
-**Prompt versioning**: `prompts.txt` is the active prompt. `promptv1.txt`–`promptv3.txt` are historical versions kept for reference. Edit `prompts.txt` (or the string in `chat_bridge.py`) to change Mina's personality/behavior.
+**Import order** (isort black profile): `FUTURE → STDLIB → THIRDPARTY → FIRSTPARTY (src/) → LOCALFOLDER`.
 
-**Porcupine wake word** uses Portuguese `.ppn` keyword files from `keywords/keyword_files_pt/` and a Portuguese language model `models/porcupine_params_pt.pv`. Wake word is triggered before STT recording begins when not in manual-button mode.
+**Prompting**: Edit `prompts.txt` for behavior changes.
+
+**Native libs**: Graceful fallback in `stt_client.py` if native shared objects fail to load.
 
 ## File Locations Quick Reference
 
-| What | Where |
-|------|-------|
-| App entry point | `main_gui.py` |
-| QML UI | `src/display/gui_display.qml` |
-| Chat logic | `src/utils/chat_bridge.py` |
-| STT wrapper | `src/utils/stt_client.py` |
-| Configuration | `config/config.json` |
-| Emotion GIFs | `assets/emojis/*.gif` |
-| C source (STT) | `stt.c`, `stt.h` |
-| C source (chat) | `apicomm.c` |
-| Active system prompt | `prompts.txt` |
+| What                 | Where                              |
+| -------------------- | ---------------------------------- |
+| App entry point      | `main_gui.py`                      |
+| QML UI               | `src/display/gui_display.qml`      |
+| Python UI Bridge     | `src/display/gui_display_model.py` |
+| Chat logic           | `src/utils/chat_bridge.py`         |
+| STT wrapper          | `src/utils/stt_client.py`          |
+| Configuration        | `config/config.json`               |
+| Active system prompt | `prompts.txt`                      |
+| VAD Test script      | `vadtest.py`                       |
