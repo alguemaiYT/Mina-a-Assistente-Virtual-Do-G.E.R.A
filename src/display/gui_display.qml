@@ -190,17 +190,49 @@ Rectangle {
                 y: layoutValue("titleBar", "offsetY", 0)
             }
 
+            // Mouse management for rotated monitors:
+            // When the GUI is rotated (e.g., -g right), users often rotate their physical monitor too.
+            // If the OS isn't aware of the rotation, the mouse movement will feels "inverted" or "sideways".
+            // Adding a global MouseArea to the root to catch and rotate mouse events helps align
+            // physical mouse movement with the rotated UI visuals.
+            MouseArea {
+                id: globalRotationFix
+                anchors.fill: parent
+                z: -1 // Behind everything else to just provide a coordinate reference if needed
+                enabled: false // Logic is implemented in specific handlers
+            }
+
             // 整条标题栏拖动（使用屏幕坐标，避免累计误差导致抖动）
             // 放在最底层，让按钮的 MouseArea 可以优先响应
             MouseArea {
                 anchors.fill: parent
                 acceptedButtons: Qt.LeftButton
+                
+                // Helper to rotate mouse coordinates for dragging logic
+                function getRotatedMouse(mx, my) {
+                    var angle = root.rotationAngle
+                    if (angle === 0) return { x: mx, y: my }
+                    
+                    var rad = angle * Math.PI / 180
+                    var cosA = Math.cos(rad)
+                    var sinA = Math.sin(rad)
+                    
+                    // We need to rotate the "delta" of mouse movement back 
+                    // to align with physical monitor orientation
+                    return {
+                        x: mx * cosA - my * sinA,
+                        y: mx * sinA + my * cosA
+                    }
+                }
+
                 onPressed: {
-                    root.titleDragStart(mouse.x, mouse.y)
+                    var rotated = getRotatedMouse(mouse.x, mouse.y)
+                    root.titleDragStart(rotated.x, rotated.y)
                 }
                 onPositionChanged: {
                     if (pressed) {
-                        root.titleDragMoveTo(mouse.x, mouse.y)
+                        var rotated = getRotatedMouse(mouse.x, mouse.y)
+                        root.titleDragMoveTo(rotated.x, rotated.y)
                     }
                 }
                 onReleased: {
