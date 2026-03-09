@@ -23,3 +23,67 @@
 2026-02-09 09:03:24,915[__main__] - INFO - GUI started successfully - MainThread
 2026-02-09 09:03:36,746[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
 2026-02-09 09:03:36,748[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-02-09 18:00:04,337[root] - INFO - Logging initialized, log file: /mnt/c/Users/Administrador/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-02-09 18:00:04,359[__main__] - INFO - Created qasync event loop - MainThread
+2026-02-09 18:00:04,363[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-02-09 18:00:04,380[__main__] - ERROR - GUI error: libportaudio.so.2: cannot open shared object file: No such file or directory - MainThread
+Traceback (most recent call last):
+  File "/mnt/c/Users/Administrador/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 235, in run_gui
+    stt_client = STTClient()
+                 ^^^^^^^^^^^
+  File "/mnt/c/Users/Administrador/Mina-a-Assistente-Virtual-Do-G.E.R.A/src/utils/stt_client.py", line 25, in __init__
+    self._lib = ctypes.CDLL(str(self._lib_path))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/ctypes/__init__.py", line 379, in __init__
+    self._handle = _dlopen(self._name, mode)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: libportaudio.so.2: cannot open shared object file: No such file or directory
+2026-02-09 18:00:04,387[src.utils.stt_client] - INFO - Shutting down native STT - MainThread
+2026-02-09 18:08:08,765[root] - INFO - Logging initialized, log file: /mnt/c/Users/Administrador/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-02-09 18:08:08,812[__main__] - INFO - Created qasync event loop - MainThread
+2026-02-09 18:08:08,814[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-02-09 18:08:08,825[__main__] - ERROR - GUI error: libportaudio.so.2: cannot open shared object file: No such file or directory - MainThread
+Traceback (most recent call last):
+  File "/mnt/c/Users/Administrador/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 235, in run_gui
+    stt_client = STTClient()
+                 ^^^^^^^^^^^
+  File "/mnt/c/Users/Administrador/Mina-a-Assistente-Virtual-Do-G.E.R.A/src/utils/stt_client.py", line 25, in __init__
+    self._lib = ctypes.CDLL(str(self._lib_path))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/ctypes/__init__.py", line 379, in __init__
+    self._handle = _dlopen(self._name, mode)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: libportaudio.so.2: cannot open shared object file: No such file or directory
+2026-02-09 18:08:08,832[src.utils.stt_client] - INFO - Shutting down native STT - MainThread
+2026-02-09 18:08:17,444[root] - INFO - Logging initialized, log file: /mnt/c/Users/Administrador/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-02-09 18:08:17,453[__main__] - INFO - Created qasync event loop - MainThread
+2026-02-09 18:08:17,455[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-02-09 18:08:17,466[__main__] - ERROR - GUI error: libportaudio.so.2: cannot open shared object file: No such file or directory - MainThread
+Traceback (most recent call last):
+  File "/mnt/c/Users/Administrador/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 235, in run_gui
+    stt_client = STTClient()
+                 ^^^^^^^^^^^
+  File "/mnt/c/Users/Administrador/Mina-a-Assistente-Virtual-Do-G.E.R.A/src/utils/stt_client.py", line 25, in __init__
+    self._lib = ctypes.CDLL(str(self._lib_path))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/ctypes/__init__.py", line 379, in __init__
+    self._handle = _dlopen(self._name, mode)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: libportaudio.so.2: cannot open shared object file: No such file or directory
+2026-02-09 18:08:17,473[src.utils.stt_client] - INFO - Shutting down native STT - MainThread
+2026-02-09 18:08:21,130[root] - INFO - Logging initialized, log file: /mnt/c/Users/Administrador/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-02-09 18:08:21,139[__main__] - INFO - Created qasync event loop - MainThread
+2026-02-09 18:08:21,141[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-02-09 18:08:21,151[__main__] - ERROR - GUI error: libportaudio.so.2: cannot open shared object file: No such file or directory - MainThread
+Traceback (most recent call last):
+  File "/mnt/c/Users/Administrador/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 235, in run_gui
+    stt_client = STTClient()
+                 ^^^^^^^^^^^
+  File "/mnt/c/Users/Administrador/Mina-a-Assistente-Virtual-Do-G.E.R.A/src/utils/stt_client.py", line 25, in __init__
+    self._lib = ctypes.CDLL(str(self._lib_path))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/ctypes/__init__.py", line 379, in __init__
+    self._handle = _dlopen(self._name, mode)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: libportaudio.so.2: cannot open shared object file: No such file or directory
+2026-02-09 18:08:21,157[src.utils.stt_client] - INFO - Shutting down native STT - MainThread
