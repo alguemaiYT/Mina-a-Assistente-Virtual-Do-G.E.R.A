@@ -72,7 +72,8 @@ class GuiDisplay(BaseDisplay, QObject, metaclass=CombinedMeta):
 
         # 窗口拖动状态
         self._dragging = False
-        self._drag_position = None
+        self._drag_start_pos = None
+        self._window_start_pos = None
 
         # 回调函数映射
         self._callbacks = {
@@ -446,18 +447,7 @@ class GuiDisplay(BaseDisplay, QObject, metaclass=CombinedMeta):
         """
         标题栏拖动移动.
         """
-        if self._dragging:
-            # We use delta to move the window rather than absolute QCursor.pos() - _drag_position.
-            # This is more robust against the rotated mouse coordinates sent from QML.
-            # In QML we calculate the rotated relative movement (x, y) which
-            # can be used here to compute the translation delta.
-            
-            # Since the current PyQt implementation uses QCursor.pos() directly, 
-            # we can adjust the QCursor logic if needed. However, the existing 
-            # logic in QML should now send 'x' and 'y' that reflect correctly 
-            # transformed coordinates if the developer wants to use them.
-
-            # Simple delta-based movement using current mouse position:
+        if self._dragging and self._drag_start_pos and self._window_start_pos:
             curr_pos = QCursor.pos()
             delta = curr_pos - self._drag_start_pos
             self.root.move(self._window_start_pos + delta)
@@ -467,7 +457,8 @@ class GuiDisplay(BaseDisplay, QObject, metaclass=CombinedMeta):
         标题栏拖动结束.
         """
         self._dragging = False
-        self._drag_position = None
+        self._drag_start_pos = None
+        self._window_start_pos = None
 
     # =========================================================================
     # 表情管理
