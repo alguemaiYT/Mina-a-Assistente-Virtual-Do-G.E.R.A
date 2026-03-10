@@ -91,5 +91,13 @@
     "CHANNELS": 1,
     "THRESHOLD": 0.40,
     "TIMEOUT_SECONDS": 1.0
+  },
+  "TTS_OPTIONS": {
+    "ENABLED": true,
+    "API_URL": "http://localhost:8000",
+    "VOICE": "pt-BR-FranciscaNeural",
+    "RATE": "+15%",
+    "PITCH": "+3Hz",
+    "VOLUME": "+0%"
   }
 }

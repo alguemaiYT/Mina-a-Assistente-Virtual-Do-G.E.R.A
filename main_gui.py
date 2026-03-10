@@ -35,8 +35,10 @@ except ImportError as e:
 
 from src.display.gui_display import GuiDisplay
 from src.utils.chat_bridge import ChatBridge
+from src.utils.config_manager import ConfigManager
 from src.utils.logging_config import get_logger, setup_logging
 from src.utils.stt_client import STTClient, STTClientError
+from src.utils.tts_client import TTSClient
 
 logger = get_logger(__name__)
 
@@ -145,13 +147,30 @@ async def run_gui(fullscreen: bool = False, studio_mode: bool = False, rotation_
     try:
         chat_bridge = ChatBridge()
 
+        # Initialise TTS client from configuration
+        cfg = ConfigManager()
+        tts_opts = cfg.get_config("TTS_OPTIONS", {})
+        tts_client = TTSClient(
+            base_url=tts_opts.get("API_URL", "http://localhost:8000"),
+            enabled=tts_opts.get("ENABLED", True),
+            voice=tts_opts.get("VOICE", "pt-BR-FranciscaNeural"),
+            rate=tts_opts.get("RATE", "+15%"),
+            pitch=tts_opts.get("PITCH", "+3Hz"),
+            volume=tts_opts.get("VOLUME", "+0%"),
+        )
+        if tts_client.enabled:
+            await tts_client.health_check()
+            logger.info("TTS client ready (enabled=%s)", tts_client.enabled)
+
         # Create and start the GUI display
         gui_display = GuiDisplay(studio_mode=studio_mode, rotation_gravity=rotation_gravity)
         if fullscreen:
             gui_display.set_force_fullscreen(True)
 
         async def handle_send_text(text: str):
-            """Send text to the C chat engine and stream tokens back to the GUI."""
+            """Send text to the chat backend, pre-synthesise TTS for every
+            chunk, and only start displaying text + emoji once the first
+            audio chunk has been received from the TTS server."""
             await gui_display.update_button_bar_visibility(False)
             await gui_display.update_status("Thinking...", True)
             await gui_display.update_text("")
@@ -165,19 +184,43 @@ async def run_gui(fullscreen: bool = False, studio_mode: bool = False, rotation_
             chunks_emitted = False
             last_chunk_emotion: Optional[str] = None
 
+            # TTS pre-synthesis tracking (per-interaction)
+            tts_futures: dict[int, asyncio.Task] = {}
+            chunk_counter = 0
+            first_audio_ready = asyncio.Event()
+
             async def chunk_emitter():
                 nonlocal extra_pause_ms
                 try:
+                    # Gate: wait until the first TTS audio is ready
+                    await first_audio_ready.wait()
+
                     while True:
                         chunk = await chunk_queue.get()
                         if chunk is None:
                             return
                         delay = max(0.0, min(chunk.get("delay", 2.5), 2.5))
                         emotion = chunk.get("emotion")
+                        tts_idx = chunk.get("tts_idx", -1)
+
                         if emotion:
                             await gui_display.update_emotion(emotion)
-                        await gui_display.update_text(chunk.get("text", ""))
-                        await asyncio.sleep(delay)
+
+                        # Retrieve pre-synthesised audio
+                        audio_bytes = None
+                        if tts_idx in tts_futures:
+                            try:
+                                audio_bytes = await tts_futures.pop(tts_idx)
+                            except Exception as exc:
+                                logger.warning("TTS synthesis failed for chunk %d: %s", tts_idx, exc)
+
+                        # Display text + play audio in parallel; honour delay
+                        coros = [gui_display.update_text(chunk.get("text", ""))]
+                        if audio_bytes and tts_client.enabled:
+                            coros.append(tts_client.play(audio_bytes))
+                        coros.append(asyncio.sleep(delay))
+                        await asyncio.gather(*coros)
+
                         if extra_pause_ms > 0:
                             await asyncio.sleep(extra_pause_ms / 1000.0)
                             extra_pause_ms = 0
@@ -187,12 +230,33 @@ async def run_gui(fullscreen: bool = False, studio_mode: bool = False, rotation_
             emitter_task = asyncio.create_task(chunk_emitter())
 
             async def on_chunk(chunk_text: str, delay: float, emotion: Optional[str]):
-                nonlocal last_chunk_emotion
-                nonlocal chunks_emitted
-                if chunk_text:
-                    chunks_emitted = True
-                    last_chunk_emotion = emotion
-                    await chunk_queue.put({"text": chunk_text, "delay": delay, "emotion": emotion})
+                nonlocal last_chunk_emotion, chunks_emitted, chunk_counter
+                if not chunk_text:
+                    return
+                chunks_emitted = True
+                last_chunk_emotion = emotion
+                idx = chunk_counter
+                chunk_counter += 1
+
+                # Fire TTS synthesis immediately
+                if tts_client.enabled:
+                    task = tts_client.pre_synthesize(chunk_text)
+                    if task:
+                        tts_futures[idx] = task
+                        if idx == 0:
+                            async def _signal_first():
+                                try:
+                                    await task
+                                except Exception:
+                                    pass
+                                first_audio_ready.set()
+                            asyncio.create_task(_signal_first())
+                    elif idx == 0:
+                        first_audio_ready.set()
+                elif idx == 0:
+                    first_audio_ready.set()
+
+                await chunk_queue.put({"text": chunk_text, "delay": delay, "emotion": emotion, "tts_idx": idx})
 
             async def on_control(ctrl: str):
                 nonlocal extra_pause_ms
@@ -220,11 +284,16 @@ async def run_gui(fullscreen: bool = False, studio_mode: bool = False, rotation_
                 logger.error(f"Chat error: {exc}", exc_info=True)
                 await gui_display.update_status("Chat error", False)
             finally:
+                first_audio_ready.set()  # ensure emitter isn't stuck
                 await chunk_queue.put(None)
                 try:
                     await emitter_task
                 except asyncio.CancelledError:
                     pass
+                # Cancel any remaining TTS futures
+                for task in tts_futures.values():
+                    task.cancel()
+                tts_futures.clear()
                 if not chunks_emitted and stream_success and final_text and len(final_text) <= SMALL_REPLY_THRESHOLD:
                     if last_chunk_emotion:
                         await gui_display.update_emotion(last_chunk_emotion)
@@ -268,6 +337,7 @@ async def run_gui(fullscreen: bool = False, studio_mode: bool = False, rotation_
         finally:
             if stt_controller:
                 await stt_controller.shutdown()
+            await tts_client.close()
             await chat_bridge.stop()
             
     except Exception as e:

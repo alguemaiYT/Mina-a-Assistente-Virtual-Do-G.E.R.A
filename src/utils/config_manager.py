@@ -98,6 +98,14 @@ class ConfigManager:
             "CPP_BINARY_PATH": "vad_cpp/build/vad_cpp",
             "CPP_CONFIG_PATH": "config/config.json",
         },
+        "TTS_OPTIONS": {
+            "ENABLED": True,
+            "API_URL": "http://localhost:8000",
+            "VOICE": "pt-BR-FranciscaNeural",
+            "RATE": "+15%",
+            "PITCH": "+3Hz",
+            "VOLUME": "+0%",
+        },
     }
 
     def __new__(cls):
