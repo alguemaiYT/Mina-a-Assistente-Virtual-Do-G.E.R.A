@@ -146,6 +146,11 @@ async def run_gui(fullscreen: bool = False, studio_mode: bool = False, rotation_
     
     try:
         chat_bridge = ChatBridge()
+        
+        # Check for API Key if using Groq
+        if chat_bridge.backend == "groq" and not os.getenv("GROQ_API_KEY"):
+            logger.warning("GROQ_API_KEY is not set in environment. Chat will not work.")
+            # We'll show this on the GUI later
 
         # Initialise TTS client from configuration
         cfg = ConfigManager()
@@ -159,7 +164,27 @@ async def run_gui(fullscreen: bool = False, studio_mode: bool = False, rotation_
             volume=tts_opts.get("VOLUME", "+0%"),
         )
         if tts_client.enabled:
-            await tts_client.health_check()
+            try:
+                await tts_client.health_check()
+            except Exception:
+                logger.warning("TTS server unreachable, attempting to start it locally...")
+                # Attempt to start the TTS server in the background
+                tts_api_path = os.path.join(os.path.dirname(__file__), "tts_api", "main.py")
+                if os.path.exists(tts_api_path):
+                    try:
+                        # Use same python interpreter
+                        asyncio.create_subprocess_exec(
+                            sys.executable, tts_api_path,
+                            stdout=asyncio.subprocess.DEVNULL,
+                            stderr=asyncio.subprocess.DEVNULL
+                        )
+                        logger.info("Local TTS server process started.")
+                        # Wait a bit for it to spin up
+                        await asyncio.sleep(2)
+                        await tts_client.health_check()
+                    except Exception as e:
+                        logger.error(f"Failed to start local TTS server: {e}")
+            
             logger.info("TTS client ready (enabled=%s)", tts_client.enabled)
 
         # Create and start the GUI display
@@ -280,6 +305,13 @@ async def run_gui(fullscreen: bool = False, studio_mode: bool = False, rotation_
                 if stderr_chunk:
                     logger.info(stderr_chunk.strip())
                 await gui_display.update_status("Ready", True)
+            except RuntimeError as exc:
+                error_msg = str(exc)
+                logger.error(f"Chat error: {error_msg}")
+                if "GROQ_API_KEY" in error_msg:
+                    await gui_display.update_status("Error: GROQ_API_KEY not set", False)
+                else:
+                    await gui_display.update_status(f"Error: {error_msg}", False)
             except Exception as exc:
                 logger.error(f"Chat error: {exc}", exc_info=True)
                 await gui_display.update_status("Chat error", False)
@@ -325,7 +357,17 @@ async def run_gui(fullscreen: bool = False, studio_mode: bool = False, rotation_
         await gui_display.start()
         
         # Set initial status
-        await gui_display.update_status("GUI Ready (C backend)", True)
+        initial_status = "GUI Ready"
+        is_ok = True
+        
+        if chat_bridge.backend == "groq" and not os.getenv("GROQ_API_KEY"):
+            initial_status = "API KEY MISSING"
+            is_ok = False
+        elif not stt_controller or not stt_controller._stt_client._lib:
+            initial_status = "STT DISABLED (MISSING LIBS)"
+            is_ok = False
+            
+        await gui_display.update_status(initial_status, is_ok)
         await gui_display.update_emotion("neutral")
 
         logger.info("GUI started successfully")

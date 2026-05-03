@@ -3,10 +3,42 @@
 PYTHON ?= python
 PIP ?= $(PYTHON) -m pip
 CC ?= gcc
-STT_LINUX ?= libs/stt/libstt.so
-STT_WINDOWS ?= libs/stt/stt.dll
 
-.PHONY: help install install-mac run run-fullscreen run-studio lint format sort-imports check test install-deps compile apicomm clean stt-linux stt-windows all
+# Architecture detection
+ARCH ?= $(shell uname -m | tr '[:upper:]' '[:lower:]')
+ifeq ($(ARCH),aarch64)
+    ARCH = arm64
+endif
+ifeq ($(ARCH),i386)
+    ARCH = x86
+endif
+ifeq ($(ARCH),i686)
+    ARCH = x86
+endif
+
+# Output directories
+BIN_DIR = bin/$(ARCH)
+LIB_DIR = libs/$(ARCH)
+
+# Target names
+APICOMM_BIN = $(BIN_DIR)/apicomm
+STT_LIB_NAME = stt
+ifeq ($(OS),Windows_NT)
+    STT_LIB = $(LIB_DIR)/$(STT_LIB_NAME).dll
+    EXE_EXT = .exe
+else
+    UNAME_S := $(shell uname -s)
+    ifeq ($(UNAME_S),Darwin)
+        STT_LIB = $(LIB_DIR)/lib$(STT_LIB_NAME).dylib
+    else
+        STT_LIB = $(LIB_DIR)/lib$(STT_LIB_NAME).so
+    endif
+    EXE_EXT =
+endif
+
+APICOMM_OUT = $(BIN_DIR)/apicomm$(EXE_EXT)
+
+.PHONY: help install install-mac run run-fullscreen run-studio lint format sort-imports check test install-deps compile apicomm clean stt-linux stt-windows stt-mac all dirs
 
 help:
 	@echo "Available targets:"
@@ -21,11 +53,15 @@ help:
 	@echo "  check          Run python -m compileall to validate syntax"
 	@echo "  test           Alias for check"
 	@echo "  install-deps   Install system deps (Debian/Ubuntu)"
-	@echo "  compile        Builds apicomm"
-	@echo "  apicomm        Compile apicomm.c"
-	@echo "  stt-linux      Build libs/stt/libstt.so"
-	@echo "  stt-windows    Build libs/stt/stt.dll"
-	@echo "  all            install-deps + compile (Debian/Ubuntu helper)"
+	@echo "  compile        Builds apicomm for current arch"
+	@echo "  apicomm        Compile apicomm.c for $(ARCH)"
+	@echo "  stt-linux      Build $(STT_LIB) for Linux"
+	@echo "  stt-windows    Build $(STT_LIB) for Windows"
+	@echo "  stt-mac        Build $(STT_LIB) for macOS"
+	@echo "  all            install-deps + compile"
+
+dirs:
+	mkdir -p $(BIN_DIR) $(LIB_DIR)
 
 install:
 	$(PIP) install -r requirements.txt
@@ -59,25 +95,28 @@ test: check
 install-deps:
 	@echo "Installing system dependencies on Debian/Ubuntu..."
 	apt-get update
-	apt-get install -y libcjson-dev libcurl4-openssl-dev
+	apt-get install -y libcjson-dev libcurl4-openssl-dev libportaudio2
 
-compile: apicomm
+compile: dirs apicomm
 
-apicomm: apicomm.c
-	@echo "Compiling apicomm..."
-	$(CC) -O2 -march=native -Wall -Wextra -o apicomm apicomm.c -lcurl -lcjson
-	@ls -lh apicomm
+apicomm: apicomm.c dirs
+	@echo "Compiling apicomm for $(ARCH)..."
+	$(CC) -O2 -march=native -Wall -Wextra -o $(APICOMM_OUT) apicomm.c -lcurl -lcjson
+	@ls -lh $(APICOMM_OUT)
 
 clean:
 	@echo "Cleaning binaries..."
-	rm -f apicomm stt *.o
+	rm -rf bin/ libs/*/libstt.so libs/*/stt.dll libs/*/libstt.dylib apicomm stt *.o
 
-stt-linux:
-	@echo "Building STT helper for Linux..."
-	$(CC) -shared -fPIC stt.c -o $(STT_LINUX) -lportaudio -lcurl
+stt-linux: dirs
+	@echo "Building STT helper for Linux ($(ARCH))..."
+	$(CC) -shared -fPIC stt.c -o $(STT_LIB) -lportaudio -lcurl
 
-stt-windows:
-	@echo "Building STT helper for Windows..."
-	$(CC) -shared -fPIC stt.c -o $(STT_WINDOWS) -lportaudio -lcurl
+stt-windows: dirs
+	@echo "Building STT helper for Windows ($(ARCH))..."
+	$(CC) -shared -fPIC stt.c -o $(STT_LIB) -lportaudio -lcurl
 
-all: install-deps compile
+stt-mac: dirs
+	@echo "Building STT helper for macOS ($(ARCH))..."
+	$(CC) -shared -fPIC stt.c -o $(STT_LIB) -lportaudio -lcurl
+

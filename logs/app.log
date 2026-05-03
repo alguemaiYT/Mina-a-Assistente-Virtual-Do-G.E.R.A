@@ -1,175 +1,302 @@
-2026-03-08 17:58:38,013[root] - INFO - Logging initialized, log file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-03-08 17:58:39,405[__main__] - INFO - Created qasync event loop - MainThread
-2026-03-08 17:58:39,414[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-03-08 17:58:40,387[src.utils.config_manager] - INFO - Config directory: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-03-08 17:58:40,388[src.utils.config_manager] - INFO - Config file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-03-08 17:58:45,388[__main__] - INFO - GUI started successfully - MainThread
-2026-03-08 17:59:05,257[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
-2026-03-08 17:59:05,258[__main__] - INFO - GUI closed before loop completion - MainThread
-2026-03-08 19:08:17,536[root] - INFO - Logging initialized, log file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-03-08 19:08:18,564[__main__] - INFO - Created qasync event loop - MainThread
-2026-03-08 19:08:18,572[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-03-08 19:08:19,398[src.utils.config_manager] - INFO - Config directory: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-03-08 19:08:19,398[src.utils.config_manager] - INFO - Config file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-03-08 19:08:23,612[__main__] - INFO - GUI started successfully - MainThread
-2026-03-08 19:10:45,369[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
-2026-03-08 19:10:45,371[__main__] - INFO - GUI closed before loop completion - MainThread
-2026-03-08 19:13:56,613[root] - INFO - Logging initialized, log file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-03-08 19:13:56,660[__main__] - INFO - Created qasync event loop - MainThread
-2026-03-08 19:13:56,662[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-03-08 19:13:56,949[src.utils.config_manager] - INFO - Config directory: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-03-08 19:13:56,950[src.utils.config_manager] - INFO - Config file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-03-08 19:13:57,286[__main__] - INFO - GUI started successfully - MainThread
-2026-03-08 19:14:21,823[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
-2026-03-08 19:14:21,827[__main__] - INFO - GUI closed before loop completion - MainThread
-2026-03-08 19:16:14,060[root] - INFO - Logging initialized, log file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-03-08 19:16:14,109[__main__] - INFO - Created qasync event loop - MainThread
-2026-03-08 19:16:14,110[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-03-08 19:16:14,387[src.utils.config_manager] - INFO - Config directory: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-03-08 19:16:14,387[src.utils.config_manager] - INFO - Config file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-03-08 19:16:14,641[__main__] - INFO - GUI started successfully - MainThread
-2026-03-08 19:16:18,354[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
-2026-03-08 19:16:18,355[__main__] - INFO - GUI closed before loop completion - MainThread
-2026-03-08 19:16:24,116[root] - INFO - Logging initialized, log file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-03-08 19:16:24,164[__main__] - INFO - Created qasync event loop - MainThread
-2026-03-08 19:16:24,165[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-03-08 19:16:24,242[src.utils.config_manager] - INFO - Config directory: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-03-08 19:16:24,243[src.utils.config_manager] - INFO - Config file: /home/kali/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-03-08 19:16:24,530[__main__] - INFO - GUI started successfully - MainThread
-2026-03-08 19:18:04,846[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
-2026-03-08 19:18:04,852[__main__] - INFO - GUI closed before loop completion - MainThread
-2026-03-09 10:42:47,124[root] - INFO - Logging initialized, log file: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-03-09 10:43:27,130[root] - INFO - Logging initialized, log file: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-03-09 10:43:27,519[__main__] - INFO - Created qasync event loop - MainThread
-2026-03-09 10:43:27,655[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-03-09 10:43:27,665[__main__] - ERROR - GUI error: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/libs/stt/libstt.so: classe ELF errada: ELFCLASS64 - MainThread
+2026-05-02 21:10:39,378[root] - INFO - Logging initialized, log file: /home/kali/Repos/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-05-02 21:10:39,712[__main__] - INFO - Created qasync event loop - MainThread
+2026-05-02 21:10:39,712[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-05-02 21:10:39,713[__main__] - ERROR - GUI error: name 'DEFAULT_BACKEND' is not defined - MainThread
 Traceback (most recent call last):
-  File "/root/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 237, in run_gui
-    stt_client = STTClient()
-                 ^^^^^^^^^^^
-  File "/root/Mina-a-Assistente-Virtual-Do-G.E.R.A/src/utils/stt_client.py", line 25, in __init__
-    self._lib = ctypes.CDLL(str(self._lib_path))
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.11/ctypes/__init__.py", line 376, in __init__
-    self._handle = _dlopen(self._name, mode)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^
-OSError: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/libs/stt/libstt.so: classe ELF errada: ELFCLASS64
-2026-03-09 10:43:27,675[src.utils.stt_client] - INFO - Shutting down native STT - MainThread
-2026-03-09 11:06:08,812[root] - INFO - Logging initialized, log file: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-03-09 11:06:09,252[__main__] - INFO - Created qasync event loop - MainThread
-2026-03-09 11:06:09,387[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-03-09 11:06:09,401[__main__] - ERROR - GUI error: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/libs/stt/libstt.so: classe ELF errada: ELFCLASS64 - MainThread
+  File "/home/kali/Repos/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 148, in run_gui
+    chat_bridge = ChatBridge()
+  File "/home/kali/Repos/Mina-a-Assistente-Virtual-Do-G.E.R.A/src/utils/chat_bridge.py", line 16, in __init__
+    backend_value = (backend or os.getenv("CHAT_BACKEND") or DEFAULT_BACKEND).lower()
+                                                             ^^^^^^^^^^^^^^^
+NameError: name 'DEFAULT_BACKEND' is not defined
+2026-05-02 21:12:36,634[root] - INFO - Logging initialized, log file: /home/kali/Repos/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-05-02 21:12:36,669[__main__] - INFO - Created qasync event loop - MainThread
+2026-05-02 21:12:36,670[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-05-02 21:12:36,670[src.utils.config_manager] - INFO - Config directory: /home/kali/Repos/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-05-02 21:12:36,671[src.utils.config_manager] - INFO - Config file: /home/kali/Repos/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-05-02 21:12:36,672[src.utils.config_manager] - INFO - Created cache directory: /home/kali/Repos/Mina-a-Assistente-Virtual-Do-G.E.R.A/cache - MainThread
+2026-05-02 21:12:36,774[src.utils.tts_client] - WARNING - TTS server unreachable (http://localhost:8000): Cannot connect to host localhost:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)] - MainThread
+2026-05-02 21:12:36,774[__main__] - INFO - TTS client ready (enabled=False) - MainThread
+2026-05-02 21:12:36,775[src.utils.binary_manager] - WARNING - STT library not found for x86_64, attempting auto-compilation... - MainThread
+2026-05-02 21:12:36,775[src.utils.binary_manager] - INFO - Compiling binary for x86_64 using target: stt-linux - MainThread
+2026-05-02 21:12:36,854[src.utils.binary_manager] - ERROR - Failed to compile stt-linux: stt.c:3:10: fatal error: curl/curl.h: Arquivo ou diretório inexistente
+    3 | #include <curl/curl.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [Makefile:113: stt-linux] Error 1
+ - MainThread
+2026-05-02 21:12:36,855[src.utils.stt_client] - ERROR - Failed to ensure STT library: Compilation failed for stt-linux: stt.c:3:10: fatal error: curl/curl.h: Arquivo ou diretório inexistente
+    3 | #include <curl/curl.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [Makefile:113: stt-linux] Error 1
+ - MainThread
+2026-05-02 21:12:36,855[__main__] - ERROR - Failed to initialize native STT support - MainThread
 Traceback (most recent call last):
-  File "/root/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 237, in run_gui
-    stt_client = STTClient()
-                 ^^^^^^^^^^^
-  File "/root/Mina-a-Assistente-Virtual-Do-G.E.R.A/src/utils/stt_client.py", line 25, in __init__
-    self._lib = ctypes.CDLL(str(self._lib_path))
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.11/ctypes/__init__.py", line 376, in __init__
-    self._handle = _dlopen(self._name, mode)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^
-OSError: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/libs/stt/libstt.so: classe ELF errada: ELFCLASS64
-2026-03-09 11:06:09,411[src.utils.stt_client] - INFO - Shutting down native STT - MainThread
-2026-03-09 11:10:36,129[root] - INFO - Logging initialized, log file: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-03-09 11:11:03,325[root] - INFO - Logging initialized, log file: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-03-09 11:11:03,401[__main__] - INFO - Created qasync event loop - MainThread
-2026-03-09 11:11:03,412[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-03-09 11:11:03,419[__main__] - ERROR - GUI error: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/libs/stt/libstt.so: classe ELF errada: ELFCLASS64 - MainThread
+  File "/home/kali/Repos/Mina-a-Assistente-Virtual-Do-G.E.R.A/src/utils/binary_manager.py", line 69, in _run_make
+    subprocess.run(
+    ~~~~~~~~~~~~~~^
+        ["make", target, f"ARCH={self.arch}"],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+        env=env
+        ^^^^^^^
+    )
+    ^
+  File "/usr/lib/python3.13/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['make', 'stt-linux', 'ARCH=x86_64']' returned non-zero exit status 2.
+
+During handling of the above exception, another exception occurred:
+
 Traceback (most recent call last):
-  File "/root/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 237, in run_gui
-    stt_client = STTClient()
-                 ^^^^^^^^^^^
-  File "/root/Mina-a-Assistente-Virtual-Do-G.E.R.A/src/utils/stt_client.py", line 25, in __init__
-    self._lib = ctypes.CDLL(str(self._lib_path))
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.11/ctypes/__init__.py", line 376, in __init__
-    self._handle = _dlopen(self._name, mode)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^
-OSError: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/libs/stt/libstt.so: classe ELF errada: ELFCLASS64
-2026-03-09 11:11:03,425[src.utils.stt_client] - INFO - Shutting down native STT - MainThread
-2026-03-09 11:17:39,402[root] - INFO - Logging initialized, log file: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-03-09 11:17:39,503[__main__] - INFO - Created qasync event loop - MainThread
-2026-03-09 11:17:39,514[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-03-09 11:17:39,521[__main__] - ERROR - GUI error: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/libs/stt/libstt.so: classe ELF errada: ELFCLASS64 - MainThread
+  File "/home/kali/Repos/Mina-a-Assistente-Virtual-Do-G.E.R.A/src/utils/stt_client.py", line 24, in __init__
+    self._lib_path = Path(lib_path) if lib_path else binary_manager.ensure_stt_lib()
+                                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/kali/Repos/Mina-a-Assistente-Virtual-Do-G.E.R.A/src/utils/binary_manager.py", line 109, in ensure_stt_lib
+    self._run_make(target)
+    ~~~~~~~~~~~~~~^^^^^^^^
+  File "/home/kali/Repos/Mina-a-Assistente-Virtual-Do-G.E.R.A/src/utils/binary_manager.py", line 80, in _run_make
+    raise RuntimeError(f"Compilation failed for {target}: {e.stderr}")
+RuntimeError: Compilation failed for stt-linux: stt.c:3:10: fatal error: curl/curl.h: Arquivo ou diretório inexistente
+    3 | #include <curl/curl.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [Makefile:113: stt-linux] Error 1
+
+
+During handling of the above exception, another exception occurred:
+
 Traceback (most recent call last):
-  File "/root/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 237, in run_gui
+  File "/home/kali/Repos/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 306, in run_gui
     stt_client = STTClient()
-                 ^^^^^^^^^^^
-  File "/root/Mina-a-Assistente-Virtual-Do-G.E.R.A/src/utils/stt_client.py", line 25, in __init__
-    self._lib = ctypes.CDLL(str(self._lib_path))
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.11/ctypes/__init__.py", line 376, in __init__
-    self._handle = _dlopen(self._name, mode)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^
-OSError: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/libs/stt/libstt.so: classe ELF errada: ELFCLASS64
-2026-03-09 11:17:39,528[src.utils.stt_client] - INFO - Shutting down native STT - MainThread
-2026-03-09 11:18:05,164[root] - INFO - Logging initialized, log file: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-03-09 11:18:05,238[__main__] - INFO - Created qasync event loop - MainThread
-2026-03-09 11:18:05,249[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-03-09 11:18:05,256[__main__] - ERROR - GUI error: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/libs/stt/libstt.so: classe ELF errada: ELFCLASS64 - MainThread
+  File "/home/kali/Repos/Mina-a-Assistente-Virtual-Do-G.E.R.A/src/utils/stt_client.py", line 27, in __init__
+    raise STTClientError(f"STT library initialization failed: {e}")
+src.utils.stt_client.STTClientError: STT library initialization failed: Compilation failed for stt-linux: stt.c:3:10: fatal error: curl/curl.h: Arquivo ou diretório inexistente
+    3 | #include <curl/curl.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [Makefile:113: stt-linux] Error 1
+
+2026-05-02 21:12:36,935[src.utils.stt_client] - INFO - Shutting down native STT - MainThread
+2026-05-02 21:12:38,752[__main__] - INFO - GUI started successfully - MainThread
+2026-05-02 21:12:42,690[__main__] - ERROR - Chat error: GROQ_API_KEY is not set - MainThread
 Traceback (most recent call last):
-  File "/root/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 237, in run_gui
-    stt_client = STTClient()
-                 ^^^^^^^^^^^
-  File "/root/Mina-a-Assistente-Virtual-Do-G.E.R.A/src/utils/stt_client.py", line 25, in __init__
-    self._lib = ctypes.CDLL(str(self._lib_path))
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.11/ctypes/__init__.py", line 376, in __init__
-    self._handle = _dlopen(self._name, mode)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^
-OSError: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/libs/stt/libstt.so: classe ELF errada: ELFCLASS64
-2026-03-09 11:18:05,263[src.utils.stt_client] - INFO - Shutting down native STT - MainThread
-2026-03-09 11:22:11,123[root] - INFO - Logging initialized, log file: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-03-09 11:22:11,197[__main__] - INFO - Created qasync event loop - MainThread
-2026-03-09 11:22:11,208[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-03-09 11:22:11,215[__main__] - ERROR - GUI error: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/libs/stt/libstt.so: classe ELF errada: ELFCLASS64 - MainThread
-Traceback (most recent call last):
-  File "/root/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 237, in run_gui
-    stt_client = STTClient()
-                 ^^^^^^^^^^^
-  File "/root/Mina-a-Assistente-Virtual-Do-G.E.R.A/src/utils/stt_client.py", line 25, in __init__
-    self._lib = ctypes.CDLL(str(self._lib_path))
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.11/ctypes/__init__.py", line 376, in __init__
-    self._handle = _dlopen(self._name, mode)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^
-OSError: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/libs/stt/libstt.so: classe ELF errada: ELFCLASS64
-2026-03-09 11:22:11,222[src.utils.stt_client] - INFO - Shutting down native STT - MainThread
-2026-03-09 11:24:03,304[root] - INFO - Logging initialized, log file: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-03-09 11:24:03,378[__main__] - INFO - Created qasync event loop - MainThread
-2026-03-09 11:24:03,389[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-03-09 11:24:04,657[src.utils.config_manager] - INFO - Config directory: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-03-09 11:24:04,659[src.utils.config_manager] - INFO - Config file: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-03-09 11:24:04,662[src.utils.config_manager] - INFO - Created cache directory: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/cache - MainThread
-2026-03-09 11:24:09,627[__main__] - INFO - GUI started successfully - MainThread
-2026-03-09 11:25:35,279[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
-2026-03-09 11:25:35,287[src.utils.stt_client] - INFO - Shutting down native STT - Dummy-1
-2026-03-09 11:25:35,424[__main__] - INFO - GUI closed before loop completion - MainThread
-2026-03-09 11:25:35,709[qasync._QEventLoop] - ERROR - Task was destroyed but it is pending!
-task: <Task pending name='Task-1' coro=<run_gui() running at /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py:270> wait_for=<Future pending cb=[_chain_future.<locals>._call_check_cancel() at /usr/lib/python3.11/asyncio/futures.py:387, Task.task_wakeup()]>> - MainThread
-2026-03-09 11:25:35,712[src.utils.stt_client] - INFO - Shutting down native STT - MainThread
-2026-03-09 11:25:47,894[root] - INFO - Logging initialized, log file: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-03-09 11:25:47,987[__main__] - INFO - Created qasync event loop - MainThread
-2026-03-09 11:25:47,998[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-03-09 11:25:49,064[src.utils.config_manager] - INFO - Config directory: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-03-09 11:25:49,066[src.utils.config_manager] - INFO - Config file: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-03-09 11:25:51,288[__main__] - INFO - GUI started successfully - MainThread
-2026-03-09 11:32:00,698[root] - INFO - Logging initialized, log file: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-03-09 11:32:01,115[__main__] - INFO - Created qasync event loop - MainThread
-2026-03-09 11:32:01,193[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-03-09 11:32:02,160[src.utils.config_manager] - INFO - Config directory: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-03-09 11:32:02,161[src.utils.config_manager] - INFO - Config file: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-03-09 11:32:04,913[__main__] - INFO - GUI started successfully - MainThread
-2026-03-09 11:33:13,231[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
-2026-03-09 11:33:13,236[src.utils.stt_client] - INFO - Shutting down native STT - Dummy-1
-2026-03-09 11:33:13,373[__main__] - INFO - GUI closed before loop completion - MainThread
-2026-03-09 11:33:13,636[qasync._QEventLoop] - ERROR - Task was destroyed but it is pending!
-task: <Task pending name='Task-1' coro=<run_gui() running at /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py:270> wait_for=<Future pending cb=[_chain_future.<locals>._call_check_cancel() at /usr/lib/python3.11/asyncio/futures.py:387, Task.task_wakeup()]>> - MainThread
-2026-03-09 11:33:13,639[src.utils.stt_client] - INFO - Shutting down native STT - MainThread
-2026-03-09 11:34:19,145[root] - INFO - Logging initialized, log file: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
-2026-03-09 11:34:19,223[__main__] - INFO - Created qasync event loop - MainThread
-2026-03-09 11:34:19,234[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
-2026-03-09 11:34:19,677[src.utils.config_manager] - INFO - Config directory: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
-2026-03-09 11:34:19,678[src.utils.config_manager] - INFO - Config file: /root/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
-2026-03-09 11:34:22,062[__main__] - INFO - GUI started successfully - MainThread
+  File "/home/kali/Repos/Mina-a-Assistente-Virtual-Do-G.E.R.A/main_gui.py", line 275, in handle_send_text
+    final_text = await chat_bridge.send_and_stream(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        text, on_chunk=on_chunk, on_emotion=on_emotion, on_control=on_control
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/kali/Repos/Mina-a-Assistente-Virtual-Do-G.E.R.A/src/utils/chat_bridge.py", line 295, in send_and_stream
+    return await self._send_and_stream_groq(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    )
+    ^
+  File "/home/kali/Repos/Mina-a-Assistente-Virtual-Do-G.E.R.A/src/utils/chat_bridge.py", line 204, in _send_and_stream_groq
+    raise RuntimeError("GROQ_API_KEY is not set")
+RuntimeError: GROQ_API_KEY is not set
+2026-05-02 21:12:45,067[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-05-02 21:15:18,900[root] - INFO - Logging initialized, log file: /home/kali/Repos/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-05-02 21:15:18,919[__main__] - INFO - Created qasync event loop - MainThread
+2026-05-02 21:15:18,920[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-05-02 21:15:18,920[src.utils.config_manager] - INFO - Config directory: /home/kali/Repos/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-05-02 21:15:18,920[src.utils.config_manager] - INFO - Config file: /home/kali/Repos/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-05-02 21:15:18,921[__main__] - WARNING - GROQ_API_KEY is not set in environment. Chat will not work. - MainThread
+2026-05-02 21:15:18,926[src.utils.tts_client] - WARNING - TTS server unreachable (http://localhost:8000): Cannot connect to host localhost:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)] - MainThread
+2026-05-02 21:15:18,926[__main__] - INFO - TTS client ready (enabled=False) - MainThread
+2026-05-02 21:15:18,927[src.utils.binary_manager] - WARNING - STT library not found for x86_64, attempting auto-compilation... - MainThread
+2026-05-02 21:15:18,927[src.utils.binary_manager] - INFO - Compiling binary for x86_64 using target: stt-linux - MainThread
+2026-05-02 21:15:18,946[src.utils.binary_manager] - ERROR - Failed to compile stt-linux: stt.c:3:10: fatal error: curl/curl.h: Arquivo ou diretório inexistente
+    3 | #include <curl/curl.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [Makefile:113: stt-linux] Error 1
+ - MainThread
+2026-05-02 21:15:18,946[src.utils.binary_manager] - ERROR - Auto-compilation of STT library failed: Compilation failed for stt-linux: stt.c:3:10: fatal error: curl/curl.h: Arquivo ou diretório inexistente
+    3 | #include <curl/curl.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [Makefile:113: stt-linux] Error 1
+ - MainThread
+2026-05-02 21:15:18,946[src.utils.binary_manager] - ERROR - HINT: Missing libcurl headers. Run: sudo apt install libcurl4-openssl-dev - MainThread
+2026-05-02 21:15:18,946[src.utils.stt_client] - ERROR - STT library not found or failed to compile. STT features will be disabled. - MainThread
+2026-05-02 21:15:19,352[__main__] - INFO - GUI started successfully - MainThread
+2026-05-02 21:15:25,166[__main__] - ERROR - Chat error: GROQ_API_KEY is not set - MainThread
+2026-05-02 21:15:27,068[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-05-02 21:15:27,069[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-05-02 21:16:15,811[root] - INFO - Logging initialized, log file: /home/kali/Repos/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-05-02 21:16:15,833[__main__] - INFO - Created qasync event loop - MainThread
+2026-05-02 21:16:15,833[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-05-02 21:16:15,834[src.utils.config_manager] - INFO - Config directory: /home/kali/Repos/Mina-a-Assistente-Virtual-Do-G.E.R.A/config - MainThread
+2026-05-02 21:16:15,834[src.utils.config_manager] - INFO - Config file: /home/kali/Repos/Mina-a-Assistente-Virtual-Do-G.E.R.A/config/config.json - MainThread
+2026-05-02 21:16:15,845[src.utils.tts_client] - WARNING - TTS server unreachable (http://localhost:8000): Cannot connect to host localhost:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)] - MainThread
+2026-05-02 21:16:15,846[__main__] - INFO - TTS client ready (enabled=False) - MainThread
+2026-05-02 21:16:15,846[src.utils.binary_manager] - WARNING - STT library not found for x86_64, attempting auto-compilation... - MainThread
+2026-05-02 21:16:15,847[src.utils.binary_manager] - INFO - Compiling binary for x86_64 using target: stt-linux - MainThread
+2026-05-02 21:16:15,859[src.utils.binary_manager] - ERROR - Failed to compile stt-linux: stt.c:3:10: fatal error: curl/curl.h: Arquivo ou diretório inexistente
+    3 | #include <curl/curl.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [Makefile:113: stt-linux] Error 1
+ - MainThread
+2026-05-02 21:16:15,859[src.utils.binary_manager] - ERROR - Auto-compilation of STT library failed: Compilation failed for stt-linux: stt.c:3:10: fatal error: curl/curl.h: Arquivo ou diretório inexistente
+    3 | #include <curl/curl.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [Makefile:113: stt-linux] Error 1
+ - MainThread
+2026-05-02 21:16:15,859[src.utils.binary_manager] - ERROR - HINT: Missing libcurl headers. Run: sudo apt install libcurl4-openssl-dev - MainThread
+2026-05-02 21:16:15,860[src.utils.stt_client] - ERROR - STT library not found or failed to compile. STT features will be disabled. - MainThread
+2026-05-02 21:16:16,267[__main__] - INFO - GUI started successfully - MainThread
+2026-05-02 21:16:20,337[__main__] - ERROR - Chat error: Groq chat error 404: {"error":{"message":"The model `moonshotai/kimi-k2-instruct` does not exist or you do not have access to it.","type":"invalid_request_error","code":"model_not_found"}}
+ - MainThread
+2026-05-02 21:16:25,567[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-05-02 21:16:25,568[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-05-02 21:28:18,512[root] - INFO - Logging initialized, log file: /home/kali/Repos/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-05-02 21:28:18,539[__main__] - INFO - Created qasync event loop - MainThread
+2026-05-02 21:28:18,539[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-05-02 21:28:18,545[src.utils.tts_client] - WARNING - TTS server unreachable (http://localhost:8000): Cannot connect to host localhost:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)] - MainThread
+2026-05-02 21:28:18,545[__main__] - INFO - TTS client ready (enabled=False) - MainThread
+2026-05-02 21:28:18,545[src.utils.binary_manager] - WARNING - STT library not found for x86_64, attempting auto-compilation... - MainThread
+2026-05-02 21:28:18,545[src.utils.binary_manager] - INFO - Compiling binary for x86_64 using target: stt-linux - MainThread
+2026-05-02 21:28:18,557[src.utils.binary_manager] - ERROR - Failed to compile stt-linux: stt.c:3:10: fatal error: curl/curl.h: Arquivo ou diretório inexistente
+    3 | #include <curl/curl.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [Makefile:113: stt-linux] Error 1
+ - MainThread
+2026-05-02 21:28:18,557[src.utils.binary_manager] - ERROR - Auto-compilation of STT library failed: Compilation failed for stt-linux: stt.c:3:10: fatal error: curl/curl.h: Arquivo ou diretório inexistente
+    3 | #include <curl/curl.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [Makefile:113: stt-linux] Error 1
+ - MainThread
+2026-05-02 21:28:18,557[src.utils.binary_manager] - ERROR - HINT: Missing libcurl headers. Run: sudo apt install libcurl4-openssl-dev - MainThread
+2026-05-02 21:28:18,557[src.utils.stt_client] - ERROR - STT library not found or failed to compile. STT features will be disabled. - MainThread
+2026-05-02 21:28:18,960[__main__] - INFO - GUI started successfully - MainThread
+2026-05-02 21:28:23,777[__main__] - ERROR - Chat error: Groq chat error 404: {"error":{"message":"The model `moonshotai/llama-3.3-70b-versatile` does not exist or you do not have access to it.","type":"invalid_request_error","code":"model_not_found"}}
+ - MainThread
+2026-05-02 21:28:31,067[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-05-02 21:28:31,068[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-05-02 21:28:53,550[root] - INFO - Logging initialized, log file: /home/kali/Repos/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-05-02 21:28:53,566[__main__] - INFO - Created qasync event loop - MainThread
+2026-05-02 21:28:53,566[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-05-02 21:28:53,572[src.utils.tts_client] - WARNING - TTS server unreachable (http://localhost:8000): Cannot connect to host localhost:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)] - MainThread
+2026-05-02 21:28:53,573[__main__] - INFO - TTS client ready (enabled=False) - MainThread
+2026-05-02 21:28:53,573[src.utils.binary_manager] - WARNING - STT library not found for x86_64, attempting auto-compilation... - MainThread
+2026-05-02 21:28:53,574[src.utils.binary_manager] - INFO - Compiling binary for x86_64 using target: stt-linux - MainThread
+2026-05-02 21:28:53,592[src.utils.binary_manager] - ERROR - Failed to compile stt-linux: stt.c:3:10: fatal error: curl/curl.h: Arquivo ou diretório inexistente
+    3 | #include <curl/curl.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [Makefile:113: stt-linux] Error 1
+ - MainThread
+2026-05-02 21:28:53,593[src.utils.binary_manager] - ERROR - Auto-compilation of STT library failed: Compilation failed for stt-linux: stt.c:3:10: fatal error: curl/curl.h: Arquivo ou diretório inexistente
+    3 | #include <curl/curl.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [Makefile:113: stt-linux] Error 1
+ - MainThread
+2026-05-02 21:28:53,593[src.utils.binary_manager] - ERROR - HINT: Missing libcurl headers. Run: sudo apt install libcurl4-openssl-dev - MainThread
+2026-05-02 21:28:53,593[src.utils.stt_client] - ERROR - STT library not found or failed to compile. STT features will be disabled. - MainThread
+2026-05-02 21:28:53,992[__main__] - INFO - GUI started successfully - MainThread
+2026-05-02 21:29:33,567[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-05-02 21:29:33,568[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-05-02 21:31:42,888[root] - INFO - Logging initialized, log file: /home/kali/Repos/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-05-02 21:31:42,938[__main__] - INFO - Created qasync event loop - MainThread
+2026-05-02 21:31:42,938[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-05-02 21:31:42,944[src.utils.tts_client] - WARNING - TTS server unreachable (http://localhost:8000): Cannot connect to host localhost:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)] - MainThread
+2026-05-02 21:31:42,944[__main__] - INFO - TTS client ready (enabled=False) - MainThread
+2026-05-02 21:31:42,944[src.utils.binary_manager] - WARNING - STT library not found for x86_64, attempting auto-compilation... - MainThread
+2026-05-02 21:31:42,944[src.utils.binary_manager] - INFO - Compiling binary for x86_64 using target: stt-linux - MainThread
+2026-05-02 21:31:42,956[src.utils.binary_manager] - ERROR - Failed to compile stt-linux: stt.c:3:10: fatal error: curl/curl.h: Arquivo ou diretório inexistente
+    3 | #include <curl/curl.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [Makefile:113: stt-linux] Error 1
+ - MainThread
+2026-05-02 21:31:42,978[src.utils.dependency_manager] - WARNING - Detected missing system dependencies: libcurl4-openssl-dev - MainThread
+2026-05-02 21:32:08,079[src.utils.dependency_manager] - INFO - Successfully installed missing dependencies. - MainThread
+2026-05-02 21:32:08,093[src.utils.binary_manager] - INFO - Dependencies installed. Retrying compilation... - MainThread
+2026-05-02 21:32:08,093[src.utils.binary_manager] - INFO - Compiling binary for x86_64 using target: stt-linux - MainThread
+2026-05-02 21:32:08,400[src.utils.binary_manager] - ERROR - Failed to compile stt-linux: stt.c:4:10: fatal error: portaudio.h: Arquivo ou diretório inexistente
+    4 | #include <portaudio.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [Makefile:113: stt-linux] Error 1
+ - MainThread
+2026-05-02 21:32:08,405[src.utils.dependency_manager] - WARNING - Detected missing system dependencies: portaudio19-dev - MainThread
+2026-05-02 21:32:30,446[src.utils.dependency_manager] - INFO - Successfully installed missing dependencies. - MainThread
+2026-05-02 21:32:30,464[src.utils.binary_manager] - INFO - Dependencies installed. Retrying compilation... - MainThread
+2026-05-02 21:32:30,464[src.utils.binary_manager] - INFO - Compiling binary for x86_64 using target: stt-linux - MainThread
+2026-05-02 21:32:31,189[src.utils.binary_manager] - INFO - Successfully compiled stt-linux - MainThread
+2026-05-02 21:32:33,916[__main__] - INFO - GUI started successfully - MainThread
+2026-05-02 21:32:59,072[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-05-02 21:32:59,073[src.utils.stt_client] - INFO - Shutting down native STT - Dummy-1
+2026-05-02 21:32:59,075[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-05-02 21:34:56,809[root] - INFO - Logging initialized, log file: /home/kali/Repos/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-05-02 21:34:56,824[__main__] - INFO - Created qasync event loop - MainThread
+2026-05-02 21:34:56,824[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-05-02 21:34:56,840[src.utils.tts_client] - WARNING - TTS server unreachable (http://localhost:8000): Cannot connect to host localhost:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)] - MainThread
+2026-05-02 21:34:56,841[__main__] - INFO - TTS client ready (enabled=False) - MainThread
+2026-05-02 21:34:57,947[__main__] - INFO - GUI started successfully - MainThread
+2026-05-02 21:35:23,067[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-05-02 21:35:23,068[src.utils.stt_client] - INFO - Shutting down native STT - Dummy-1
+2026-05-02 21:35:23,093[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-05-02 21:38:22,270[root] - INFO - Logging initialized, log file: /home/kali/Repos/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-05-02 21:38:22,286[__main__] - INFO - Created qasync event loop - MainThread
+2026-05-02 21:38:22,287[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-05-02 21:38:22,295[src.utils.tts_client] - WARNING - TTS server unreachable (http://localhost:8000): Cannot connect to host localhost:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)] - MainThread
+2026-05-02 21:38:22,295[__main__] - INFO - TTS client ready (enabled=False) - MainThread
+2026-05-02 21:38:23,003[__main__] - INFO - GUI started successfully - MainThread
+2026-05-02 21:39:06,067[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-05-02 21:39:06,068[src.utils.stt_client] - INFO - Shutting down native STT - Dummy-1
+2026-05-02 21:39:06,093[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-05-02 21:39:49,287[root] - INFO - Logging initialized, log file: /home/kali/Repos/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-05-02 21:39:49,309[__main__] - INFO - Created qasync event loop - MainThread
+2026-05-02 21:39:49,310[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-05-02 21:39:49,324[src.utils.tts_client] - WARNING - TTS server unreachable (http://localhost:8000): Cannot connect to host localhost:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)] - MainThread
+2026-05-02 21:39:49,325[__main__] - INFO - TTS client ready (enabled=False) - MainThread
+2026-05-02 21:39:50,008[__main__] - INFO - GUI started successfully - MainThread
+2026-05-02 21:40:29,567[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-05-02 21:40:29,567[src.utils.stt_client] - INFO - Shutting down native STT - Dummy-1
+2026-05-02 21:40:29,570[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-05-02 21:41:22,003[root] - INFO - Logging initialized, log file: /home/kali/Repos/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-05-02 21:41:22,024[__main__] - INFO - Created qasync event loop - MainThread
+2026-05-02 21:41:22,024[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-05-02 21:41:22,038[src.utils.tts_client] - WARNING - TTS server unreachable (http://localhost:8000): Cannot connect to host localhost:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)] - MainThread
+2026-05-02 21:41:22,038[__main__] - INFO - TTS client ready (enabled=False) - MainThread
+2026-05-02 21:41:22,700[__main__] - INFO - GUI started successfully - MainThread
+2026-05-02 21:42:23,568[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-05-02 21:42:23,568[src.utils.stt_client] - INFO - Shutting down native STT - Dummy-1
+2026-05-02 21:42:23,571[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-05-02 21:43:05,181[root] - INFO - Logging initialized, log file: /home/kali/Repos/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-05-02 21:43:05,196[__main__] - INFO - Created qasync event loop - MainThread
+2026-05-02 21:43:05,197[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-05-02 21:43:05,206[src.utils.tts_client] - WARNING - TTS server unreachable (http://localhost:8000): Cannot connect to host localhost:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)] - MainThread
+2026-05-02 21:43:05,206[__main__] - INFO - TTS client ready (enabled=False) - MainThread
+2026-05-02 21:43:05,880[__main__] - INFO - GUI started successfully - MainThread
+2026-05-02 21:43:17,067[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-05-02 21:43:17,067[src.utils.stt_client] - INFO - Shutting down native STT - Dummy-1
+2026-05-02 21:43:17,071[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-05-02 21:43:28,621[root] - INFO - Logging initialized, log file: /home/kali/Repos/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-05-02 21:43:28,639[__main__] - INFO - Created qasync event loop - MainThread
+2026-05-02 21:43:28,639[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-05-02 21:43:28,645[src.utils.tts_client] - WARNING - TTS server unreachable (http://localhost:8000): Cannot connect to host localhost:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)] - MainThread
+2026-05-02 21:43:28,645[__main__] - INFO - TTS client ready (enabled=False) - MainThread
+2026-05-02 21:43:29,316[__main__] - INFO - GUI started successfully - MainThread
+2026-05-02 21:44:13,067[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-05-02 21:44:13,068[src.utils.stt_client] - INFO - Shutting down native STT - Dummy-1
+2026-05-02 21:44:13,071[__main__] - INFO - GUI closed before loop completion - MainThread
+2026-05-02 21:56:00,642[root] - INFO - Logging initialized, log file: /home/kali/Repos/Mina-a-Assistente-Virtual-Do-G.E.R.A/logs/app.log - MainThread
+2026-05-02 21:56:00,751[__main__] - INFO - Created qasync event loop - MainThread
+2026-05-02 21:56:00,752[__main__] - INFO - Starting Xiaozhi GUI (standalone mode) - MainThread
+2026-05-02 21:56:00,757[src.utils.tts_client] - WARNING - TTS server unreachable (http://localhost:8000): Cannot connect to host localhost:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)] - MainThread
+2026-05-02 21:56:00,757[__main__] - INFO - TTS client ready (enabled=False) - MainThread
+2026-05-02 21:56:04,684[__main__] - INFO - GUI started successfully - MainThread
+2026-05-02 21:56:46,323[GuiDisplay] - INFO - 开始退出应用程序... - MainThread
+2026-05-02 21:56:46,324[__main__] - INFO - GUI closed before loop completion - MainThread

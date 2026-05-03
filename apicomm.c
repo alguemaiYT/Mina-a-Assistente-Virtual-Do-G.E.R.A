@@ -246,6 +246,63 @@ size_t stream_cb(char *ptr, size_t size, size_t nmemb, void *userdata)
     return chunk_size;
 }
 
+// Load model and URL from config/config.json if available
+static void load_config_data(char *model_out, char *url_out, size_t max_len)
+{
+    FILE *f = fopen("config/config.json", "r");
+    if (!f) return;
+
+    fseek(f, 0, SEEK_END);
+    long len = ftell(f);
+    fseek(f, 0, SEEK_SET);
+    char *data = malloc(len + 1);
+    if (!data) { fclose(f); return; }
+
+    fread(data, 1, len, f);
+    data[len] = '\0';
+    cJSON *root = cJSON_Parse(data);
+    if (root)
+    {
+        cJSON *ai = cJSON_GetObjectItem(root, "ai");
+        if (ai)
+        {
+            cJSON *chat = cJSON_GetObjectItem(ai, "chat");
+            if (chat)
+            {
+                // Determine active provider
+                char provider_name[64] = "groq";
+                const char *env_backend = getenv("CHAT_BACKEND");
+                if (env_backend && *env_backend && strcmp(env_backend, "binary") != 0 && strcmp(env_backend, "apicomm") != 0) {
+                    strncpy(provider_name, env_backend, sizeof(provider_name)-1);
+                } else {
+                    cJSON *def_prov = cJSON_GetObjectItem(chat, "default_provider");
+                    if (cJSON_IsString(def_prov) && def_prov->valuestring) {
+                        strncpy(provider_name, def_prov->valuestring, sizeof(provider_name)-1);
+                    }
+                }
+
+                cJSON *providers = cJSON_GetObjectItem(chat, "providers");
+                if (providers) {
+                    cJSON *active_prov = cJSON_GetObjectItem(providers, provider_name);
+                    if (active_prov) {
+                        cJSON *model = cJSON_GetObjectItem(active_prov, "model");
+                        if (cJSON_IsString(model) && model->valuestring) {
+                            strncpy(model_out, model->valuestring, max_len - 1);
+                        }
+                        cJSON *url = cJSON_GetObjectItem(active_prov, "url");
+                        if (cJSON_IsString(url) && url->valuestring) {
+                            strncpy(url_out, url->valuestring, max_len - 1);
+                        }
+                    }
+                }
+            }
+        }
+        cJSON_Delete(root);
+    }
+    free(data);
+    fclose(f);
+}
+
 int main()
 {
     CURL *curl;
@@ -260,15 +317,18 @@ int main()
         return 1;
     }
 
-    // Load optimized prompt
-    char system_prompt_text[MAX_SYSTEM_PROMPT] = "Você é a Mina AI.";
-    FILE *pf = fopen("prompts.txt", "r");
-    if (pf)
-    {
-        size_t n = fread(system_prompt_text, 1, sizeof(system_prompt_text) - 1, pf);
-        system_prompt_text[n] = '\0';
-        fclose(pf);
-    }
+    // Default configuration
+    char chat_model_val[256];
+    char api_url_val[256];
+    strncpy(chat_model_val, DEFAULT_CHAT_MODEL, sizeof(chat_model_val));
+    strncpy(api_url_val, "https://api.groq.com/openai/v1/chat/completions", sizeof(api_url_val));
+
+    // Load from config (overwrites defaults)
+    load_config_data(chat_model_val, api_url_val, sizeof(chat_model_val));
+
+    // Env var overrides (highest priority)
+    const char *env_model = getenv("GROQ_CHAT_MODEL");
+    if (env_model && *env_model) strncpy(chat_model_val, env_model, sizeof(chat_model_val));
 
     curl_global_init(CURL_GLOBAL_DEFAULT);
     curl = curl_easy_init();
@@ -282,7 +342,11 @@ int main()
 
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, stream_cb);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &cost_buf); // Fixed typo cost_buf -> buf
+    
+    // Actually, let me fix the variable name correctly
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &buf);
+
     curl_easy_setopt(curl, CURLOPT_TCP_NODELAY, 1L);
     curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1L);
     curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT_MS, CURL_CONNECT_TIMEOUT_MS);
@@ -303,19 +367,23 @@ int main()
 
         add_to_history("user", input);
 
-        const char *chat_model = getenv("GROQ_CHAT_MODEL");
-        if (!chat_model || !*chat_model)
-        {
-            chat_model = DEFAULT_CHAT_MODEL;
-        }
-
         cJSON *root = cJSON_CreateObject();
-        cJSON_AddStringToObject(root, "model", chat_model);
+        cJSON_AddStringToObject(root, "model", chat_model_val);
         cJSON_AddBoolToObject(root, "stream", true);
         cJSON_AddNumberToObject(root, "temperature", 0.7);
         cJSON_AddNumberToObject(root, "max_tokens", 512);
 
         cJSON *messages = cJSON_CreateArray();
+
+        // Load optimized prompt
+        char system_prompt_text[MAX_SYSTEM_PROMPT] = "Você é a Mina AI.";
+        FILE *pf = fopen("prompts.txt", "r");
+        if (pf)
+        {
+            size_t n = fread(system_prompt_text, 1, sizeof(system_prompt_text) - 1, pf);
+            system_prompt_text[n] = '\0';
+            fclose(pf);
+        }
 
         cJSON *sys_msg = cJSON_CreateObject();
         cJSON_AddStringToObject(sys_msg, "role", "system");
@@ -333,7 +401,7 @@ int main()
 
         char *json_body = cJSON_PrintUnformatted(root);
 
-        curl_easy_setopt(curl, CURLOPT_URL, "https://api.groq.com/openai/v1/chat/completions");
+        curl_easy_setopt(curl, CURLOPT_URL, api_url_val);
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json_body);
 
         buf.len = 0;

@@ -5,11 +5,10 @@ from typing import Awaitable, Callable, Optional
 
 import aiohttp
 
+from src.utils.binary_manager import binary_manager
+from src.utils.config_manager import ConfigManager
+
 TOKEN_END = "<<END>>"
-GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
-DEFAULT_CHAT_MODEL = "moonshotai/kimi-k2-instruct"
-DEFAULT_BACKEND = "groq"
-DEFAULT_SYSTEM_PROMPT = "Voce e a Mina AI."
 MAX_HISTORY = 10
 
 
@@ -17,14 +16,36 @@ class ChatBridge:
     """Runs the apicomm C binary or Groq chat stream to callbacks."""
 
     def __init__(self, binary_path: Optional[str] = None, backend: Optional[str] = None):
-        backend_value = (backend or os.getenv("CHAT_BACKEND") or DEFAULT_BACKEND).lower()
-        if backend_value in ("binary", "apicomm"):
+        cfg = ConfigManager()
+        
+        # Determine the active provider
+        self.backend = (backend or os.getenv("CHAT_BACKEND") or cfg.get_config("ai.chat.default_provider", "groq")).lower()
+        
+        if self.backend in ("binary", "apicomm"):
+            # If backend is binary, we still need to know which provider it will use internally (usually groq)
             self.backend = "binary"
-        elif backend_value in ("groq", "python"):
-            self.backend = "groq"
+            provider_name = "groq"
         else:
-            self.backend = backend_value
-        self.binary_path = binary_path or os.path.join(os.path.dirname(__file__), "..", "..", "apicomm")
+            provider_name = self.backend
+
+        # Resolve model based on provider
+        providers = cfg.get_config("ai.chat.providers", {})
+        provider_cfg = providers.get(provider_name, {})
+        
+        self.chat_model = os.getenv("GROQ_CHAT_MODEL") or provider_cfg.get("model", "moonshotai/kimi-k2-instruct")
+        self.api_url = provider_cfg.get("url", "https://api.groq.com/openai/v1/chat/completions")
+
+        if self.backend == "binary":
+            path = binary_manager.ensure_apicomm()
+            if path:
+                self.binary_path = str(path)
+            else:
+                logger.error("Chat backend set to 'binary' but apicomm could not be found or compiled. Falling back to provider.")
+                self.backend = provider_name
+                self.binary_path = ""
+        else:
+            self.binary_path = binary_path or ""
+            
         self.proc: Optional[asyncio.subprocess.Process] = None
         self._stdout_buffer = ""
         self._lock = asyncio.Lock()
@@ -61,10 +82,11 @@ class ChatBridge:
     def _load_system_prompt(self) -> str:
         prompt_path = os.path.join(os.path.dirname(__file__), "..", "..", "prompts.txt")
         if not os.path.exists(prompt_path):
-            return DEFAULT_SYSTEM_PROMPT
+            cfg = ConfigManager()
+            return cfg.get_config("ai.chat.system_prompt", "Você é a Mina AI.")
         with open(prompt_path, "r", encoding="utf-8") as prompt_file:
             prompt = prompt_file.read().strip()
-        return prompt or DEFAULT_SYSTEM_PROMPT
+        return prompt or "Você é a Mina AI."
 
     def _append_history(self, role: str, content: str) -> None:
         if not content:
@@ -192,11 +214,11 @@ class ChatBridge:
         if not api_key:
             raise RuntimeError("GROQ_API_KEY is not set")
 
-        model = os.getenv("GROQ_CHAT_MODEL") or DEFAULT_CHAT_MODEL
+        char_model = self.chat_model
         messages = self._build_messages(prompt)
 
         payload = {
-            "model": model,
+            "model": char_model,
             "stream": True,
             "temperature": 0.7,
             "max_tokens": 512,
@@ -209,7 +231,7 @@ class ChatBridge:
         headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
 
         async with aiohttp.ClientSession(timeout=timeout) as session:
-            async with session.post(GROQ_API_URL, json=payload, headers=headers) as resp:
+            async with session.post(self.api_url, json=payload, headers=headers) as resp:
                 if resp.status != 200:
                     body = await resp.text()
                     raise RuntimeError(f"Groq chat error {resp.status}: {body}")
@@ -280,7 +302,7 @@ class ChatBridge:
                     on_chunk=on_chunk,
                     on_control=on_control,
                 )
-            if self.backend == "groq":
+            if self.backend == "groq" or self.backend == "openai":
                 return await self._send_and_stream_groq(
                     prompt,
                     on_token=on_token,
